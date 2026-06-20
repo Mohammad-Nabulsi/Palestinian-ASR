@@ -1,0 +1,2 @@
+sample_id,audio_filepath,text,split
+test-000000,C:\Audio learning\local_whisper\Palestinian-ASR\Runs\whisper_large\outputs\smoke_data\audio\test_000.wav,صوت فلسطيني واضح,test

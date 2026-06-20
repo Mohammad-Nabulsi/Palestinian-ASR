@@ -1,0 +1,5 @@
+{
+  "smoke_mode": true,
+  "message": "Smoke checkpoint placeholder; set smoke_mode=False for real LoRA training.",
+  "completed_at": "2026-06-20T15:34:10.246628+00:00"
+}

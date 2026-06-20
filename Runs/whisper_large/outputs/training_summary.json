@@ -1,0 +1,6 @@
+{
+  "backend": "smoke",
+  "best_checkpoint": "C:\\Audio learning\\local_whisper\\Palestinian-ASR\\Runs\\whisper_large\\outputs\\checkpoints\\whisper_large\\best",
+  "best_metric": 0.0,
+  "completed_at": "2026-06-20T15:34:10.246628+00:00"
+}

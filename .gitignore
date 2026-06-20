@@ -1,4 +1,31 @@
-QASR
-models
-.failed_experiment
-.venv
+# Repository-specific local data and experiments
+QASR/
+models/
+.failed_experiment/
+.venv/
+
+# Whisper / fine-tuning artifacts
+Runs/**/models/
+Runs/**/outputs/
+
+# Common model weight and checkpoint formats
+*.bin
+*.pt
+*.pth
+*.safetensors
+*.ckpt
+
+# Hugging Face / training caches and logs
+**/checkpoint-*/
+**/checkpoints/
+**/trainer_state.json
+**/training_args.bin
+**/runs/
+**/wandb/
+**/mlruns/
+**/logs/
+**/metrics/
+**/predictions/
+**/smoke_data/
+**/training_summary.json
+**/results.json

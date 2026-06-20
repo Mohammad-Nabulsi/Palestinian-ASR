@@ -10,9 +10,16 @@ accelerate==1.13.0
 datasets[audio]==4.8.5
 evaluate==0.4.6
 huggingface_hub==1.16.4
+peft==0.17.1
+unsloth
+bitsandbytes
+tensorboard==2.20.0
+sentencepiece==0.2.1
+protobuf==6.32.1
 
 pandas==3.0.3
 numpy==2.4.4
+pyarrow==21.0.0
 matplotlib==3.10.9
 scikit-learn==1.8.0
 
