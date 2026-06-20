@@ -1,0 +1,134 @@
+---
+title: QASR License
+---
+
+NON-EXCLUSIVE RESEARCH USE LICENSE FOR
+QCRI-Al Jazeera QASR Corpus
+
+
+INTRODUCTION
+
+
+The Qatar Foundation for Education, Science and Community Development ("QF" or "QATAR FOUNDATION") is a private institution for public benefit enacted under Qatar Law no. 21 of 2006, P.O. Box 5825, Education City, Doha, Qatar; QF, on behalf of the Qatar Computing Research Institute ("QCRI"), an institute within the Hamad Bin Khalifa University ("HBKU"), and Al-Jazeera Media Network Corporation ("Al Jazeera"), of P.O. Box 23123, Doha Qatar, each own certain Intellectual Property Rights in the QCRI-Al Jazeera Corpus (Corpus) as defined below;
+
+For the purposes of this license agreement ("License"), QF has permission granted by Al-Jazeera to license to You (as defined below) certain data in the Corpus owned by Al-Jazeera, in accordance with and subject to the terms of this License; QF desires tosupport further academic and research efforts in Arabic language tools throughout the world and therefore is willing to grant a perpetual non-exclusive, non-transferrable Academic/Research license to You to use the Corpus, subject to the terms of this License.The Corpus will only be licensed to You upon the condition that You accept all of the terms and conditions contained in this License.  Please read this License carefully. Then, fill out the form at the end and click the "ACCEPT / SUBMIT" button.  By clicking on the "ACCEPT / SUBMIT" button, You accept the terms and conditions of this License.   After You click on the "ACCEPT / SUBMIT" button and Your form has been reviewed and approved, an email message will be sent to You with a password and instructions on how to download the Corpus. If You are not willing to be bound by these terms, select the "CANCEL" button at the bottom of this page.
+
+
+
+TERM
+
+
+
+1. Definitions
+
+    1.1 "Commercial Use" means sale, lease, license, distribution or otherwise making the Corpus available to a third party.
+
+    1.2 "Corpus" means the following components:
+
+
+Component A:
+
+The audio track for approximately 2000 hours of Arabic TV programs obtained from Aljazeera TV recordings spanning over 19 programs from March 2004 to 2015. Data provided courtesy of Al Jazeera.
+
+
+Component B:
+
+Manual transcription for each program along with metadata for each program including all information associated to the audio files (like program name, episode title, anchor man, guests, date, and topics). The associated transcription has no timing information. Transcribed data provided courtesy of Al Jazeera.
+
+
+Component C:
+
+More than 110 million words of articles from Aljazeera.net content from March 2000 to November 2011 to help participants in building the Language Model. Data provided courtesy of Al Jazeera
+
+
+Component D:
+
+Lightly supervised alignment for Aljazeera transcription using QCRI Advanced Transcription System. This data is time segmented for training speech recognition. These data files are QF proprietary and provided by QCRI.
+
+1.3 "Derivative Work" means works or products that are based or modeled on the    Corpus, including but not limited to any modification, enhancement, upgrade, or improvement to the Corpus.
+
+1.4 "Intellectual Property Rights" means all right, title and interest in and to any patents, inventions (whether or not patentable), copyright and related rights, trademarks, trade names, service marks and domain names, goodwill, rights to sue for passing off, design rights, database rights, rights in computer code and software, know-how and confidential information, trade secrets, economic rights, moral rights, proprietary rights and any other intellectual property rights, in each case whether registered or unregistered and including all applications or rights to apply for such rights (including all renewals, revivals, reversions and extensions) and all similar or equivalent rights or forms of protection which subsist or will subsist now or in the future in any part of the world. 
+
+1.5 "License" means this license agreement.
+
+1.6 "Research Use" means use of the Corpus for Your non-profit research, development, educational or personal and individual use, and expressly excludes Commercial Use.
+
+1.7 "You" (or "Your") means an individual or legal entity other than QF, entering into and exercising rights under this License.  For legal entities, "You" includes any entity that controls, is controlled by or is under common control with You.  For purposes of this License, "control" means ownership, directly or indirectly, of more than fifty percent (50%) of the equity capital of the legal entity.
+
+
+2. License Grant and Restrictions.
+
+
+
+2.1 Subject to Your compliance with the terms and conditions of this License, QF, hereby grants You a non-exclusive, non-transferable, restricted license to:
+
+2.1.1 Use the Corpus for Your Research Use; and
+
+2.1.2 Create Derivative Works of the Corpus for Your Research Use.
+
+2.2 You shall not make Commercial Use of the Corpus and/or Derivative Works of the Corpus without having executed an appropriate license with QF.  Should You wish to make Commercial Use of the Corpus or Derivative Works of the Corpus, You shall contact QF at RSIMagreements@qf.org.qa to determine whether a license for Commercial Use of the Corpus may be available.
+
+2.3 Portions of the Corpus are owned by QF and Al Jazeera, as described in Paragraph 1.2, and QF and Al Jazeera each retains all of its respective right, title, and interest in and to such portions of the Corpus.
+
+2.4 Except as expressly set forth in Paragraph 2.1, nothing in this License shall be construed as conferring any license under any of QF’s or any third party’s Intellectual Property Rights, whether by estoppel, implication, or otherwise.
+
+2.5 You shall clearly mark and rename all Derivative Works of the Corpus to notify users that it is a modified version of the Corpus.
+
+2.6 You shall reproduce the following notice on all Derivatives:
+
+2.6.1 "This Corpus uses or is derived from the QCRI-AL Jazeera Corpus, developed by Qatar Computing Research Institute ("QCRI"), an institute within the Hamad Bin Khalifa University ("HBKU") a member of the Qatar Foundation for Education, Science and Community Development and the Data provided courtesy of Al Jazeera."
+
+2.7 For any reports or published results obtained using the Corpus, or Derivative Works of the Corpus, You shall acknowledge use of the Corpus by the following citation:
+
+2.7.1 QCRI-AL Jazeera Corpus, used by Youssef Elshahawy, was developed by Qatar Computing Research Institute ("QCRI"), an institute within the Hamad Bin Khalifa University ("HBKU") a member of the Qatar Foundation for Education, Science and Community Development and the Data provided courtesy of Al Jazeera."
+
+3 Confidential Information
+
+3.1 You acknowledge that portions of the Corpus are proprietary to QF. You agree to protect the Corpus from unauthorized disclosure, use, or release and to treat the Corpus with at least the same level of care as You use to protect Your own proprietary programs and/or confidential information, but in no event less than a reasonable standard of care.
+
+3.2 If You become aware of any unauthorized licensing, copying or use of the Corpus, You shall promptly notify QF in writing at RSIM@qf.org.qa.
+
+3.3 You agree to use the Corpus only in the manner and for the specific uses authorized in this License.
+
+
+
+4 Feedback/Contributions
+
+4.1 Because the Corpus is being distributed pursuant to this License for Research Use, QF encourages licensees of the Corpus to provide feedback on the design and use of the Corpus. QF also encourages licensees of the Corpus to provide information regarding their experience with integrating the Corpus into their research. Please submit such feedback to RSIM@qf.org.qa
+
+4.2 QF encourages contributions from users of the Corpus that might be used or incorporated by QF, in its sole discretion, into future versions or revisions of the Corpus. You agree that such contribution may be distributed by QF under the terms of this License and You may be required to sign an additional agreement with QF before QF can accept the contribution. Before disclosing any proposed contribution, please contact RSIM@qf.org.qa for a copy of such agreement.
+
+
+
+5 Disclaimer of Warranties
+
+You acknowledge that the Corpus is a research tool, provided "as is, with all faults", without any maintenance, debugging, support or improvement. QATAR FOUNDATION MAKES NO REPRESENTATIONS AND EXTENDS NO WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. QATAR FOUNDATION DISCLAIMS ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES; INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. You shall not make any statements, representations or warranties with respect to any person or entity that is inconsistent with any limitation or disclaimer included in Paragraph 5.
+
+
+
+6 Limitation of Liability
+
+You assume the entire risk as to the quality, results, performance and/or non-performance of the Corpus. You shall be solely responsible for adequately protecting and backing up Your data or equipment used in connection with the Corpus. In no event shall Qatar Foundation (including its boards, fellows, officers, employees, students, and agents) be responsible or liable for any indirect, special, consequential, incidental, punitive or other damages whatsoever (including lost profits, business, revenue, use, data, or another economic advantage) in connection with, arising out of, or related to this License, regardless of the theory of liability, whether for breach or in tort (including negligence), even if Qatar Foundation may have been previously advised of the possibility of such damage. You shall not make any statements or accept any liabilities or responsibilities with respect to any person or entity that is inconsistent with any limitation included in Paragraph 6.
+
+
+
+7 NO ASSIGNMENT
+
+Neither this Agreement nor the rights granted hereunder shall be assignable by You without the prior written consent of Qatar Foundation granted in Qatar Foundation’s sole discretion. Any attempted assignment in violation of this section shall automatically terminate this License.
+
+
+
+8 GOVERNING LAW; SEVERABILITY
+
+This License shall be governed by the substantive laws of the State of Qatar, excluding its conflict of laws provisions. If any provision of this License is held to be invalid or unenforceable by a court of competent jurisdiction, such invalidity or unenforceability shall not in any way affect the validity or enforceability of the remaining provisions. Any provision of this License held invalid or unenforceable only in part or degree will remain in full force and effect to the extent not held invalid or unenforceable.
+
+
+
+9 WAIVER
+
+The failure of either party to enforce any provision of this License shall not constitute a waiver of that right or future enforcement of that or any other provision.
+
+10 ENTIRE AGREEMENT/AMENDMENT
+
+This License constitutes the entire agreement of the parties with respect to the subject matter hereof and supersedes all prior or contemporaneous agreements, representations, statements, communications, or understandings, written or oral, regarding such subject matter. This License may not be modified or amended, in whole or in part, except by the execution of a written instrument signed by an authorized representative of each party.
+
