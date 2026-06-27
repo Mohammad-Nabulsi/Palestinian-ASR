@@ -1,0 +1,14 @@
+{
+  "dataset_name": "synthetic_long_train_probe",
+  "rows": 4,
+  "splits": {
+    "train": 2,
+    "validation": 1,
+    "test": 1
+  },
+  "combined_path": "/home/MohammadNabulsi/whisper/Runs/asr_plug_play_trainer/datasets/synthetic_long_train_probe/combined.jsonl",
+  "expected_behavior": {
+    "whisper_train_rows_after_drop": 1,
+    "qwen_train_rows_after_keep": 2
+  }
+}

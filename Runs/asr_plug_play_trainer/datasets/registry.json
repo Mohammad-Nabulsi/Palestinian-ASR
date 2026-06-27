@@ -1,0 +1,87 @@
+{
+  "datasets": {
+    "synthetic_short_1x1x1": {
+      "format": "jsonl",
+      "path": "synthetic_short_1x1x1/combined.jsonl",
+      "columns": {
+        "audio": "audio_path",
+        "text": "text",
+        "duration": "duration",
+        "split": "split",
+        "uid": "uid",
+        "language": "language"
+      },
+      "language": "ar",
+      "min_seconds": 0.05,
+      "long_audio_policy": "drop",
+      "summary_path": "synthetic_short_1x1x1/dataset_summary.json"
+    },
+    "synthetic_long_train_probe": {
+      "format": "jsonl",
+      "path": "synthetic_long_train_probe/combined.jsonl",
+      "columns": {
+        "audio": "audio_path",
+        "text": "text",
+        "duration": "duration",
+        "split": "split",
+        "uid": "uid",
+        "language": "language"
+      },
+      "language": "ar",
+      "min_seconds": 0.05,
+      "long_audio_policy": "drop",
+      "summary_path": "synthetic_long_train_probe/dataset_summary.json"
+    },
+    "whisper_large_v3_levantine_1x1x1": {
+      "format": "jsonl",
+      "path": "whisper_large_v3_levantine_1x1x1/combined.jsonl",
+      "columns": {
+        "audio": "audio_path",
+        "text": "text",
+        "duration": "duration",
+        "split": "split",
+        "uid": "uid",
+        "speaker_id": "speaker_id",
+        "language": "language"
+      },
+      "language": "ar",
+      "min_seconds": 0.05,
+      "long_audio_policy": "drop",
+      "summary_path": "whisper_large_v3_levantine_1x1x1/dataset_summary.json"
+    },
+    "omnilingual_300m_levantine_full": {
+      "format": "jsonl",
+      "path": "omnilingual_300m_levantine_full_from_whisper_splits/combined.jsonl",
+      "columns": {
+        "audio": "audio_path",
+        "text": "text",
+        "duration": "duration",
+        "split": "split",
+        "uid": "uid",
+        "speaker_id": "speaker_id",
+        "language": "language"
+      },
+      "language": "ar",
+      "min_seconds": 0.05,
+      "long_audio_policy": "keep",
+      "summary_path": "omnilingual_300m_levantine_full_from_whisper_splits/dataset_summary.json"
+    },
+    "omnilingual_300m_levantine_full_from_whisper_splits": {
+      "format": "jsonl",
+      "path": "omnilingual_300m_levantine_full_from_whisper_splits/combined.jsonl",
+      "columns": {
+        "audio": "audio_path",
+        "text": "text",
+        "duration": "duration",
+        "split": "split",
+        "uid": "uid",
+        "speaker_id": "speaker_id",
+        "language": "language"
+      },
+      "language": "ar",
+      "min_seconds": 0.3,
+      "long_audio_policy": "drop",
+      "summary_path": "omnilingual_300m_levantine_full_from_whisper_splits/dataset_summary.json"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "dataset_name": "synthetic_short_1x1x1",
+  "rows": 3,
+  "splits": {
+    "train": 1,
+    "validation": 1,
+    "test": 1
+  },
+  "combined_path": "/home/MohammadNabulsi/whisper/Runs/asr_plug_play_trainer/datasets/synthetic_short_1x1x1/combined.jsonl"
+}

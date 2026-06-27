@@ -1,0 +1,40 @@
+model:
+  model_id: facebook/omniASR-LLM-300M-v2
+  sample_rate: 16000
+  prompt_template: "Transcribe this audio in Arabic."
+  spec_overrides:
+    backend: omnilingual_recipe
+    family: omni_llm
+    max_train_seconds: null
+    max_eval_chunk_seconds: null
+
+data:
+  dataset_name: omnilingual_300m_levantine_full_from_whisper_splits
+  dataset_registry_path: ./datasets/registry.json
+  language: apc_Arab
+  long_audio_policy: keep
+
+training:
+  num_train_epochs: 20
+  early_stopping_patience: 5
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 1
+  learning_rate: 5.0e-5
+  train_num_steps: 500
+  validate_every_n_steps: 50
+  checkpoint_every_n_steps: 50
+  logging_steps: 10
+  save_total_limit: 2
+  bf16: false
+  fp16: false
+  report_to: none
+
+evaluation:
+  split: test
+  metric_normalizer: arabic_basic
+  max_new_tokens: 256
+
+output:
+  work_dir: ./runs/omnilingual_300m_levantine_full
+  log_level: INFO

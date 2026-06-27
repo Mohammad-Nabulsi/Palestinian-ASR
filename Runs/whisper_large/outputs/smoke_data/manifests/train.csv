@@ -1,2 +1,0 @@
-sample_id,audio_filepath,text,split
-train-000000,C:\Audio learning\local_whisper\Palestinian-ASR\Runs\whisper_large\outputs\smoke_data\audio\train_000.wav,مرحبا يا عالم,train

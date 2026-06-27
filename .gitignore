@@ -29,3 +29,47 @@ Runs/**/outputs/
 **/smoke_data/
 **/training_summary.json
 **/results.json
+
+# Local datasets and staged data roots
+data/
+data_*/
+processed_qasr_segments/
+omnilingual_selected/
+casablanca/
+Layla/
+QASR/
+segments/
+
+# Common model and training artifact directories
+outputs/
+comparison/
+**/weights/
+**/weight/
+**/best_model/
+**/best_checkpoint/
+**/predictions.jsonl
+**/row_probabilities.jsonl
+
+# Extra checkpoint / weight formats
+*.h5
+*.onnx
+*.gguf
+*.tflite
+*.mar
+*.pb
+*.index
+
+# Raw dataset/archive formats that are usually too heavy to push
+*.zip
+*.parquet
+*.arrow
+*.wav
+*.WAV
+*.flac
+*.mp3
+*.m4a
+
+# Python / notebook local cache noise
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

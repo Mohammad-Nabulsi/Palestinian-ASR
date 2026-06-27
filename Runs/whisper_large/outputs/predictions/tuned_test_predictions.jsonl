@@ -1,1 +1,0 @@
-{"sample_id": "test-000000", "audio_filepath": "C:\\Audio learning\\local_whisper\\Palestinian-ASR\\Runs\\whisper_large\\outputs\\smoke_data\\audio\\test_000.wav", "reference": "صوت فلسطيني واضح", "prediction": "صوت فلسطيني واضح", "audio_seconds": 1.0, "inference_seconds": 2.4999899324029684e-06}

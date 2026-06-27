@@ -1,0 +1,259 @@
+{
+  "source_notebook_output": "/home/MohammadNabulsi/whisper/Runs/dialect_scan_badrex_mms300m/predictions.jsonl",
+  "threshold": 0.95,
+  "limit": 25,
+  "exported_count": 25,
+  "output_dir": "/home/MohammadNabulsi/whisper/audio_lev_samples_095",
+  "samples": [
+    {
+      "file": "lev_095_01.wav",
+      "uid": "test-00000-of-00009.parquet:row=2",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 2,
+      "duration_sec": 7.0,
+      "top_score": 0.9914724230766296,
+      "text": "برئ من الكبر من حمل حاجته بيده",
+      "audio_path_field": "a1048e0a-74f1-40ec-93e7-453e26abbf99_lIPSYpbkgbk.wav"
+    },
+    {
+      "file": "lev_095_02.wav",
+      "uid": "test-00000-of-00009.parquet:row=4",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 4,
+      "duration_sec": 4.256,
+      "top_score": 0.9970577955245972,
+      "text": "مع جذب الكبرى و مسافه تتناسب مع جذب الصغرى",
+      "audio_path_field": "8b2ed321-8277-4bb4-a97c-996a9c93c68a_oDbhmzcLsEk.wav"
+    },
+    {
+      "file": "lev_095_03.wav",
+      "uid": "test-00000-of-00009.parquet:row=6",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 6,
+      "duration_sec": 2.5,
+      "top_score": 0.997883141040802,
+      "text": "طبعا الا في حالات الدراسه باللغه الانجليزيه",
+      "audio_path_field": "2297990d-f41b-49d3-8dd6-d0b1ebecee3d_ARDuFmGDVKo.wav"
+    },
+    {
+      "file": "lev_095_04.wav",
+      "uid": "test-00000-of-00009.parquet:row=25",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 25,
+      "duration_sec": 2.764,
+      "top_score": 0.9894529581069946,
+      "text": "واوسع باب ندخل منه على الله",
+      "audio_path_field": "6d5ee586-959a-42cb-a620-050f5a3453a2_MwHc9zxHwN8.wav"
+    },
+    {
+      "file": "lev_095_05.wav",
+      "uid": "test-00000-of-00009.parquet:row=35",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 35,
+      "duration_sec": 5.1,
+      "top_score": 0.9913144707679749,
+      "text": "وان هذا الابتلاء لا يدفع بالسيوف وحدها",
+      "audio_path_field": "197cf771-3c0c-43d8-ae70-8bb8ee07cb43_YP0URC9Nw0k.wav"
+    },
+    {
+      "file": "lev_095_06.wav",
+      "uid": "test-00000-of-00009.parquet:row=38",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 38,
+      "duration_sec": 2.05,
+      "top_score": 0.9949674010276794,
+      "text": "مرحبا انا عمر الملا من غرفه اخبار",
+      "audio_path_field": "dc62c8e5-05ed-4191-9bcf-1353d8a376c7_nFv4guaOAgc.wav"
+    },
+    {
+      "file": "lev_095_07.wav",
+      "uid": "test-00000-of-00009.parquet:row=70",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 70,
+      "duration_sec": 8.0,
+      "top_score": 0.9965116381645203,
+      "text": "من جاءه اخوه متنصلا يعني اعتذر ونفى الشيء",
+      "audio_path_field": "e1108031-a825-4126-bae8-8eb60a588065_lIPSYpbkgbk.wav"
+    },
+    {
+      "file": "lev_095_08.wav",
+      "uid": "test-00000-of-00009.parquet:row=71",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 71,
+      "duration_sec": 2.09,
+      "top_score": 0.9905672669410706,
+      "text": "افففتتت انا جاهزه",
+      "audio_path_field": "a44a7dcd-a1f4-4289-85ea-90d2c7ad5f77_lryHxLA1ns4.wav"
+    },
+    {
+      "file": "lev_095_09.wav",
+      "uid": "test-00000-of-00009.parquet:row=74",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 74,
+      "duration_sec": 2.166,
+      "top_score": 0.9958089590072632,
+      "text": "الان لو جئنا بخيط عنكبوت",
+      "audio_path_field": "5544e512-45f3-49a1-91d4-92c767f2ec4c_MwHc9zxHwN8.wav"
+    },
+    {
+      "file": "lev_095_10.wav",
+      "uid": "test-00000-of-00009.parquet:row=76",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 76,
+      "duration_sec": 2.96,
+      "top_score": 0.9941746592521667,
+      "text": "قد يقول احدكم كم مجره فيه الكون",
+      "audio_path_field": "e70648f9-0768-45dd-a9a9-31714645f29e_oDbhmzcLsEk.wav"
+    },
+    {
+      "file": "lev_095_11.wav",
+      "uid": "test-00000-of-00009.parquet:row=85",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 85,
+      "duration_sec": 3.876,
+      "top_score": 0.9956393241882324,
+      "text": "الفولاذ امتن عنصر لتحمل قوى الشد",
+      "audio_path_field": "195093f4-8bed-4b39-bbea-b43b818e3f40_MwHc9zxHwN8.wav"
+    },
+    {
+      "file": "lev_095_12.wav",
+      "uid": "test-00000-of-00009.parquet:row=88",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 88,
+      "duration_sec": 3.01,
+      "top_score": 0.9828459620475769,
+      "text": "مثل منصه ادراك المتاحه باللغه العربيه",
+      "audio_path_field": "b5dc9065-a35a-47f8-89c4-5fa7ad4831c6_8ZHJCYixUUw.wav"
+    },
+    {
+      "file": "lev_095_13.wav",
+      "uid": "test-00000-of-00009.parquet:row=92",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 92,
+      "duration_sec": 4.69,
+      "top_score": 0.9949612617492676,
+      "text": "فلذلك ما الذي يمنع ان اكون الاول",
+      "audio_path_field": "a215f5a8-e786-4f9d-bcdf-32bb103a8d46_tU8CKLinYUY.wav"
+    },
+    {
+      "file": "lev_095_14.wav",
+      "uid": "test-00000-of-00009.parquet:row=94",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 94,
+      "duration_sec": 6.0,
+      "top_score": 0.9958772659301758,
+      "text": "اذا تكلم تكلم بجوامع الكلم كلام مركز",
+      "audio_path_field": "5fbd6f6e-5c90-4c84-9cf1-6b5cca299b57_lIPSYpbkgbk.wav"
+    },
+    {
+      "file": "lev_095_15.wav",
+      "uid": "test-00000-of-00009.parquet:row=99",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 99,
+      "duration_sec": 5.99,
+      "top_score": 0.9966974258422852,
+      "text": "اما لمرحلتي الماستر والدكتوراه في الجامعات الحكوميه فهو الف وخمس مئه يورو للسنه الدراسيه الواحده",
+      "audio_path_field": "2f30c7fb-1783-4afb-acf7-dcf8fb2dbbe1_ARDuFmGDVKo.wav"
+    },
+    {
+      "file": "lev_095_16.wav",
+      "uid": "test-00000-of-00009.parquet:row=101",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 101,
+      "duration_sec": 3.0,
+      "top_score": 0.9888250231742859,
+      "text": "هم الاحبه ان جاروا وان عدلوا",
+      "audio_path_field": "dc3dbf5c-40b1-47c7-86e7-b5819d2715f1_tU8CKLinYUY.wav"
+    },
+    {
+      "file": "lev_095_17.wav",
+      "uid": "test-00000-of-00009.parquet:row=103",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 103,
+      "duration_sec": 5.84,
+      "top_score": 0.9969869256019592,
+      "text": "و اصبر نفسك مع الذين يدعون ربهم بالغداه و العشي يريدون وجهه",
+      "audio_path_field": "eb67ef22-d4a4-4659-a0b3-17dca9afe1bf_38HT2kByyuc.wav"
+    },
+    {
+      "file": "lev_095_18.wav",
+      "uid": "test-00000-of-00009.parquet:row=114",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 114,
+      "duration_sec": 3.28,
+      "top_score": 0.99565589427948,
+      "text": "الا اذا كان تطبيقك يتعامل بشكل اساسي",
+      "audio_path_field": "9494657f-f332-4f53-9720-cb651138f439_8HDatIpFYFs.wav"
+    },
+    {
+      "file": "lev_095_19.wav",
+      "uid": "test-00000-of-00009.parquet:row=115",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 115,
+      "duration_sec": 6.0,
+      "top_score": 0.9974652528762817,
+      "text": "كان الله سبحانه وتعالى سيلخص لنا الوحي كله",
+      "audio_path_field": "795dfa9f-999d-465f-b033-922078deeca5_lIPSYpbkgbk.wav"
+    },
+    {
+      "file": "lev_095_20.wav",
+      "uid": "test-00000-of-00009.parquet:row=116",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 116,
+      "duration_sec": 4.45,
+      "top_score": 0.9940409064292908,
+      "text": "و رجله التي يمشي بها و ان سالني لاعطينه",
+      "audio_path_field": "f88716b5-f2ce-4040-9987-3dcb95c3919e_38HT2kByyuc.wav"
+    },
+    {
+      "file": "lev_095_21.wav",
+      "uid": "test-00000-of-00009.parquet:row=118",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 118,
+      "duration_sec": 5.35,
+      "top_score": 0.9709102511405945,
+      "text": "ايها الاخوه الفرار الى الله يكون",
+      "audio_path_field": "c9f04d88-e7ad-4530-a572-89f14088e290_38HT2kByyuc.wav"
+    },
+    {
+      "file": "lev_095_22.wav",
+      "uid": "test-00000-of-00009.parquet:row=122",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 122,
+      "duration_sec": 6.59,
+      "top_score": 0.9976809024810791,
+      "text": "فربنا عز وجل ليرفع مقامه وليؤدبه",
+      "audio_path_field": "7aa4a672-2065-4b13-b3ae-dc3607dd5f0e_tU8CKLinYUY.wav"
+    },
+    {
+      "file": "lev_095_23.wav",
+      "uid": "test-00000-of-00009.parquet:row=129",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 129,
+      "duration_sec": 3.14,
+      "top_score": 0.9978123903274536,
+      "text": "فابني الحبيب هوي الذبيحه الاخيره",
+      "audio_path_field": "9d957ced-366b-4613-8b31-9f9f837d51ec_ZTeb9bGPSdc.wav"
+    },
+    {
+      "file": "lev_095_24.wav",
+      "uid": "test-00000-of-00009.parquet:row=166",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 166,
+      "duration_sec": 3.7699,
+      "top_score": 0.9919300675392151,
+      "text": "فاحي اخواني واخواتي في كل مكان",
+      "audio_path_field": "241c50f1-30a4-4267-84f9-12271cf7f8a8_HdwSajQa1oU.wav"
+    },
+    {
+      "file": "lev_095_25.wav",
+      "uid": "test-00000-of-00009.parquet:row=170",
+      "source_file": "/home/MohammadNabulsi/whisper/data/masc_c_only/data/test-00000-of-00009.parquet",
+      "row_idx": 170,
+      "duration_sec": 2.24,
+      "top_score": 0.985284149646759,
+      "text": "مما استدعى استبعاد الزبائن الجدد",
+      "audio_path_field": "cc064caf-5ba7-40db-81f5-04f9a74bd68c_xFOKByrNXY8.wav"
+    }
+  ]
+}
