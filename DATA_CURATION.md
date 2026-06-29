@@ -549,6 +549,14 @@ The output directory layout is:
 - `val/...` with the same leaf directories
 - `test/...` with the same leaf directories
 
+Temporary QASR note:
+
+- The currently in-place `qasr` split inside `data_curated_levant_binary_v1/` was rebuilt from the audio dialect predictions available at rebuild time.
+- Under the same binary rule, rows with confirmed text `LEV >= 0.80` and confirmed audio `Levantine >= 0.80` are written to `qasr/lev/`.
+- All remaining QASR rows are currently written to `qasr/non_lev/`, including rows that were not yet audio-classified in the partial repair run.
+- This is a temporary operational choice made because fully re-running QASR audio dialect identification is resource-intensive on the currently available compute setup.
+- Once resources allow a full repaired QASR audio pass to completion, the QASR `lev/non_lev` split should be regenerated from the complete repaired audio-stage output.
+
 Run command:
 
 ```bash
@@ -586,6 +594,11 @@ What this repair script does:
    - audio `Levantine >= 0.80`
 3. Writes the rebuilt dataset under:
    - `data_curated_levant_binary_v2_qasr_audio_fix/`
+
+Current limitation:
+
+- A full repaired QASR audio rerun is still the intended final path, but it is currently constrained by available compute resources and runtime.
+- Because of that, the working `data_curated_levant_binary_v1/` QASR replacement may temporarily rely on the repaired audio predictions completed so far, with the remainder routed to `non_lev` until the full rerun is completed.
 
 Run command:
 
