@@ -41,7 +41,7 @@ QASR/
 segments/
 
 # Common model and training artifact directories
-outputs/
+# outputs/
 comparison/
 **/weights/
 **/weight/

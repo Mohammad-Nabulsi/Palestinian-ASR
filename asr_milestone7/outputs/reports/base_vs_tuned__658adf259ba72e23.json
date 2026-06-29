@@ -1,0 +1,56 @@
+{
+  "metadata": {
+    "base_metrics_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/metrics/base/omni__Omni_ASR_300M__milestone7_smoke_omni__base__eb380d86e9877afc.json",
+    "base_prediction_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/predictions/base/omni__Omni_ASR_300M__milestone7_smoke_omni__test__base__e03cbc82c0b381da.jsonl",
+    "comparison_json_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/reports/base_vs_tuned__658adf259ba72e23.json",
+    "comparison_key": "658adf259ba72e23",
+    "comparison_markdown_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/reports/base_vs_tuned__658adf259ba72e23.md",
+    "improvement_definition": "base_metric - tuned_metric; positive means tuned is better",
+    "model_family": "omni",
+    "model_name": "Omni ASR 300M",
+    "run_name": "milestone7_smoke_omni",
+    "training_config_hash": "2a141213248b",
+    "tuned_adapter_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/checkpoints/omni__Omni_ASR_300M__milestone7_smoke_omni__1d46dd491c381edd/checkpoint-epoch-0002",
+    "tuned_metrics_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/metrics/tuned/omni__Omni_ASR_300M__milestone7_smoke_omni__tuned__0ba601a017c6fce9.json",
+    "tuned_prediction_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/predictions/tuned/omni__Omni_ASR_300M__milestone7_smoke_omni__test__tuned__d1c9c3d6aac6971b.jsonl"
+  },
+  "metrics": {
+    "cer": {
+      "absolute_improvement": 1.0,
+      "base": 1.0,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "loose_cer": {
+      "absolute_improvement": 1.0,
+      "base": 1.0,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "loose_wer": {
+      "absolute_improvement": 1.0,
+      "base": 1.0,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "normalized_cer": {
+      "absolute_improvement": 1.0,
+      "base": 1.0,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "normalized_wer": {
+      "absolute_improvement": 1.0,
+      "base": 1.0,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "wer": {
+      "absolute_improvement": 1.0,
+      "base": 1.0,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    }
+  },
+  "schema_version": 2
+}

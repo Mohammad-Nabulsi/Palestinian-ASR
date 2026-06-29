@@ -1,0 +1,56 @@
+{
+  "metadata": {
+    "base_metrics_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/omni_300m_layla_3shards/metrics/base/omni__Omni_ASR_300M__omni_300m_layla_3shards__base__fa68c91d5cbfb857.json",
+    "base_prediction_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/omni_300m_layla_3shards/predictions/base/omni__Omni_ASR_300M__omni_300m_layla_3shards__test__base__818b5d1d74b24946.jsonl",
+    "comparison_json_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/omni_300m_layla_3shards/reports/base_vs_tuned__2d139d3dfdded0e2.json",
+    "comparison_key": "2d139d3dfdded0e2",
+    "comparison_markdown_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/omni_300m_layla_3shards/reports/base_vs_tuned__2d139d3dfdded0e2.md",
+    "improvement_definition": "base_metric - tuned_metric; positive means tuned is better",
+    "model_family": "omni",
+    "model_name": "Omni ASR 300M",
+    "run_name": "omni_300m_layla_3shards",
+    "training_config_hash": "4e2ffc0fcc7d",
+    "tuned_adapter_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/omni_300m_layla_3shards/checkpoints/omni__Omni_ASR_300M__omni_300m_layla_3shards__d18318e02e5d4958/checkpoint-epoch-0002",
+    "tuned_metrics_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/omni_300m_layla_3shards/metrics/tuned/omni__Omni_ASR_300M__omni_300m_layla_3shards__tuned__df67749e8181ef89.json",
+    "tuned_prediction_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/omni_300m_layla_3shards/predictions/tuned/omni__Omni_ASR_300M__omni_300m_layla_3shards__test__tuned__7e798c8330373755.jsonl"
+  },
+  "metrics": {
+    "cer": {
+      "absolute_improvement": 0.029327105849128333,
+      "base": 0.029327105849128333,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "loose_cer": {
+      "absolute_improvement": 0.02838167678946472,
+      "base": 0.02838167678946472,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "loose_wer": {
+      "absolute_improvement": 0.013614703880190605,
+      "base": 0.013614703880190605,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "normalized_cer": {
+      "absolute_improvement": 0.02838167678946472,
+      "base": 0.02838167678946472,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "normalized_wer": {
+      "absolute_improvement": 0.013614703880190605,
+      "base": 0.013614703880190605,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "wer": {
+      "absolute_improvement": 0.013608528010886823,
+      "base": 0.013608528010886823,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    }
+  },
+  "schema_version": 2
+}

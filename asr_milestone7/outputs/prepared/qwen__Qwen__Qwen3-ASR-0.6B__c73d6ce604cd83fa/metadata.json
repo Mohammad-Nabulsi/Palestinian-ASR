@@ -1,0 +1,28 @@
+{
+  "cache_created": true,
+  "cache_dir": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/prepared/qwen__Qwen__Qwen3-ASR-0.6B__c73d6ce604cd83fa",
+  "cache_key": "c73d6ce604cd83fa",
+  "cache_loaded": false,
+  "cache_status": "created",
+  "model_family": "qwen",
+  "model_name": "Qwen/Qwen3-ASR-0.6B",
+  "preparation_settings": {
+    "language": "ar",
+    "omni_task": "asr",
+    "qwen_system_prompt": "You are an ASR system. Transcribe the provided Arabic speech exactly.",
+    "qwen_user_prompt": "Transcribe this audio.",
+    "schema_version": 1,
+    "whisper_max_audio_seconds": 30.0
+  },
+  "relevant_config_hash": "1ecd83d69fc6",
+  "split_counts": {
+    "test": 1,
+    "train": 1,
+    "val": 1
+  },
+  "split_paths": {
+    "test": "/home/MohammadNabulsi/whisper/asr_milestone7/data/smoke/test.jsonl",
+    "train": "/home/MohammadNabulsi/whisper/asr_milestone7/data/smoke/train.jsonl",
+    "val": "/home/MohammadNabulsi/whisper/asr_milestone7/data/smoke/val.jsonl"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "early_stopping_patience": 5,
+  "learning_rate": 5e-05,
+  "local_model_cache_dir": "/home/MohammadNabulsi/whisper/asr_milestone7/models/cache",
+  "max_epochs": 50,
+  "model_name": "Omni ASR 300M",
+  "output_dir": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/omni_300m_layla_3shards",
+  "run_name": "omni_300m_layla_3shards",
+  "seed": 42,
+  "smoke_mode": false,
+  "test_path": "/home/MohammadNabulsi/whisper/asr_milestone7/data/layla_manifests/test.jsonl",
+  "train_path": "/home/MohammadNabulsi/whisper/asr_milestone7/data/layla_manifests/train.jsonl",
+  "val_path": "/home/MohammadNabulsi/whisper/asr_milestone7/data/layla_manifests/val.jsonl",
+  "wandb_mode": "disabled"
+}

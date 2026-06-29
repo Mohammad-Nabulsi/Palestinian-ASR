@@ -1,0 +1,56 @@
+{
+  "metadata": {
+    "base_metrics_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/metrics/base/qwen__Qwen__Qwen3-ASR-0.6B__milestone7_smoke_qwen__base__0926ec75e87c6dfe.json",
+    "base_prediction_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/predictions/base/qwen__Qwen__Qwen3-ASR-0.6B__milestone7_smoke_qwen__test__base__fd20283a9629a50b.jsonl",
+    "comparison_json_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/reports/base_vs_tuned__31c6d071c8616b25.json",
+    "comparison_key": "31c6d071c8616b25",
+    "comparison_markdown_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/reports/base_vs_tuned__31c6d071c8616b25.md",
+    "improvement_definition": "base_metric - tuned_metric; positive means tuned is better",
+    "model_family": "qwen",
+    "model_name": "Qwen/Qwen3-ASR-0.6B",
+    "run_name": "milestone7_smoke_qwen",
+    "training_config_hash": "1ecd83d69fc6",
+    "tuned_adapter_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/checkpoints/qwen__Qwen__Qwen3-ASR-0.6B__milestone7_smoke_qwen__831f19da9822b116/checkpoint-epoch-0002",
+    "tuned_metrics_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/metrics/tuned/qwen__Qwen__Qwen3-ASR-0.6B__milestone7_smoke_qwen__tuned__d2f733b326412d24.json",
+    "tuned_prediction_path": "/home/MohammadNabulsi/whisper/asr_milestone7/outputs/predictions/tuned/qwen__Qwen__Qwen3-ASR-0.6B__milestone7_smoke_qwen__test__tuned__11e857a4cc054877.jsonl"
+  },
+  "metrics": {
+    "cer": {
+      "absolute_improvement": 0.9545454545454546,
+      "base": 0.9545454545454546,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "loose_cer": {
+      "absolute_improvement": 0.8636363636363636,
+      "base": 0.8636363636363636,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "loose_wer": {
+      "absolute_improvement": 0.6,
+      "base": 0.6,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "normalized_cer": {
+      "absolute_improvement": 0.8636363636363636,
+      "base": 0.8636363636363636,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "normalized_wer": {
+      "absolute_improvement": 0.6,
+      "base": 0.6,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    },
+    "wer": {
+      "absolute_improvement": 0.6,
+      "base": 0.6,
+      "relative_improvement": 1.0,
+      "tuned": 0.0
+    }
+  },
+  "schema_version": 2
+}

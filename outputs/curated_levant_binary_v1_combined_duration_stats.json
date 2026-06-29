@@ -1,0 +1,84 @@
+{
+  "dataset_root": "/home/MohammadNabulsi/whisper/data_curated_levant_binary_v1",
+  "data_root": "/home/MohammadNabulsi/whisper/data",
+  "audio_row_probabilities": "/home/MohammadNabulsi/whisper/Runs/dialect_scan_badrex_mms300m_lev08_text_candidates_masc_c_qasr/row_probabilities.jsonl",
+  "threshold": 0.8,
+  "audio_scan_summary": {
+    "threshold": 0.8,
+    "rows_scanned": 133053,
+    "rows_status_ok": 38644,
+    "source_counts": {
+      "masc_c": 41537,
+      "qasr": 91516
+    },
+    "source_accepted_counts": {
+      "masc_c": 6853
+    }
+  },
+  "combined_by_dataset": {
+    "masc/lev": {
+      "count": 6853,
+      "total_seconds": 31296.736999999997,
+      "total_hours": 8.693538055555555,
+      "mean_seconds": 4.566866627754268,
+      "median_seconds": 4.160000000000011,
+      "p95_seconds": 8.0
+    },
+    "masc/non_lev": {
+      "count": 362229,
+      "total_seconds": 1435916.537,
+      "total_hours": 398.86570472222223,
+      "mean_seconds": 3.964112583476199,
+      "median_seconds": 3.440000000000005,
+      "p95_seconds": 8.400000000000091
+    },
+    "qasr/lev": {
+      "count": 3517,
+      "total_seconds": 15476.823255062103,
+      "total_hours": 4.299117570850584,
+      "mean_seconds": 4.400575278664232,
+      "median_seconds": 4.070000171661377,
+      "p95_seconds": 7.652000045776365
+    },
+    "qasr/non_lev": {
+      "count": 1121528,
+      "total_seconds": 4763142.500197768,
+      "total_hours": 1323.0951389438244,
+      "mean_seconds": 4.247011666403129,
+      "median_seconds": 4.0,
+      "p95_seconds": 7.71999979019165
+    },
+    "omni": {
+      "count": 416,
+      "total_seconds": 28499.639833333335,
+      "total_hours": 7.916566620370371,
+      "mean_seconds": 68.50874959935898,
+      "median_seconds": 78.27199999999999,
+      "p95_seconds": 91.75498437499999
+    },
+    "layla": {
+      "count": 176,
+      "total_seconds": 19164.135328798184,
+      "total_hours": 5.323370924666162,
+      "mean_seconds": 108.88713254998969,
+      "median_seconds": 108.64253968253968,
+      "p95_seconds": 143.70068027210885
+    },
+    "casa/pal": {
+      "count": 1328,
+      "total_seconds": 7085.578914683199,
+      "total_hours": 1.9682163651897777,
+      "mean_seconds": 5.335526291177108,
+      "median_seconds": 4.4332012535,
+      "p95_seconds": 12.598209578999997
+    },
+    "casa/jor": {
+      "count": 1695,
+      "total_seconds": 7136.0644734334,
+      "total_hours": 1.9822401315092777,
+      "mean_seconds": 4.210067535948909,
+      "median_seconds": 3.745018777,
+      "p95_seconds": 8.560681250099998
+    }
+  }
+}
