@@ -1,3 +1,0 @@
-{"uid": "short_train", "audio_path": "/home/MohammadNabulsi/whisper/Runs/asr_plug_play_trainer/datasets/synthetic_short_1x1x1/audio/short_train.wav", "text": "مرحبا هذا تسجيل تدريب قصير", "duration": 0.8, "split": "train", "language": "ar"}
-{"uid": "short_validation", "audio_path": "/home/MohammadNabulsi/whisper/Runs/asr_plug_play_trainer/datasets/synthetic_short_1x1x1/audio/short_validation.wav", "text": "مرحبا هذا تسجيل تحقق قصير", "duration": 0.7, "split": "validation", "language": "ar"}
-{"uid": "short_test", "audio_path": "/home/MohammadNabulsi/whisper/Runs/asr_plug_play_trainer/datasets/synthetic_short_1x1x1/audio/short_test.wav", "text": "مرحبا هذا تسجيل اختبار قصير", "duration": 0.9, "split": "test", "language": "ar"}

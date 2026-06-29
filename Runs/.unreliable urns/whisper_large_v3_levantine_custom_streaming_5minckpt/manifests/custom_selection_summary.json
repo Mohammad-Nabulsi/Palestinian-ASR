@@ -1,0 +1,74 @@
+{
+  "run_id": "whisper_large_v3_levantine_custom_streaming_5minckpt",
+  "drop_segments_at_or_above_seconds": 30.0,
+  "full_counts_after_filter": {
+    "train": 1541,
+    "eval_parquet_pool": 1514,
+    "eval_arrow_pool": 19
+  },
+  "selected_counts": {
+    "train": 1541,
+    "val": 766,
+    "test": 767
+  },
+  "selected_hours": {
+    "train": 2.1407003992305276,
+    "val": 1.0070916678090185,
+    "test": 1.037511566857676
+  },
+  "train_by_source_group": {
+    "casablanca_levantine_train": {
+      "rows": 1514,
+      "hours": 2.0004557985360836
+    },
+    "omnilingual_apc_north_levantine_train": {
+      "rows": 27,
+      "hours": 0.14024460069444444
+    }
+  },
+  "val_by_source_group": {
+    "casablanca_levantine_eval_pool": {
+      "rows": 757,
+      "hours": 0.9691543645682779
+    },
+    "omnilingual_apc_north_levantine_eval_pool": {
+      "rows": 9,
+      "hours": 0.037937303240740745
+    }
+  },
+  "test_by_source_group": {
+    "casablanca_levantine_eval_pool": {
+      "rows": 757,
+      "hours": 0.9881639569039722
+    },
+    "omnilingual_apc_north_levantine_eval_pool": {
+      "rows": 10,
+      "hours": 0.04934760995370371
+    }
+  },
+  "data_sources": {
+    "train_parquet_files": [
+      "/home/MohammadNabulsi/whisper/casablanca/levant/Palestine/validation-00001-of-00002.parquet",
+      "/home/MohammadNabulsi/whisper/casablanca/levant/Palestine/validation-00000-of-00002.parquet",
+      "/home/MohammadNabulsi/whisper/casablanca/levant/Jordan/validation-00000-of-00001.parquet"
+    ],
+    "eval_parquet_files": [
+      "/home/MohammadNabulsi/whisper/casablanca/levant/Palestine/test-00001-of-00002.parquet",
+      "/home/MohammadNabulsi/whisper/casablanca/levant/Palestine/test-00000-of-00002.parquet",
+      "/home/MohammadNabulsi/whisper/casablanca/levant/Jordan/test-00000-of-00001.parquet"
+    ],
+    "train_arrow_files": [
+      "/home/MohammadNabulsi/whisper/omnilingual_selected/apc_north_levantine_all_splits/data-00001-of-00003.arrow",
+      "/home/MohammadNabulsi/whisper/omnilingual_selected/apc_north_levantine_all_splits/data-00000-of-00003.arrow"
+    ],
+    "eval_arrow_files": [
+      "/home/MohammadNabulsi/whisper/omnilingual_selected/apc_north_levantine_all_splits/data-00002-of-00003.arrow"
+    ]
+  },
+  "manifest_paths": {
+    "train": "/home/MohammadNabulsi/whisper/Runs/whisper_large_v3_levantine_custom_streaming_5minckpt/manifests/train/manifest_train_custom_levantine_lt30s.jsonl",
+    "val": "/home/MohammadNabulsi/whisper/Runs/whisper_large_v3_levantine_custom_streaming_5minckpt/manifests/val/manifest_val_custom_levantine_lt30s.jsonl",
+    "test": "/home/MohammadNabulsi/whisper/Runs/whisper_large_v3_levantine_custom_streaming_5minckpt/manifests/test/manifest_test_custom_levantine_lt30s.jsonl",
+    "all": "/home/MohammadNabulsi/whisper/Runs/whisper_large_v3_levantine_custom_streaming_5minckpt/manifests/manifest_all_lt30s.jsonl"
+  }
+}

@@ -1,0 +1,17 @@
+# Dataset wiring for a single-model Layla run.
+# Important: the current Omni adapter still raises NotImplementedError when
+# smoke_mode is false, so this config is ready for paths but not yet runnable
+# end-to-end for real Omni fine-tuning.
+model_name: Omni ASR 300M
+train_path: data/layla_manifests/train.jsonl
+val_path: data/layla_manifests/val.jsonl
+test_path: data/layla_manifests/test.jsonl
+output_dir: outputs/omni_300m_layla_3shards
+run_name: omni_300m_layla_3shards
+smoke_mode: false
+wandb_mode: disabled
+learning_rate: 0.00005
+max_epochs: 50
+early_stopping_patience: 5
+seed: 42
+local_model_cache_dir: models/cache

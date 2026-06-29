@@ -1,0 +1,9 @@
+{
+  "run_dir": "/home/MohammadNabulsi/whisper/Runs/omnilingual_asr_1b_levantine_custom_streaming_5minckpt",
+  "omni_repo_dir": "/home/MohammadNabulsi/whisper/third_party/omnilingual-asr",
+  "model_card": "omniASR_LLM_1B_v2",
+  "checkpoint_dir": "/home/MohammadNabulsi/whisper/Runs/omnilingual_asr_1b_levantine_custom_streaming_5minckpt/checkpoints",
+  "prediction_dir": "/home/MohammadNabulsi/whisper/Runs/omnilingual_asr_1b_levantine_custom_streaming_5minckpt/eval_predictions",
+  "latest_checkpoint": "/home/MohammadNabulsi/whisper/Runs/omnilingual_asr_1b_levantine_custom_streaming_5minckpt/checkpoints/ws_1.cdb5b620/checkpoints/step_500/model",
+  "summary_report_written": true
+}

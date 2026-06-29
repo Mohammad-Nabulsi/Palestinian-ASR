@@ -1,0 +1,13 @@
+model_name: openai/whisper-medium
+train_path: data/smoke/train.jsonl
+val_path: data/smoke/val.jsonl
+test_path: data/smoke/test.jsonl
+output_dir: outputs
+run_name: milestone7_smoke
+smoke_mode: true
+wandb_mode: disabled
+learning_rate: 0.00005
+max_epochs: 50
+early_stopping_patience: 5
+seed: 42
+local_model_cache_dir: models/cache

@@ -1,0 +1,23 @@
+{
+  "run_id": "omnilingual_asr_1b_levantine_custom_streaming_5minckpt",
+  "source_manifests": {
+    "train": "/home/MohammadNabulsi/whisper/Runs/qwen3_asr_0_6b_levantine_custom_streaming_5minckpt/manifests/train/manifest_train_custom_levantine.jsonl",
+    "val": "/home/MohammadNabulsi/whisper/Runs/qwen3_asr_0_6b_levantine_custom_streaming_5minckpt/manifests/val/manifest_val_custom_levantine.jsonl",
+    "test": "/home/MohammadNabulsi/whisper/Runs/qwen3_asr_0_6b_levantine_custom_streaming_5minckpt/manifests/test/manifest_test_custom_levantine.jsonl"
+  },
+  "selected_counts": {
+    "train": 1859,
+    "val": 843,
+    "test": 843
+  },
+  "selected_hours": {
+    "train": 8.697106354091638,
+    "val": 2.704268942114574,
+    "test": 2.572148800653972
+  },
+  "dataset_dir": "/home/MohammadNabulsi/whisper/Runs/omnilingual_asr_1b_levantine_custom_streaming_5minckpt/dataset/version=0",
+  "dataset_summary_path": "/home/MohammadNabulsi/whisper/Runs/omnilingual_asr_1b_levantine_custom_streaming_5minckpt/dataset/language_distribution_0.tsv",
+  "dataset_asset_card": "/home/MohammadNabulsi/whisper/third_party/omnilingual-asr/src/omnilingual_asr/cards/datasets/omnilingual_asr_1b_levantine_custom_streaming_5minckpt_full_dataset.yaml",
+  "recipe_config_path": "/home/MohammadNabulsi/whisper/Runs/omnilingual_asr_1b_levantine_custom_streaming_5minckpt/configs/llm_finetune.yaml",
+  "loaded_from_cache": false
+}

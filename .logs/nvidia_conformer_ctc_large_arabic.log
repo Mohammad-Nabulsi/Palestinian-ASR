@@ -1,0 +1,1 @@
+2026-06-27 17:05:47.934144 | START | ngc registry model download-version nvidia/tao/speechtotext_ar_ar_conformer:trainable_v1.0 --dest /home/MohammadNabulsi/whisper/models/nvidia_conformer_ctc_large_arabic

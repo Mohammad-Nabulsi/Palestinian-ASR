@@ -51,6 +51,7 @@ DEFAULT_TARGET_THRESHOLD = 0.4
 DEFAULT_BATCH_SIZE_CUDA = 256
 DEFAULT_BATCH_SIZE_CPU = 32
 TEXT_FIELD_CANDIDATES = [
+    "manual_normalized_transcript",
     "normalized_transcript",
     "transcript",
     "text",
@@ -60,6 +61,24 @@ TEXT_FIELD_CANDIDATES = [
     "transcription",
     "prompt",
 ]
+SOURCE_FIELD_CANDIDATES = [
+    "source",
+    "source_name",
+    "dataset_source",
+    "dataset",
+]
+SOURCE_ALIAS_MAP = {
+    "masc_c": {
+        "masc_c",
+        "masc-c",
+        "masc_c_only",
+        "masc",
+    },
+    "qasr": {
+        "qasr",
+        "processed_qasr_segments",
+    },
+}
 
 
 def discover_shards(data_roots: List[Path]) -> List[Path]:
@@ -74,6 +93,42 @@ def discover_shards(data_roots: List[Path]) -> List[Path]:
         else:
             print(f"[WARN] Path not found or unsupported: {root}")
     return sorted(set(files), key=lambda p: str(p))
+
+
+def normalize_source_name(value: Optional[str]) -> Optional[str]:
+    if value is None:
+        return None
+    normalized = str(value).strip().lower().replace("-", "_").replace(" ", "_")
+    for canonical, aliases in SOURCE_ALIAS_MAP.items():
+        if normalized == canonical or normalized in aliases:
+            return canonical
+    return normalized or None
+
+
+def infer_source_from_row(row: Dict[str, Any]) -> Optional[str]:
+    for key in SOURCE_FIELD_CANDIDATES:
+        value = row.get(key)
+        normalized = normalize_source_name(value if isinstance(value, str) else None)
+        if normalized:
+            return normalized
+
+    source_file = row.get("source_file")
+    if isinstance(source_file, str):
+        lowered = source_file.lower()
+        if "masc_c" in lowered:
+            return "masc_c"
+        if "qasr" in lowered or "processed_qasr_segments" in lowered:
+            return "qasr"
+    return None
+
+
+def infer_source_from_path(path: Path) -> Optional[str]:
+    lowered = path.name.lower()
+    if lowered.startswith("masc_c_only__") or "masc_c" in lowered:
+        return "masc_c"
+    if lowered.startswith("processed_qasr_segments__") or "qasr" in lowered:
+        return "qasr"
+    return None
 
 
 def _iter_arrow_ipc_rows(path: Path) -> Iterator[Tuple[int, Dict[str, Any]]]:
@@ -520,6 +575,11 @@ def resolve_batch_size(requested_batch_size: Optional[int], device: str) -> int:
 
 def run(args: argparse.Namespace) -> None:
     data_roots = [Path(p) for p in args.data_root]
+    allowed_sources = {
+        normalized
+        for normalized in (normalize_source_name(value) for value in args.allowed_source)
+        if normalized
+    }
     output_dir = Path(args.output_dir)
     log_dir = output_dir / ".logs"
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -534,6 +594,9 @@ def run(args: argparse.Namespace) -> None:
     summary_json_path = output_dir / "summary.json"
 
     shards = discover_shards(data_roots)
+    if allowed_sources:
+        shards = [path for path in shards if infer_source_from_path(path) in allowed_sources]
+        print(f"Applied source filter: {sorted(allowed_sources)}")
     print(f"Found {len(shards)} shards.")
     for p in shards[:10]:
         print(" -", p)
@@ -651,13 +714,27 @@ def run(args: argparse.Namespace) -> None:
                         continue
 
                     attempted += 1
+                    row_source = infer_source_from_row(row) or infer_source_from_path(shard_path)
                     base_record: Dict[str, Any] = {
                         "uid": uid,
                         "source_file": str(shard_path),
                         "row_idx": row_idx,
+                        "source": row_source,
                     }
 
                     try:
+                        if allowed_sources and row_source not in allowed_sources:
+                            skipped += 1
+                            record = {
+                                **base_record,
+                                "status": "skipped_filtered_source",
+                                "allowed_sources": sorted(allowed_sources),
+                            }
+                            pred_out.write(json.dumps(record, ensure_ascii=False) + "\n")
+                            pred_out.flush()
+                            done_uids.add(uid)
+                            maybe_write_progress(str(shard_path), uid)
+                            continue
                         text, text_field = pick_text(row)
                         if text is None:
                             skipped += 1
@@ -769,6 +846,7 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--device", default="auto", choices=["auto", "cpu", "cuda"])
     ap.add_argument("--log-every", type=int, default=250, help="Write progress after this many completed rows.")
     ap.add_argument("--batch-size", type=int, default=None, help="Inference batch size. Defaults to 256 on CUDA, 32 on CPU.")
+    ap.add_argument("--allowed-source", action="append", default=[], help="Limit processing to rows/files from these sources, e.g. masc_c or qasr.")
     ap.add_argument("--max-samples", type=int, default=None)
     ap.add_argument("--resume", action="store_true")
     return ap

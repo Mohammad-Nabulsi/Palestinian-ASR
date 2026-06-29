@@ -1,0 +1,34 @@
+{
+  "time": "2026-06-29 13:48:47",
+  "attempted_in_this_run": 12500,
+  "completed_total": 14039,
+  "processed_ok_total": 12279,
+  "skipped_total": 1760,
+  "errors_total": 0,
+  "total_candidates": 91516,
+  "overall_progress_percentage": 15.3405,
+  "text_probabilities_path": "/home/MohammadNabulsi/whisper/Runs/text_dialect_scan_marbertv2_written_clean_qasr_only/row_probabilities.jsonl",
+  "text_target_label": "LEV",
+  "text_target_threshold": 0.8,
+  "current_file": "/home/MohammadNabulsi/whisper/.tmp_qasr_only_split_input/processed_qasr_segments__train__shard_000046.arrow__67d15e61ab__clean.parquet",
+  "current_uid": "processed_qasr_segments__train__shard_000046.arrow__67d15e61ab__clean.parquet:row=2895",
+  "elapsed_seconds": 5144.73,
+  "dialect_counts": {
+    "Maghrebi": 665,
+    "MSA": 3908,
+    "Egyptian": 1498,
+    "Gulf": 1364,
+    "Levantine": 4074,
+    "unseen": 770
+  },
+  "dialect_percentages": {
+    "Maghrebi": 5.4158,
+    "MSA": 31.8267,
+    "Egyptian": 12.1997,
+    "Gulf": 11.1084,
+    "Levantine": 33.1786,
+    "unseen": 6.2709
+  },
+  "unseen_count": 770,
+  "unseen_percentage": 6.2709
+}

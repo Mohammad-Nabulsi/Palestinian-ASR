@@ -1,0 +1,35 @@
+{
+  "time": "2026-06-27 15:23:44",
+  "attempted_in_this_run": 1439327,
+  "completed_total": 1439327,
+  "completed_before_run": 0,
+  "total_rows": 1494127,
+  "overall_progress_percentage": 96.3323,
+  "processed_ok_total": 1439327,
+  "skipped_total": 0,
+  "errors_total": 0,
+  "current_file": "DONE",
+  "current_uid": "DONE",
+  "elapsed_seconds": 2621.42,
+  "rows_per_second": 549.06,
+  "estimated_remaining_seconds": 99.81,
+  "estimated_remaining_human": "1m39s",
+  "dialect_counts": {
+    "MAGHREB": 53616,
+    "LEV": 184709,
+    "MSA": 975698,
+    "GLF": 63991,
+    "EGY": 49425,
+    "unseen": 111888
+  },
+  "dialect_percentages": {
+    "MAGHREB": 3.7251,
+    "LEV": 12.833,
+    "MSA": 67.7885,
+    "GLF": 4.4459,
+    "EGY": 3.4339,
+    "unseen": 7.7736
+  },
+  "unseen_count": 111888,
+  "unseen_percentage": 7.7736
+}

@@ -137,6 +137,34 @@ What this prompt was for:
 - Preserving Jordanian/Levantine dialect wording rather than converting it into MSA.
 - Producing normalized transcript records plus a conversion audit trail.
 
+### Layla In-Place Shard Cleaning
+
+A Layla-specific notebook now exists at:
+- [preprocess/fast_asr_data_cleaning_text_only_arrow_parquet_layla.ipynb](/home/MohammadNabulsi/whisper/preprocess/fast_asr_data_cleaning_text_only_arrow_parquet_layla.ipynb)
+
+What it targets:
+- staged Layla parquet shards directly under `data/`:
+  - `data/layla__data-00000-of-00004.parquet`
+  - `data/layla__data-00001-of-00004.parquet`
+  - `data/layla__data-00002-of-00004.parquet`
+  - `data/layla__data-00003-of-00004.parquet`
+
+How it was used:
+- The notebook was configured to discover only `layla__*.parquet` under `data/`.
+- It wrote temporary clean shards and reports to an intermediate root `L/`.
+- After verification, the cleaned Layla parquet shards were copied back in place over the original `data/layla__*.parquet` files.
+- The intermediate `L/` directory was then deleted.
+
+What changed in the staged Layla shards:
+- The staged Layla parquet files in `data/` now contain the original rows plus cleaning metadata columns such as:
+  - `manual_normalized_transcript`
+  - `flag_contains_bracket_token`
+  - `flag_contains_english`
+  - `flag_contains_number`
+  - `flag_audio_too_short`
+  - `flag_missing_duration`
+- This was an in-place staged-data refresh, not a separate long-lived cleaned-output directory like `data_cleaned_text_v1/`.
+
 ## Cleaning Outputs
 
 Both cleaned directories are text-cleaning outputs, not raw or audio-standardization outputs.
@@ -275,10 +303,12 @@ Treat these as final outputs of the fast text-cleaning pass:
 
 - `data_cleaned_text_v1/`
 - `data_cleaned_text_qasr_casablanca_omni_v1/`
+- `data_cleaned_text_merged_v1/`
 
 But note:
 - `data_cleaned_text_v1/` is final only for the broad notebook run, and that run effectively cleaned only `masc_c_only`
 - `data_cleaned_text_qasr_casablanca_omni_v1/` is the clearer multi-source cleaned dataset output
+- `data_cleaned_text_merged_v1/` is the post-merge consolidated root that combines both cleaned outputs into one `clean/`, one `dropped/`, and one `reports/` tree
 
 ## Folder Cheat Sheet
 
@@ -290,6 +320,279 @@ But note:
 - `data/`: staging root combining selected datasets
 - `data_cleaned_text_v1/`: broad fast text-cleaning output, effectively for `masc_c_only`
 - `data_cleaned_text_qasr_casablanca_omni_v1/`: targeted fast text-cleaning output for QASR + Casablanca + Omnilingual APC
+- `data_cleaned_text_merged_v1/`: merged cleaned-data root combining both cleaned outputs
+- `intermediate/merged_cleaned_sources/`: archived empty source roots after the merge step
+
+## Merge and Omnilingual English Audit
+
+After both cleaning runs existed, they were consolidated with:
+
+- [scripts/merge_cleaned_outputs_and_report.py](/home/MohammadNabulsi/whisper/scripts/merge_cleaned_outputs_and_report.py)
+
+What this script does:
+
+1. Moves the contents of:
+   - `data_cleaned_text_v1/`
+   - `data_cleaned_text_qasr_casablanca_omni_v1/`
+2. Merges them into:
+   - `data_cleaned_text_merged_v1/clean/`
+   - `data_cleaned_text_merged_v1/dropped/`
+   - `data_cleaned_text_merged_v1/reports/source_reports/<original_source_name>/`
+3. Archives the now-empty original source roots under:
+   - `intermediate/merged_cleaned_sources/`
+4. Scans dropped Omnilingual APC shards from:
+   - `data_cleaned_text_merged_v1/dropped/contains_english/omnilingual_apc*.parquet`
+5. Writes detailed reports of exact English tokens found to:
+   - `data_cleaned_text_merged_v1/reports/generated/omnilingual_contains_english_report.json`
+   - `data_cleaned_text_merged_v1/reports/generated/omnilingual_contains_english_report.md`
+   - `data_cleaned_text_merged_v1/reports/generated/merge_manifest.json`
+
+Important note on the Omnilingual English report:
+
+- English tokens are not only from transcript text.
+- They can also come from fields like `prompt`, `prompt_id`, `source_file`, and other metadata carried into dropped shards.
+- The generated report records token counts by field and row-level examples.
+
+## Omnilingual Recleaning and Recovery
+
+After the first merged audit, the Omnilingual APC subset was re-cleaned in explicit Python steps.
+
+### Step 1: Omnilingual `v2` reclean
+
+- Script:
+  - [scripts/reclean_omnilingual_v2.py](/home/MohammadNabulsi/whisper/scripts/reclean_omnilingual_v2.py)
+- Input root:
+  - `.intermediate_data/omnilingual_selected/apc_north_levantine_all_splits/`
+- Output root:
+  - `data_cleaned_text_omnilingual_v2/`
+
+What `v2` does before the English check:
+
+1. Removes placeholder terms such as:
+   - `hesitation`
+   - `noise`
+   - `unintelligible`
+   - `unintelligable`
+   - `unitlegable`
+2. Strips lone bracket markers:
+   - `<`
+   - `>`
+   - `[`
+   - `]`
+3. Preserves the original transcript in:
+   - `raw_text`
+4. Saves the pre-check text in:
+   - `precheck_text_v2`
+5. Saves punctuation-removed Arabic normalization in:
+   - `manual_normalized_transcript`
+
+Saved `v2` report summary:
+
+- `Total rows: 517`
+- `Kept rows: 406`
+- `Dropped contains_english: 111`
+
+### Step 2: Omnilingual token-span recovery
+
+- Script:
+  - [scripts/recover_omnilingual_token_span_rows_v3.py](/home/MohammadNabulsi/whisper/scripts/recover_omnilingual_token_span_rows_v3.py)
+- Input root:
+  - `data_cleaned_text_omnilingual_v2/dropped/contains_english/`
+- Output root:
+  - `data_cleaned_text_omnilingual_v3_recovered_from_v2/`
+
+What this recovery step does:
+
+1. Removes full token spans before re-checking English:
+   - `(...)`
+   - `[...]`
+   - `<...>`
+2. Recomputes normalized text on the span-stripped version.
+3. Returns rows that no longer contain English into:
+   - `recovered_clean/`
+4. Leaves still-English rows in:
+   - `still_contains_english/`
+
+Saved recovery counts:
+
+- `Input dropped-English rows from v2: 111`
+- `Recovered rows after removing full token spans: 10`
+- `Saved still_contains_english rows currently materialized on disk: 50`
+
+Key Omnilingual output locations:
+
+- `data_cleaned_text_omnilingual_v2/clean/`
+- `data_cleaned_text_omnilingual_v2/dropped/contains_english/`
+- `data_cleaned_text_omnilingual_v2/reports/summary.txt`
+- `data_cleaned_text_omnilingual_v3_recovered_from_v2/recovered_clean/`
+- `data_cleaned_text_omnilingual_v3_recovered_from_v2/still_contains_english/`
+- `data_cleaned_text_omnilingual_v3_recovered_from_v2/reports/summary.txt`
+
+## Working `data/` Copy With Final Kept Omnilingual Rows
+
+To create a working copy of the merged cleaned dataset and replace its Omnilingual clean subset with the final kept Omnilingual rows, use:
+
+- [scripts/create_data_with_final_omnilingual.py](/home/MohammadNabulsi/whisper/scripts/create_data_with_final_omnilingual.py)
+
+What this script does:
+
+1. Creates a new top-level `data/` directory as a hard-linked copy of:
+   - `data_cleaned_text_merged_v1/`
+2. Removes the original Omnilingual clean shards from:
+   - `data/clean/`
+3. Replaces them with the final kept Omnilingual rows from:
+   - `data_cleaned_text_omnilingual_v2/clean/`
+   - `data_cleaned_text_omnilingual_v3_recovered_from_v2/recovered_clean/`
+4. This yields `416` kept Omnilingual rows inside `data/clean/`.
+5. Writes a manifest to:
+   - `data/reports/generated/omnilingual_final_kept_manifest.json`
+6. Deletes the top-level intermediate directory:
+   - `intermediate/`
+
+Important note:
+
+- This `data/` copy replaces the Omnilingual clean data only.
+- The saved `still_contains_english/` materialization currently contains `50` rows on disk.
+- Because of that mismatch, this step does not replace Omnilingual dropped-English shards in `data/`.
+
+## Layla Prompt Merge and Sharding
+
+For the Layla normalization pass, the prompted outputs were manually uploaded and merged into these four JSON files:
+
+- `normalized_output_appended.json`
+- `normalized_layla_batch_130_appended_131.json`
+- `normalized_pasted_132_133_appended.json`
+- `normalized_pasted_text_134_135_136_appended.json`
+
+These JSON files contain the normalized text under `normalized`, and that text was written into the training column named `transcription`.
+
+The Layla sharding step then:
+
+1. Read the four merged JSON files.
+2. Matched each JSON `source` entry to the corresponding Layla audio file by removing `_Arabic_transcription` from the transcript filename and resolving the paired `.WAV` or `.wav`.
+3. Built Parquet training shards with:
+   - `audio`
+   - `seg_id`
+   - `transcription`
+   - `duration`
+   - `source_file`
+4. Wrote the Layla shards directly into `data/`.
+5. Moved the original `Layla/` source directory into:
+   - `.intermediate_data/Layla/`
+
+Layla shards written into `data/`:
+
+- `layla__data-00000-of-00004.parquet`
+- `layla__data-00001-of-00004.parquet`
+- `layla__data-00002-of-00004.parquet`
+- `layla__data-00003-of-00004.parquet`
+
+## Flattening `data/clean` Into `data/`
+
+After preparing the working dataset, the shard files under `data/clean/` were unpacked into `data/` directly so the training shards now live at the top level of `data/`.
+
+Moved shard files from `data/clean/` into `data/`:
+
+- `casablanca_jordanian__test-00000-of-00001.parquet__349f3208cf__clean.parquet`
+- `casablanca_jordanian__validation-00000-of-00001.parquet__4882d7d03b__clean.parquet`
+- `casablanca_palestinian__test-00000-of-00002.parquet__106b14e6b8__clean.parquet`
+- `casablanca_palestinian__test-00001-of-00002.parquet__6275edc7fa__clean.parquet`
+- `casablanca_palestinian__validation-00000-of-00002.parquet__b3a00f1492__clean.parquet`
+- `casablanca_palestinian__validation-00001-of-00002.parquet__a4a279ac0d__clean.parquet`
+- `masc_c_only__data__test-00000-of-00009.parquet__5ab0b5b7dc__clean.parquet`
+- `masc_c_only__data__test-00001-of-00009.parquet__2b38af7d8d__clean.parquet`
+- `masc_c_only__data__test-00002-of-00009.parquet__efb5ed1f66__clean.parquet`
+- `masc_c_only__data__test-00003-of-00009.parquet__133ba07b54__clean.parquet`
+- `masc_c_only__data__test-00004-of-00009.parquet__1defcdef6f__clean.parquet`
+- `masc_c_only__data__test-00005-of-00009.parquet__37f2aee764__clean.parquet`
+- `...`
+
+## Binary Levantine Split Curation
+
+To prepare the binary Levantine-vs-non-Levantine training layout, dialect identification was applied in two stages on the cleaned `masc_c` and `qasr` shards:
+
+1. Text dialect identification was run on the full cleaned MASC-C and QASR shards with:
+   - `Runs/text_dialect_scan_marbertv2_written_clean_masc_c_qasr/row_probabilities.jsonl`
+2. Audio dialect identification was then run only on the subset whose text-stage `LEV` probability was at least `0.80`, with:
+   - `Runs/dialect_scan_badrex_mms300m_lev08_text_candidates_masc_c_qasr/row_probabilities.jsonl`
+
+The binary rule used for the new shards is:
+
+- `lev`: rows from `masc_c` or `qasr` where text `LEV >= 0.80` and audio `Levantine >= 0.80`
+- `non_lev`: every other `masc_c` or `qasr` row
+
+The script that materializes this layout is:
+
+- [scripts/create_levant_non_levant_splits.py](/home/MohammadNabulsi/whisper/scripts/create_levant_non_levant_splits.py)
+
+What this script does:
+
+1. Reads the text-stage and audio-stage row probability files.
+2. Uses the audio-stage rows to mark the final accepted `lev` rows for `masc_c` and `qasr`.
+3. Treats all remaining `masc_c` and `qasr` rows as `non_lev`.
+4. Re-splits every source into fresh `train`, `val`, and `test` partitions with ratio `0.70 / 0.15 / 0.15`.
+5. Writes a new shard tree under:
+   - `data_curated_levant_binary_v1/`
+6. Saves a generation summary to:
+   - `data_curated_levant_binary_v1/reports/summary.json`
+
+The output directory layout is:
+
+- `train/masc/lev/`
+- `train/masc/non_lev/`
+- `train/qasr/lev/`
+- `train/qasr/non_lev/`
+- `train/omni/`
+- `train/layla/`
+- `train/casa/pal/`
+- `train/casa/jor/`
+- `val/...` with the same leaf directories
+- `test/...` with the same leaf directories
+
+Run command:
+
+```bash
+cd /home/MohammadNabulsi/whisper
+./.venv/bin/python scripts/create_levant_non_levant_splits.py --overwrite
+```
+
+## QASR Audio Classification Repair
+
+After the first binary Levantine split run, the QASR audio-stage results were audited and the failure mode was identified.
+
+What went wrong in the first QASR audio-stage run:
+
+- The QASR segment builder stores per-segment audio as raw PCM `int16` bytes in the `audio` field, alongside a separate `sampling_rate` column.
+- The original audio dialect scan logic attempted to open byte-valued audio with `torchaudio.load(BytesIO(...))`, which expects an encoded audio file stream such as WAV/FLAC/OGG.
+- Because of that mismatch, most QASR candidate rows failed during audio loading with `LibsndfileError` before a dialect prediction could be produced.
+
+What was changed to fix it:
+
+- [dialect_identifiaction/arabic_dialect_scan_badrex_mms300m.py](/home/MohammadNabulsi/whisper/dialect_identifiaction/arabic_dialect_scan_badrex_mms300m.py) was updated so byte-valued audio can be decoded in two modes:
+  - encoded audio bytes when the payload looks like WAV/FLAC/OGG metadata
+  - raw PCM `int16` bytes when a `sampling_rate` is present and the payload is not an encoded audio file stream
+- This specifically repairs the QASR case while preserving the working MASC byte-decoding path.
+
+The repair-and-rebuild orchestration script is:
+
+- [scripts/repair_qasr_audio_and_rebuild_levant_binary.py](/home/MohammadNabulsi/whisper/scripts/repair_qasr_audio_and_rebuild_levant_binary.py)
+
+What this repair script does:
+
+1. Re-runs audio dialect classification with the PCM-aware loader and writes a repaired audio-stage output under:
+   - `Runs/dialect_scan_badrex_mms300m_lev08_text_candidates_masc_c_qasr_qasrfix/`
+2. Rebuilds the binary Levantine split using the same double-threshold rule:
+   - text `LEV >= 0.80`
+   - audio `Levantine >= 0.80`
+3. Writes the rebuilt dataset under:
+   - `data_curated_levant_binary_v2_qasr_audio_fix/`
+
+Run command:
+
+```bash
+cd /home/MohammadNabulsi/whisper
+./.venv/bin/python scripts/repair_qasr_audio_and_rebuild_levant_binary.py
+```
 
 ## Related Utility Scripts
 
