@@ -48,3 +48,5 @@ requests
 fsspec
 gdown
 langcodes
+
+huggingface_hub
