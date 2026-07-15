@@ -1,0 +1,18 @@
+# Minimal deps for running the download/staging steps only
+# (QASR wget/tar, Casablanca + Omni download notebooks, MASC/Layla staging scripts).
+# Deliberately excludes torch/transformers/accelerate/bitsandbytes/etc,
+# which belong to the training venv (.venv), to keep this footprint small.
+
+huggingface_hub
+# NOTE: intentionally NOT datasets[audio] -- that extra pulls in torchcodec,
+# which drags the full CUDA torch stack (700MB+) as a transitive dependency.
+# Plain "datasets" + soundfile covers what the download notebooks actually use.
+datasets
+pandas
+pyarrow
+soundfile
+tqdm
+requests
+ipykernel
+nbclient
+nbformat

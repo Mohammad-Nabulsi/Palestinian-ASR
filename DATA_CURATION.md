@@ -27,6 +27,26 @@ These are the source datasets that appear in the repo and scripts:
 
 The older download/prep notes are still in [data.md](/home/MohammadNabulsi/whisper/data.md) history, but this file is the cleaned-up operational summary.
 
+### MASC source repo, confirmed
+
+The dataset card saved locally at `.intermediate_data/MASC-Arabic2/README.md` credits
+`https://huggingface.co/datasets/pain/MASC` as the "Original Dataset Repo" in its prose, but that
+is misleading: the card's own usage example calls `load_dataset("MohamedRashad/MASC-Arabic", ...)`,
+and a byte-for-byte comparison against both repos' live READMEs (via the HF Hub API) confirms the
+local card is an exact copy of `MohamedRashad/MASC-Arabic`'s card, not `pain/MASC`'s.
+
+**The correct Hugging Face repo for MASC in this project is `MohamedRashad/MASC-Arabic`.**
+
+Recorded splits from that same local dataset card (`dataset_info` block):
+
+- `train`: 875,873 examples
+- `validation`: 19,521 examples
+- `test`: 18,006 examples
+- `download_size`: ~184.87 GB
+- `dataset_size` (decompressed): ~209.19 GB
+
+Download notebook: [downlaod_notebooks/MASC/masc.ipynb](/home/MohammadNabulsi/whisper/downlaod_notebooks/MASC/masc.ipynb).
+
 ## Directory Meaning
 
 ### `processed_qasr_segments/`
