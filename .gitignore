@@ -1,8 +1,16 @@
 # Repository-specific local data and experiments
 QASR/
-models/
 .failed_experiment/
-.venv/
+
+# Virtualenvs (any name/depth - .venv, .venv_data, .venv_hf_upload, venv, etc.)
+.venv*/
+venv*/
+
+# Model directories (downloaded weights/checkpoints) - never track these, any depth/name
+models/
+**/models/
+*_model/
+*_models/
 
 # Whisper / fine-tuning artifacts
 Runs/**/models/
@@ -31,14 +39,18 @@ Runs/**/outputs/
 **/results.json
 
 # Local datasets and staged data roots
-data/
-data_*/
-processed_qasr_segments/
-omnilingual_selected/
-casablanca/
-Layla/
-QASR/
-segments/
+# NOTE: several of these are symlinks (-> /workspace/asr/Palestinian-ASR/...), and git's
+# trailing-slash "matches directories only" rule does NOT match symlinks even when they point
+# to a directory - so these are listed WITHOUT a trailing slash to also catch the symlink itself.
+data
+data_*
+processed_qasr_segments
+omnilingual_selected
+casablanca
+Layla
+QASR
+MASC-Arabic2
+segments
 
 # Common model and training artifact directories
 # outputs/
