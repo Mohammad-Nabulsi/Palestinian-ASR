@@ -36,6 +36,20 @@ real `torch.nn.Linear`, so **standard PEFT LoRA works** (`q/k/v/o_proj, gate/up/
 `torch.save` fallback needed (the big OmniASR headache does not apply here). See that notebook +
 `scratchpad/qwen_api_check.py` for the verified API.
 
+**Qwen notebook smoke run — PASS (GPU, 2026-07-16).** Ran `asr_qwen3_finetune.ipynb`
+top-to-bottom via nbconvert (kernel `qwen_gpu`): load 782.4M params → base predict WER 0.5135
+(coherent Arabic) → PEFT LoRA **23.3M trainable (2.89%)** on real `lora.Linear` → 2-epoch train
+with per-epoch train loss 20.18→16.13, val loss 15.84→13.17, val WER 0.404→0.386 → best PEFT
+adapter saved (`adapter_model.safetensors`, 93MB) + reloaded via `set_peft_model_state_dict` →
+tuned predict/eval → `SUMMARY.json`. Artifacts in `/workspace/asr_env/{preds,metrics,checkpoints}`
+under the `Qwen__Qwen3-ASR-0.6B-hf` slug. NOTE: like the OmniASR smoke run this is a **1/1/1
+plumbing test** — the test-set tuned WER (0.59) being worse than base (0.51) is meaningless noise
+from overfitting 2 epochs to a single train clip and evaluating on a different single test clip;
+the point proven is that every stage runs end-to-end, not accuracy. A benign transformers warning
+(`Kwargs ... have to be in processor_kwargs dict`) prints during collate/generate — cosmetic, the
+processor still produces correct features/output. Run either notebook for real by setting
+`SMOKE_TEST=False` (and, for Qwen, pointing `REAL_DATA_DIR` at your prepared splits).
+
 ## 2026-07-16 UPDATE — full notebook verified end-to-end on a real GPU ✅
 
 This box got a GPU (RTX PRO 4500, Blackwell / sm_120, 32GB) since the last session. Ran the
@@ -203,7 +217,8 @@ pip install jiwer
 
 | file | what |
 |---|---|
-| `asr_model_agnostic_finetune.ipynb` | the harness — **fixed**. Cell 6 = OmniASRAdapter + `_LoRALinear` |
+| `asr_model_agnostic_finetune.ipynb` | the OmniASR harness — **fixed + GPU-verified**. Cell 6 = OmniASRAdapter + `_LoRALinear`. Run with kernel `omni_gpu` (`/workspace/venv_omni_gpu`) |
+| `asr_qwen3_finetune.ipynb` | **NEW** — same pipeline for `Qwen/Qwen3-ASR-0.6B-hf` (transformers-native, chat-template train, real PEFT LoRA). Run with kernel `qwen_gpu` (`/workspace/venv_qwen_gpu`, transformers 5.14.1). Cell 6 = Qwen3ASRAdapter |
 | `DISCOVERY.md` | real API findings + assumption verdicts |
 | `SMOKE_RESULTS.md` | all evidence (plumbing + real gates + train path) + remaining GPU list |
 | `HANDOFF.md` | this file |
