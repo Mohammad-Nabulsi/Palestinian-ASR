@@ -1,0 +1,210 @@
+Imports ready.
+INPUT_ROOT: /workspace/asr/Palestinian-ASR/data
+OUTPUT_ROOT: /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_casablanca_omni_v1
+DISCOVERY_GLOBS:
+ - processed_qasr_segments/train/*.arrow
+ - casablanca_jordanian/*.parquet
+ - casablanca_palestinian/*.parquet
+ - omnilingual_apc/data-*.arrow
+RAW : أكلتُ التفاحةَ، وقال: آهـــ!
+NORM: اكلت التفاحة وقال اه
+english: False number: False bracket: False
+
+RAW : مرحبا [laugh] كيفك؟
+NORM: مرحبا laugh كيفك
+english: True number: False bracket: True
+
+RAW : test عربي
+NORM: test عربي
+english: True number: False bracket: False
+
+RAW : عندي ٣ كتب
+NORM: عندي ٣ كتب
+english: False number: True bracket: False
+
+Discovery summary:
+- processed_qasr_segments/train/*.arrow: 110 file(s)
+- casablanca_jordanian/*.parquet: 2 file(s)
+- casablanca_palestinian/*.parquet: 4 file(s)
+- omnilingual_apc/data-*.arrow: 3 file(s)
+Found parquet files: 6
+Found arrow files  : 113
+Found jsonl files  : 0
+Will process files : 119
+- /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000000.arrow
+- /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000001.arrow
+- /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000002.arrow
+- /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000003.arrow
+- /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000004.arrow
+- /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000005.arrow
+- /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000006.arrow
+- /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000007.arrow
+- /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000008.arrow
+- /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000009.arrow
+[2026-07-16 18:26:32] START cleaning
+[2026-07-16 18:26:32] Input files: 119
+[2026-07-16 18:26:32] Output root: /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_casablanca_omni_v1
+Files:   0%|          | 0/119 [00:00<?, ?it/s][2026-07-16 18:26:32] FILE 1/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000000.arrow
+Files:   1%|          | 1/119 [00:02<04:52,  2.48s/it][2026-07-16 18:26:34] FILE 2/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000001.arrow
+Files:   2%|▏         | 2/119 [00:04<04:31,  2.32s/it][2026-07-16 18:26:36] FILE 3/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000002.arrow
+Files:   3%|▎         | 3/119 [00:06<04:26,  2.29s/it][2026-07-16 18:26:39] FILE 4/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000003.arrow
+Files:   3%|▎         | 4/119 [00:09<04:20,  2.26s/it][2026-07-16 18:26:41] FILE 5/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000004.arrow
+Files:   4%|▍         | 5/119 [00:11<04:16,  2.25s/it][2026-07-16 18:26:43] FILE 6/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000005.arrow
+Files:   5%|▌         | 6/119 [00:13<04:09,  2.21s/it][2026-07-16 18:26:45] FILE 7/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000006.arrow
+Files:   6%|▌         | 7/119 [00:16<04:18,  2.31s/it][2026-07-16 18:26:48] FILE 8/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000007.arrow
+Files:   7%|▋         | 8/119 [00:18<04:17,  2.32s/it][2026-07-16 18:26:50] FILE 9/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000008.arrow
+Files:   8%|▊         | 9/119 [00:20<04:07,  2.25s/it][2026-07-16 18:26:52] FILE 10/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000009.arrow
+Files:   8%|▊         | 10/119 [00:22<04:11,  2.31s/it][2026-07-16 18:26:55] FILE 11/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000010.arrow
+Files:   9%|▉         | 11/119 [00:25<04:06,  2.29s/it][2026-07-16 18:26:57] FILE 12/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000011.arrow
+Files:  10%|█         | 12/119 [00:27<04:05,  2.30s/it][2026-07-16 18:26:59] FILE 13/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000012.arrow
+[2026-07-16 18:27:01] PROGRESS rows=50,608 kept=47,773 dropped=2,835 rows/sec=1,703.4
+Files:  11%|█         | 13/119 [00:29<04:01,  2.28s/it][2026-07-16 18:27:01] FILE 14/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000013.arrow
+Files:  12%|█▏        | 14/119 [00:31<03:59,  2.28s/it][2026-07-16 18:27:04] FILE 15/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000014.arrow
+Files:  13%|█▎        | 15/119 [00:34<04:02,  2.33s/it][2026-07-16 18:27:06] FILE 16/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000015.arrow
+Files:  13%|█▎        | 16/119 [00:36<03:59,  2.33s/it][2026-07-16 18:27:08] FILE 17/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000016.arrow
+Files:  14%|█▍        | 17/119 [00:39<04:00,  2.36s/it][2026-07-16 18:27:11] FILE 18/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000017.arrow
+Files:  15%|█▌        | 18/119 [00:41<03:54,  2.32s/it][2026-07-16 18:27:13] FILE 19/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000018.arrow
+Files:  16%|█▌        | 19/119 [00:43<03:53,  2.34s/it][2026-07-16 18:27:15] FILE 20/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000019.arrow
+Files:  17%|█▋        | 20/119 [00:46<03:56,  2.39s/it][2026-07-16 18:27:18] FILE 21/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000020.arrow
+Files:  18%|█▊        | 21/119 [00:48<03:49,  2.34s/it][2026-07-16 18:27:20] FILE 22/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000021.arrow
+Files:  18%|█▊        | 22/119 [00:50<03:50,  2.38s/it][2026-07-16 18:27:23] FILE 23/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000022.arrow
+Files:  19%|█▉        | 23/119 [00:53<03:43,  2.33s/it][2026-07-16 18:27:25] FILE 24/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000023.arrow
+Files:  20%|██        | 24/119 [00:55<03:42,  2.35s/it][2026-07-16 18:27:27] FILE 25/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000024.arrow
+Files:  21%|██        | 25/119 [00:57<03:40,  2.35s/it][2026-07-16 18:27:30] FILE 26/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000025.arrow
+[2026-07-16 18:27:32] PROGRESS rows=101,488 kept=96,002 dropped=5,486 rows/sec=1,681.1
+Files:  22%|██▏       | 26/119 [01:00<03:40,  2.37s/it][2026-07-16 18:27:32] FILE 27/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000026.arrow
+Files:  23%|██▎       | 27/119 [01:02<03:36,  2.36s/it][2026-07-16 18:27:34] FILE 28/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000027.arrow
+Files:  24%|██▎       | 28/119 [01:05<03:35,  2.36s/it][2026-07-16 18:27:37] FILE 29/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000028.arrow
+Files:  24%|██▍       | 29/119 [01:07<03:32,  2.36s/it][2026-07-16 18:27:39] FILE 30/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000029.arrow
+Files:  25%|██▌       | 30/119 [01:09<03:33,  2.39s/it][2026-07-16 18:27:42] FILE 31/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000030.arrow
+Files:  26%|██▌       | 31/119 [01:12<03:34,  2.44s/it][2026-07-16 18:27:44] FILE 32/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000031.arrow
+Files:  27%|██▋       | 32/119 [01:14<03:33,  2.46s/it][2026-07-16 18:27:47] FILE 33/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000032.arrow
+Files:  28%|██▊       | 33/119 [01:17<03:28,  2.42s/it][2026-07-16 18:27:49] FILE 34/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000033.arrow
+Files:  29%|██▊       | 34/119 [01:19<03:21,  2.37s/it][2026-07-16 18:27:51] FILE 35/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000034.arrow
+Files:  29%|██▉       | 35/119 [01:21<03:16,  2.34s/it][2026-07-16 18:27:53] FILE 36/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000035.arrow
+Files:  30%|███       | 36/119 [01:24<03:18,  2.39s/it][2026-07-16 18:27:56] FILE 37/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000036.arrow
+Files:  31%|███       | 37/119 [01:26<03:19,  2.43s/it][2026-07-16 18:27:58] FILE 38/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000037.arrow
+Files:  32%|███▏      | 38/119 [01:29<03:12,  2.37s/it][2026-07-16 18:28:01] FILE 39/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000038.arrow
+[2026-07-16 18:28:03] PROGRESS rows=151,762 kept=143,314 dropped=8,448 rows/sec=1,659.3
+Files:  33%|███▎      | 39/119 [01:31<03:10,  2.38s/it][2026-07-16 18:28:03] FILE 40/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000039.arrow
+Files:  34%|███▎      | 40/119 [01:33<03:03,  2.32s/it][2026-07-16 18:28:05] FILE 41/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000040.arrow
+Files:  34%|███▍      | 41/119 [01:36<03:03,  2.36s/it][2026-07-16 18:28:08] FILE 42/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000041.arrow
+Files:  35%|███▌      | 42/119 [01:38<03:04,  2.40s/it][2026-07-16 18:28:10] FILE 43/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000042.arrow
+Files:  36%|███▌      | 43/119 [01:40<02:56,  2.32s/it][2026-07-16 18:28:12] FILE 44/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000043.arrow
+Files:  37%|███▋      | 44/119 [01:42<02:48,  2.25s/it][2026-07-16 18:28:14] FILE 45/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000044.arrow
+Files:  38%|███▊      | 45/119 [01:45<02:49,  2.29s/it][2026-07-16 18:28:17] FILE 46/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000045.arrow
+Files:  39%|███▊      | 46/119 [01:47<02:43,  2.24s/it][2026-07-16 18:28:19] FILE 47/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000046.arrow
+Files:  39%|███▉      | 47/119 [01:49<02:40,  2.23s/it][2026-07-16 18:28:21] FILE 48/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000047.arrow
+Files:  40%|████      | 48/119 [01:51<02:38,  2.24s/it][2026-07-16 18:28:23] FILE 49/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000048.arrow
+Files:  41%|████      | 49/119 [01:54<02:38,  2.27s/it][2026-07-16 18:28:26] FILE 50/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000049.arrow
+Files:  42%|████▏     | 50/119 [01:56<02:39,  2.31s/it][2026-07-16 18:28:28] FILE 51/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000050.arrow
+Files:  43%|████▎     | 51/119 [01:58<02:36,  2.30s/it][2026-07-16 18:28:30] FILE 52/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000051.arrow
+[2026-07-16 18:28:33] PROGRESS rows=203,664 kept=191,994 dropped=11,670 rows/sec=1,681.5
+Files:  44%|████▎     | 52/119 [02:01<02:34,  2.31s/it][2026-07-16 18:28:33] FILE 53/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000052.arrow
+Files:  45%|████▍     | 53/119 [02:03<02:29,  2.27s/it][2026-07-16 18:28:35] FILE 54/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000053.arrow
+Files:  45%|████▌     | 54/119 [02:05<02:29,  2.30s/it][2026-07-16 18:28:37] FILE 55/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000054.arrow
+Files:  46%|████▌     | 55/119 [02:08<02:28,  2.32s/it][2026-07-16 18:28:40] FILE 56/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000055.arrow
+Files:  47%|████▋     | 56/119 [02:10<02:24,  2.29s/it][2026-07-16 18:28:42] FILE 57/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000056.arrow
+Files:  48%|████▊     | 57/119 [02:12<02:23,  2.32s/it][2026-07-16 18:28:44] FILE 58/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000057.arrow
+Files:  49%|████▊     | 58/119 [02:14<02:16,  2.25s/it][2026-07-16 18:28:46] FILE 59/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000058.arrow
+Files:  50%|████▉     | 59/119 [02:17<02:22,  2.38s/it][2026-07-16 18:28:49] FILE 60/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000059.arrow
+Files:  50%|█████     | 60/119 [02:19<02:21,  2.40s/it][2026-07-16 18:28:51] FILE 61/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000060.arrow
+Files:  51%|█████▏    | 61/119 [02:22<02:18,  2.39s/it][2026-07-16 18:28:54] FILE 62/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000061.arrow
+Files:  52%|█████▏    | 62/119 [02:24<02:18,  2.44s/it][2026-07-16 18:28:56] FILE 63/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000062.arrow
+Files:  53%|█████▎    | 63/119 [02:27<02:24,  2.58s/it][2026-07-16 18:28:59] FILE 64/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000063.arrow
+Files:  54%|█████▍    | 64/119 [02:29<02:18,  2.51s/it][2026-07-16 18:29:02] FILE 65/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000064.arrow
+[2026-07-16 18:29:04] PROGRESS rows=253,730 kept=238,972 dropped=14,758 rows/sec=1,666.3
+Files:  55%|█████▍    | 65/119 [02:32<02:11,  2.44s/it][2026-07-16 18:29:04] FILE 66/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000065.arrow
+Files:  55%|█████▌    | 66/119 [02:34<02:09,  2.43s/it][2026-07-16 18:29:06] FILE 67/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000066.arrow
+Files:  56%|█████▋    | 67/119 [02:37<02:09,  2.49s/it][2026-07-16 18:29:09] FILE 68/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000067.arrow
+Files:  57%|█████▋    | 68/119 [02:39<02:03,  2.43s/it][2026-07-16 18:29:11] FILE 69/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000068.arrow
+Files:  58%|█████▊    | 69/119 [02:42<02:03,  2.46s/it][2026-07-16 18:29:14] FILE 70/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000069.arrow
+Files:  59%|█████▉    | 70/119 [02:44<02:00,  2.46s/it][2026-07-16 18:29:16] FILE 71/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000070.arrow
+Files:  60%|█████▉    | 71/119 [02:46<01:54,  2.39s/it][2026-07-16 18:29:18] FILE 72/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000071.arrow
+Files:  61%|██████    | 72/119 [02:49<01:52,  2.39s/it][2026-07-16 18:29:21] FILE 73/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000072.arrow
+Files:  61%|██████▏   | 73/119 [02:51<01:52,  2.44s/it][2026-07-16 18:29:23] FILE 74/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000073.arrow
+Files:  62%|██████▏   | 74/119 [02:54<01:48,  2.42s/it][2026-07-16 18:29:26] FILE 75/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000074.arrow
+Files:  63%|██████▎   | 75/119 [02:56<01:43,  2.36s/it][2026-07-16 18:29:28] FILE 76/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000075.arrow
+Files:  64%|██████▍   | 76/119 [02:58<01:42,  2.38s/it][2026-07-16 18:29:30] FILE 77/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000076.arrow
+Files:  65%|██████▍   | 77/119 [03:01<01:41,  2.43s/it][2026-07-16 18:29:33] FILE 78/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000077.arrow
+Files:  66%|██████▌   | 78/119 [03:03<01:42,  2.49s/it][2026-07-16 18:29:36] FILE 79/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000078.arrow
+[2026-07-16 18:29:38] PROGRESS rows=307,210 kept=289,142 dropped=18,068 rows/sec=1,649.2
+Files:  66%|██████▋   | 79/119 [03:06<01:37,  2.43s/it][2026-07-16 18:29:38] FILE 80/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000079.arrow
+Files:  67%|██████▋   | 80/119 [03:08<01:32,  2.37s/it][2026-07-16 18:29:40] FILE 81/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000080.arrow
+Files:  68%|██████▊   | 81/119 [03:10<01:28,  2.32s/it][2026-07-16 18:29:42] FILE 82/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000081.arrow
+Files:  69%|██████▉   | 82/119 [03:13<01:27,  2.35s/it][2026-07-16 18:29:45] FILE 83/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000082.arrow
+Files:  70%|██████▉   | 83/119 [03:15<01:26,  2.39s/it][2026-07-16 18:29:47] FILE 84/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000083.arrow
+Files:  71%|███████   | 84/119 [03:18<01:25,  2.44s/it][2026-07-16 18:29:50] FILE 85/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000084.arrow
+Files:  71%|███████▏  | 85/119 [03:20<01:20,  2.37s/it][2026-07-16 18:29:52] FILE 86/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000085.arrow
+Files:  72%|███████▏  | 86/119 [03:22<01:18,  2.37s/it][2026-07-16 18:29:54] FILE 87/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000086.arrow
+Files:  73%|███████▎  | 87/119 [03:25<01:17,  2.41s/it][2026-07-16 18:29:57] FILE 88/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000087.arrow
+Files:  74%|███████▍  | 88/119 [03:27<01:13,  2.37s/it][2026-07-16 18:29:59] FILE 89/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000088.arrow
+Files:  75%|███████▍  | 89/119 [03:29<01:10,  2.36s/it][2026-07-16 18:30:01] FILE 90/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000089.arrow
+Files:  76%|███████▌  | 90/119 [03:32<01:10,  2.42s/it][2026-07-16 18:30:04] FILE 91/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000090.arrow
+Files:  76%|███████▋  | 91/119 [03:34<01:07,  2.41s/it][2026-07-16 18:30:06] FILE 92/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000091.arrow
+Files:  77%|███████▋  | 92/119 [03:37<01:04,  2.39s/it][2026-07-16 18:30:09] FILE 93/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000092.arrow
+[2026-07-16 18:30:11] PROGRESS rows=360,226 kept=339,062 dropped=21,164 rows/sec=1,640.8
+Files:  78%|███████▊  | 93/119 [03:39<01:02,  2.39s/it][2026-07-16 18:30:11] FILE 94/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000093.arrow
+Files:  79%|███████▉  | 94/119 [03:41<00:59,  2.38s/it][2026-07-16 18:30:14] FILE 95/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000094.arrow
+Files:  80%|███████▉  | 95/119 [03:44<00:56,  2.36s/it][2026-07-16 18:30:16] FILE 96/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000095.arrow
+Files:  81%|████████  | 96/119 [03:46<00:53,  2.34s/it][2026-07-16 18:30:18] FILE 97/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000096.arrow
+Files:  82%|████████▏ | 97/119 [03:48<00:51,  2.36s/it][2026-07-16 18:30:21] FILE 98/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000097.arrow
+Files:  82%|████████▏ | 98/119 [03:51<00:48,  2.33s/it][2026-07-16 18:30:23] FILE 99/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000098.arrow
+Files:  83%|████████▎ | 99/119 [03:53<00:46,  2.31s/it][2026-07-16 18:30:25] FILE 100/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000099.arrow
+Files:  84%|████████▍ | 100/119 [03:55<00:44,  2.34s/it][2026-07-16 18:30:27] FILE 101/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000100.arrow
+Files:  85%|████████▍ | 101/119 [03:58<00:44,  2.45s/it][2026-07-16 18:30:30] FILE 102/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000101.arrow
+Files:  86%|████████▌ | 102/119 [04:00<00:40,  2.41s/it][2026-07-16 18:30:32] FILE 103/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000102.arrow
+Files:  87%|████████▋ | 103/119 [04:03<00:38,  2.41s/it][2026-07-16 18:30:35] FILE 104/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000103.arrow
+Files:  87%|████████▋ | 104/119 [04:05<00:35,  2.35s/it][2026-07-16 18:30:37] FILE 105/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000104.arrow
+Files:  88%|████████▊ | 105/119 [04:07<00:32,  2.31s/it][2026-07-16 18:30:39] FILE 106/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000105.arrow
+Files:  89%|████████▉ | 106/119 [04:10<00:30,  2.33s/it][2026-07-16 18:30:42] FILE 107/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000106.arrow
+[2026-07-16 18:30:44] PROGRESS rows=414,080 kept=390,047 dropped=24,033 rows/sec=1,639.2
+Files:  90%|████████▉ | 107/119 [04:12<00:28,  2.39s/it][2026-07-16 18:30:44] FILE 108/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000107.arrow
+Files:  91%|█████████ | 108/119 [04:14<00:25,  2.31s/it][2026-07-16 18:30:46] FILE 109/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000108.arrow
+Files:  92%|█████████▏| 109/119 [04:16<00:22,  2.26s/it][2026-07-16 18:30:49] FILE 110/119: /workspace/asr/Palestinian-ASR/data/processed_qasr_segments/train/shard_000109.arrow
+Files:  92%|█████████▏| 110/119 [04:18<00:17,  1.96s/it][2026-07-16 18:30:50] FILE 111/119: /workspace/asr/Palestinian-ASR/data/casablanca_jordanian/test-00000-of-00001.parquet
+Files:  93%|█████████▎| 111/119 [04:21<00:18,  2.26s/it][2026-07-16 18:30:53] FILE 112/119: /workspace/asr/Palestinian-ASR/data/casablanca_jordanian/validation-00000-of-00001.parquet
+Files:  94%|█████████▍| 112/119 [04:23<00:15,  2.25s/it][2026-07-16 18:30:55] FILE 113/119: /workspace/asr/Palestinian-ASR/data/casablanca_palestinian/test-00000-of-00002.parquet
+Files:  95%|█████████▍| 113/119 [04:25<00:12,  2.10s/it][2026-07-16 18:30:57] FILE 114/119: /workspace/asr/Palestinian-ASR/data/casablanca_palestinian/test-00001-of-00002.parquet
+Files:  96%|█████████▌| 114/119 [04:26<00:09,  1.95s/it][2026-07-16 18:30:58] FILE 115/119: /workspace/asr/Palestinian-ASR/data/casablanca_palestinian/validation-00000-of-00002.parquet
+Files:  97%|█████████▋| 115/119 [04:28<00:07,  1.85s/it][2026-07-16 18:31:00] FILE 116/119: /workspace/asr/Palestinian-ASR/data/casablanca_palestinian/validation-00001-of-00002.parquet
+Files:  97%|█████████▋| 116/119 [04:29<00:05,  1.77s/it][2026-07-16 18:31:01] FILE 117/119: /workspace/asr/Palestinian-ASR/data/omnilingual_apc/data-00000-of-00003.arrow
+Files:  98%|█████████▊| 117/119 [04:36<00:06,  3.21s/it][2026-07-16 18:31:08] FILE 118/119: /workspace/asr/Palestinian-ASR/data/omnilingual_apc/data-00001-of-00003.arrow
+Files:  99%|█████████▉| 118/119 [04:43<00:04,  4.47s/it][2026-07-16 18:31:15] FILE 119/119: /workspace/asr/Palestinian-ASR/data/omnilingual_apc/data-00002-of-00003.arrow
+Files: 100%|██████████| 119/119 [04:50<00:00,  5.19s/it]Files: 100%|██████████| 119/119 [04:50<00:00,  2.44s/it]
+[2026-07-16 18:31:27] DONE rows=427,633 elapsed_min=4.92
+{'total': 427633, 'kept': 402699, 'contains_english': 2302, 'dropped_contains_english': 2302, 'contains_number': 20740, 'dropped_contains_number': 20639, 'audio_too_short': 2044, 'dropped_audio_too_short': 1993, 'contains_bracket_token': 462}
+Reports written to: /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_casablanca_omni_v1/reports
+                  dataset  ...  pct_dropped_contains_number
+0                apc_Arab  ...                          NaN
+1    casablanca_jordanian  ...                          NaN
+2  casablanca_palestinian  ...                          NaN
+3                    qasr  ...                     4.866702
+
+[4 rows x 22 columns]
+Clean shards: 119
+
+Dropped folders:
+- audio_too_short: 112 shard(s)
+- contains_english: 115 shard(s)
+- contains_number: 110 shard(s)
+
+Report files:
+- /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_casablanca_omni_v1/reports/cleaning_report.json
+- /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_casablanca_omni_v1/reports/config.json
+- /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_casablanca_omni_v1/reports/per_dataset_report.csv
+- /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_casablanca_omni_v1/reports/run.log
+- /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_casablanca_omni_v1/reports/run_manifest.json
+                                       transcription  ... flag_contains_bracket_token
+0  ول علي وعلى بختي ما في ناس تهتم فيي ولا بمستقب...  ...                       False
+1  اخرته اخرته ينكشف عالبدري ها لا تسولف علي ولا ...  ...                       False
+2         حكيت بدك تيجي تسهر عنا ولا نسيت مثل عوايدك  ...                       False
+3                    ما بهمني المهم إمي تعمل العملية  ...                       False
+4  و هم إذا مسكوك بياخذوا المصاري، ولا شو مفكر أن...  ...                       False
+5  صار معهم حادث، الشاحنة طلعت فوق السيارة اللي ك...  ...                       False
+6                        طيب، استناني هون أنا راجعلك  ...                       False
+7  و ليش لما أختك قالت لك تستناني لما اصحى ما ردي...  ...                       False
+8  طيب بس بس ادخل جوا عند أمك و أختك و أوعى تنام ...  ...                       False
+9  اللي بخفف علي هو إنه أتطمن عليكوا قبل ما الله ...  ...                       False
+
+[10 rows x 5 columns]

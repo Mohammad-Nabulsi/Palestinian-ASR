@@ -1,0 +1,492 @@
+Imports ready.
+INPUT_ROOT: /workspace/asr/Palestinian-ASR/data
+OUTPUT_ROOT: /workspace/asr/Palestinian-ASR/data_cleaned_text_v1
+RAW : أكلتُ التفاحةَ، وقال: آهـــ!
+NORM: اكلت التفاحة وقال اه
+english: False number: False bracket: False
+
+RAW : مرحبا [laugh] كيفك؟
+NORM: مرحبا laugh كيفك
+english: True number: False bracket: True
+
+RAW : test عربي
+NORM: test عربي
+english: True number: False bracket: False
+
+RAW : عندي ٣ كتب
+NORM: عندي ٣ كتب
+english: False number: True bracket: False
+
+Found parquet files: 417
+Found arrow files  : 0
+Found jsonl files  : 0
+Will process files : 417
+- /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00000-of-00009.parquet
+- /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00001-of-00009.parquet
+- /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00002-of-00009.parquet
+- /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00003-of-00009.parquet
+- /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00004-of-00009.parquet
+- /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00005-of-00009.parquet
+- /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00006-of-00009.parquet
+- /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00007-of-00009.parquet
+- /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00008-of-00009.parquet
+- /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00000-of-00400.parquet
+[2026-07-16 17:49:25] START cleaning
+[2026-07-16 17:49:25] Input files: 417
+[2026-07-16 17:49:25] Output root: /workspace/asr/Palestinian-ASR/data_cleaned_text_v1
+Files:   0%|          | 0/417 [00:00<?, ?it/s][2026-07-16 17:49:25] FILE 1/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00000-of-00009.parquet
+Files:   0%|          | 1/417 [03:23<23:33:44, 203.91s/it][2026-07-16 17:52:49] FILE 2/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00001-of-00009.parquet
+Files:   0%|          | 2/417 [06:47<23:27:19, 203.47s/it][2026-07-16 17:56:12] FILE 3/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00002-of-00009.parquet
+Files:   1%|          | 3/417 [10:38<24:50:43, 216.05s/it][2026-07-16 18:00:03] FILE 4/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00003-of-00009.parquet
+Files:   1%|          | 4/417 [14:21<25:07:19, 218.98s/it][2026-07-16 18:03:46] FILE 5/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00004-of-00009.parquet
+Files:   1%|          | 5/417 [18:01<25:06:06, 219.34s/it][2026-07-16 18:07:26] FILE 6/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00005-of-00009.parquet
+Files:   1%|▏         | 6/417 [21:54<25:34:06, 223.96s/it][2026-07-16 18:11:19] FILE 7/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00006-of-00009.parquet
+Files:   2%|▏         | 7/417 [25:28<25:07:36, 220.63s/it][2026-07-16 18:14:53] FILE 8/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00007-of-00009.parquet
+Files:   2%|▏         | 8/417 [25:59<18:12:15, 160.23s/it][2026-07-16 18:15:24] FILE 9/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/test-00008-of-00009.parquet
+Files:   2%|▏         | 9/417 [26:00<12:32:36, 110.68s/it][2026-07-16 18:15:26] FILE 10/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00000-of-00400.parquet
+Files:   2%|▏         | 10/417 [26:02<8:43:23, 77.16s/it] [2026-07-16 18:15:28] FILE 11/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00001-of-00400.parquet
+Files:   3%|▎         | 11/417 [26:04<6:05:52, 54.07s/it][2026-07-16 18:15:29] FILE 12/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00002-of-00400.parquet
+Files:   3%|▎         | 12/417 [26:06<4:16:53, 38.06s/it][2026-07-16 18:15:31] FILE 13/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00003-of-00400.parquet
+Files:   3%|▎         | 13/417 [26:07<3:01:08, 26.90s/it][2026-07-16 18:15:32] FILE 14/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00004-of-00400.parquet
+Files:   3%|▎         | 14/417 [26:08<2:08:56, 19.20s/it][2026-07-16 18:15:34] FILE 15/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00005-of-00400.parquet
+Files:   4%|▎         | 15/417 [26:10<1:32:47, 13.85s/it][2026-07-16 18:15:35] FILE 16/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00006-of-00400.parquet
+Files:   4%|▍         | 16/417 [26:11<1:07:58, 10.17s/it][2026-07-16 18:15:37] FILE 17/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00007-of-00400.parquet
+Files:   4%|▍         | 17/417 [26:13<50:39,  7.60s/it]  [2026-07-16 18:15:38] FILE 18/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00008-of-00400.parquet
+Files:   4%|▍         | 18/417 [26:15<38:50,  5.84s/it][2026-07-16 18:15:40] FILE 19/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00009-of-00400.parquet
+Files:   5%|▍         | 19/417 [26:16<29:44,  4.48s/it][2026-07-16 18:15:41] FILE 20/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00010-of-00400.parquet
+Files:   5%|▍         | 20/417 [26:18<23:48,  3.60s/it][2026-07-16 18:15:43] FILE 21/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00011-of-00400.parquet
+Files:   5%|▌         | 21/417 [26:19<19:35,  2.97s/it][2026-07-16 18:15:44] FILE 22/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00012-of-00400.parquet
+Files:   5%|▌         | 22/417 [26:21<17:41,  2.69s/it][2026-07-16 18:15:46] FILE 23/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00013-of-00400.parquet
+Files:   6%|▌         | 23/417 [26:22<15:02,  2.29s/it][2026-07-16 18:15:48] FILE 24/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00014-of-00400.parquet
+Files:   6%|▌         | 24/417 [26:24<13:29,  2.06s/it][2026-07-16 18:15:49] FILE 25/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00015-of-00400.parquet
+Files:   6%|▌         | 25/417 [26:25<11:58,  1.83s/it][2026-07-16 18:15:51] FILE 26/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00016-of-00400.parquet
+Files:   6%|▌         | 26/417 [26:27<11:36,  1.78s/it][2026-07-16 18:15:52] FILE 27/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00017-of-00400.parquet
+Files:   6%|▋         | 27/417 [26:29<11:23,  1.75s/it][2026-07-16 18:15:54] FILE 28/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00018-of-00400.parquet
+Files:   7%|▋         | 28/417 [26:30<10:45,  1.66s/it][2026-07-16 18:15:55] FILE 29/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00019-of-00400.parquet
+Files:   7%|▋         | 29/417 [26:31<09:56,  1.54s/it][2026-07-16 18:15:57] FILE 30/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00020-of-00400.parquet
+Files:   7%|▋         | 30/417 [26:33<09:56,  1.54s/it][2026-07-16 18:15:58] FILE 31/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00021-of-00400.parquet
+Files:   7%|▋         | 31/417 [26:35<10:10,  1.58s/it][2026-07-16 18:16:00] FILE 32/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00022-of-00400.parquet
+Files:   8%|▊         | 32/417 [26:36<10:28,  1.63s/it][2026-07-16 18:16:02] FILE 33/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00023-of-00400.parquet
+Files:   8%|▊         | 33/417 [26:38<10:16,  1.61s/it][2026-07-16 18:16:03] FILE 34/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00024-of-00400.parquet
+Files:   8%|▊         | 34/417 [26:39<09:52,  1.55s/it][2026-07-16 18:16:05] FILE 35/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00025-of-00400.parquet
+Files:   8%|▊         | 35/417 [26:41<09:25,  1.48s/it][2026-07-16 18:16:06] FILE 36/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00026-of-00400.parquet
+Files:   9%|▊         | 36/417 [26:42<09:57,  1.57s/it][2026-07-16 18:16:08] FILE 37/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00027-of-00400.parquet
+Files:   9%|▉         | 37/417 [26:44<10:23,  1.64s/it][2026-07-16 18:16:09] FILE 38/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00028-of-00400.parquet
+Files:   9%|▉         | 38/417 [26:46<10:07,  1.60s/it][2026-07-16 18:16:11] FILE 39/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00029-of-00400.parquet
+Files:   9%|▉         | 39/417 [26:47<09:26,  1.50s/it][2026-07-16 18:16:12] FILE 40/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00030-of-00400.parquet
+Files:  10%|▉         | 40/417 [26:48<08:54,  1.42s/it][2026-07-16 18:16:13] FILE 41/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00031-of-00400.parquet
+Files:  10%|▉         | 41/417 [26:50<08:50,  1.41s/it][2026-07-16 18:16:15] FILE 42/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00032-of-00400.parquet
+Files:  10%|█         | 42/417 [26:52<10:05,  1.62s/it][2026-07-16 18:16:17] FILE 43/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00033-of-00400.parquet
+Files:  10%|█         | 43/417 [26:53<10:00,  1.60s/it][2026-07-16 18:16:18] FILE 44/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00034-of-00400.parquet
+Files:  11%|█         | 44/417 [26:55<10:20,  1.66s/it][2026-07-16 18:16:20] FILE 45/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00035-of-00400.parquet
+Files:  11%|█         | 45/417 [26:56<09:58,  1.61s/it][2026-07-16 18:16:22] FILE 46/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00036-of-00400.parquet
+Files:  11%|█         | 46/417 [26:58<09:47,  1.58s/it][2026-07-16 18:16:23] FILE 47/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00037-of-00400.parquet
+Files:  11%|█▏        | 47/417 [27:00<09:48,  1.59s/it][2026-07-16 18:16:25] FILE 48/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00038-of-00400.parquet
+Files:  12%|█▏        | 48/417 [27:01<09:58,  1.62s/it][2026-07-16 18:16:27] FILE 49/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00039-of-00400.parquet
+Files:  12%|█▏        | 49/417 [27:03<09:37,  1.57s/it][2026-07-16 18:16:28] FILE 50/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00040-of-00400.parquet
+Files:  12%|█▏        | 50/417 [27:05<10:01,  1.64s/it][2026-07-16 18:16:30] FILE 51/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00041-of-00400.parquet
+Files:  12%|█▏        | 51/417 [27:06<09:36,  1.58s/it][2026-07-16 18:16:31] FILE 52/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00042-of-00400.parquet
+Files:  12%|█▏        | 52/417 [27:08<09:47,  1.61s/it][2026-07-16 18:16:33] FILE 53/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00043-of-00400.parquet
+Files:  13%|█▎        | 53/417 [27:10<10:26,  1.72s/it][2026-07-16 18:16:35] FILE 54/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00044-of-00400.parquet
+Files:  13%|█▎        | 54/417 [27:11<10:05,  1.67s/it][2026-07-16 18:16:36] FILE 55/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00045-of-00400.parquet
+Files:  13%|█▎        | 55/417 [27:12<09:21,  1.55s/it][2026-07-16 18:16:38] FILE 56/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00046-of-00400.parquet
+[2026-07-16 18:16:39] PROGRESS rows=50,736 kept=50,715 dropped=21 rows/sec=31.0
+Files:  13%|█▎        | 56/417 [27:14<09:03,  1.51s/it][2026-07-16 18:16:39] FILE 57/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00047-of-00400.parquet
+Files:  14%|█▎        | 57/417 [27:15<09:10,  1.53s/it][2026-07-16 18:16:41] FILE 58/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00048-of-00400.parquet
+Files:  14%|█▍        | 58/417 [27:17<09:21,  1.56s/it][2026-07-16 18:16:42] FILE 59/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00049-of-00400.parquet
+Files:  14%|█▍        | 59/417 [27:18<08:48,  1.47s/it][2026-07-16 18:16:44] FILE 60/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00050-of-00400.parquet
+Files:  14%|█▍        | 60/417 [27:20<09:22,  1.57s/it][2026-07-16 18:16:45] FILE 61/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00051-of-00400.parquet
+Files:  15%|█▍        | 61/417 [27:22<09:03,  1.53s/it][2026-07-16 18:16:47] FILE 62/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00052-of-00400.parquet
+Files:  15%|█▍        | 62/417 [27:23<08:51,  1.50s/it][2026-07-16 18:16:48] FILE 63/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00053-of-00400.parquet
+Files:  15%|█▌        | 63/417 [27:24<08:38,  1.47s/it][2026-07-16 18:16:50] FILE 64/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00054-of-00400.parquet
+Files:  15%|█▌        | 64/417 [27:26<08:40,  1.47s/it][2026-07-16 18:16:51] FILE 65/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00055-of-00400.parquet
+Files:  16%|█▌        | 65/417 [27:27<08:47,  1.50s/it][2026-07-16 18:16:53] FILE 66/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00056-of-00400.parquet
+Files:  16%|█▌        | 66/417 [27:29<09:04,  1.55s/it][2026-07-16 18:16:54] FILE 67/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00057-of-00400.parquet
+Files:  16%|█▌        | 67/417 [27:31<08:48,  1.51s/it][2026-07-16 18:16:56] FILE 68/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00058-of-00400.parquet
+Files:  16%|█▋        | 68/417 [27:32<08:09,  1.40s/it][2026-07-16 18:16:57] FILE 69/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00059-of-00400.parquet
+Files:  17%|█▋        | 69/417 [27:33<07:58,  1.37s/it][2026-07-16 18:16:58] FILE 70/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00060-of-00400.parquet
+Files:  17%|█▋        | 70/417 [27:35<08:17,  1.43s/it][2026-07-16 18:17:00] FILE 71/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00061-of-00400.parquet
+Files:  17%|█▋        | 71/417 [27:36<09:02,  1.57s/it][2026-07-16 18:17:02] FILE 72/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00062-of-00400.parquet
+Files:  17%|█▋        | 72/417 [27:38<08:54,  1.55s/it][2026-07-16 18:17:03] FILE 73/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00063-of-00400.parquet
+Files:  18%|█▊        | 73/417 [27:39<08:47,  1.53s/it][2026-07-16 18:17:05] FILE 74/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00064-of-00400.parquet
+Files:  18%|█▊        | 74/417 [27:41<08:45,  1.53s/it][2026-07-16 18:17:06] FILE 75/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00065-of-00400.parquet
+Files:  18%|█▊        | 75/417 [27:42<08:25,  1.48s/it][2026-07-16 18:17:08] FILE 76/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00066-of-00400.parquet
+Files:  18%|█▊        | 76/417 [27:44<09:07,  1.61s/it][2026-07-16 18:17:10] FILE 77/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00067-of-00400.parquet
+Files:  18%|█▊        | 77/417 [27:46<09:07,  1.61s/it][2026-07-16 18:17:11] FILE 78/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00068-of-00400.parquet
+Files:  19%|█▊        | 78/417 [27:47<08:36,  1.52s/it][2026-07-16 18:17:12] FILE 79/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00069-of-00400.parquet
+Files:  19%|█▉        | 79/417 [27:49<08:27,  1.50s/it][2026-07-16 18:17:14] FILE 80/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00070-of-00400.parquet
+Files:  19%|█▉        | 80/417 [27:50<08:11,  1.46s/it][2026-07-16 18:17:15] FILE 81/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00071-of-00400.parquet
+Files:  19%|█▉        | 81/417 [27:51<08:05,  1.45s/it][2026-07-16 18:17:17] FILE 82/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00072-of-00400.parquet
+Files:  20%|█▉        | 82/417 [27:53<08:06,  1.45s/it][2026-07-16 18:17:18] FILE 83/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00073-of-00400.parquet
+Files:  20%|█▉        | 83/417 [27:54<08:10,  1.47s/it][2026-07-16 18:17:20] FILE 84/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00074-of-00400.parquet
+Files:  20%|██        | 84/417 [27:56<07:53,  1.42s/it][2026-07-16 18:17:21] FILE 85/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00075-of-00400.parquet
+Files:  20%|██        | 85/417 [27:57<07:53,  1.43s/it][2026-07-16 18:17:22] FILE 86/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00076-of-00400.parquet
+Files:  21%|██        | 86/417 [27:59<08:31,  1.55s/it][2026-07-16 18:17:24] FILE 87/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00077-of-00400.parquet
+Files:  21%|██        | 87/417 [28:00<08:26,  1.53s/it][2026-07-16 18:17:26] FILE 88/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00078-of-00400.parquet
+Files:  21%|██        | 88/417 [28:02<08:32,  1.56s/it][2026-07-16 18:17:27] FILE 89/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00079-of-00400.parquet
+Files:  21%|██▏       | 89/417 [28:03<08:04,  1.48s/it][2026-07-16 18:17:29] FILE 90/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00080-of-00400.parquet
+Files:  22%|██▏       | 90/417 [28:05<07:55,  1.45s/it][2026-07-16 18:17:30] FILE 91/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00081-of-00400.parquet
+Files:  22%|██▏       | 91/417 [28:06<08:00,  1.47s/it][2026-07-16 18:17:32] FILE 92/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00082-of-00400.parquet
+Files:  22%|██▏       | 92/417 [28:08<08:21,  1.54s/it][2026-07-16 18:17:33] FILE 93/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00083-of-00400.parquet
+Files:  22%|██▏       | 93/417 [28:09<08:01,  1.49s/it][2026-07-16 18:17:35] FILE 94/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00084-of-00400.parquet
+Files:  23%|██▎       | 94/417 [28:11<08:00,  1.49s/it][2026-07-16 18:17:36] FILE 95/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00085-of-00400.parquet
+Files:  23%|██▎       | 95/417 [28:12<07:41,  1.43s/it][2026-07-16 18:17:37] FILE 96/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00086-of-00400.parquet
+Files:  23%|██▎       | 96/417 [28:14<07:40,  1.43s/it][2026-07-16 18:17:39] FILE 97/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00087-of-00400.parquet
+Files:  23%|██▎       | 97/417 [28:15<07:43,  1.45s/it][2026-07-16 18:17:40] FILE 98/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00088-of-00400.parquet
+Files:  24%|██▎       | 98/417 [28:17<08:13,  1.55s/it][2026-07-16 18:17:42] FILE 99/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00089-of-00400.parquet
+Files:  24%|██▎       | 99/417 [28:18<08:03,  1.52s/it][2026-07-16 18:17:44] FILE 100/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00090-of-00400.parquet
+Files:  24%|██▍       | 100/417 [28:20<07:39,  1.45s/it][2026-07-16 18:17:45] FILE 101/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00091-of-00400.parquet
+Files:  24%|██▍       | 101/417 [28:21<07:33,  1.44s/it][2026-07-16 18:17:46] FILE 102/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00092-of-00400.parquet
+Files:  24%|██▍       | 102/417 [28:23<07:49,  1.49s/it][2026-07-16 18:17:48] FILE 103/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00093-of-00400.parquet
+Files:  25%|██▍       | 103/417 [28:24<07:41,  1.47s/it][2026-07-16 18:17:49] FILE 104/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00094-of-00400.parquet
+Files:  25%|██▍       | 104/417 [28:25<07:37,  1.46s/it][2026-07-16 18:17:51] FILE 105/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00095-of-00400.parquet
+Files:  25%|██▌       | 105/417 [28:27<07:27,  1.44s/it][2026-07-16 18:17:52] FILE 106/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00096-of-00400.parquet
+Files:  25%|██▌       | 106/417 [28:28<07:20,  1.42s/it][2026-07-16 18:17:54] FILE 107/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00097-of-00400.parquet
+Files:  26%|██▌       | 107/417 [28:30<08:07,  1.57s/it][2026-07-16 18:17:55] FILE 108/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00098-of-00400.parquet
+Files:  26%|██▌       | 108/417 [28:32<08:25,  1.63s/it][2026-07-16 18:17:57] FILE 109/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00099-of-00400.parquet
+Files:  26%|██▌       | 109/417 [28:33<07:51,  1.53s/it][2026-07-16 18:17:59] FILE 110/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00100-of-00400.parquet
+Files:  26%|██▋       | 110/417 [28:35<07:56,  1.55s/it][2026-07-16 18:18:00] FILE 111/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00101-of-00400.parquet
+Files:  27%|██▋       | 111/417 [28:36<08:02,  1.58s/it][2026-07-16 18:18:02] FILE 112/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00102-of-00400.parquet
+[2026-07-16 18:18:03] PROGRESS rows=100,887 kept=100,850 dropped=37 rows/sec=58.7
+Files:  27%|██▋       | 112/417 [28:38<07:41,  1.51s/it][2026-07-16 18:18:03] FILE 113/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00103-of-00400.parquet
+Files:  27%|██▋       | 113/417 [28:39<07:42,  1.52s/it][2026-07-16 18:18:05] FILE 114/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00104-of-00400.parquet
+Files:  27%|██▋       | 114/417 [28:41<07:16,  1.44s/it][2026-07-16 18:18:06] FILE 115/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00105-of-00400.parquet
+Files:  28%|██▊       | 115/417 [28:42<07:41,  1.53s/it][2026-07-16 18:18:08] FILE 116/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00106-of-00400.parquet
+Files:  28%|██▊       | 116/417 [28:44<07:50,  1.56s/it][2026-07-16 18:18:09] FILE 117/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00107-of-00400.parquet
+Files:  28%|██▊       | 117/417 [28:46<07:53,  1.58s/it][2026-07-16 18:18:11] FILE 118/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00108-of-00400.parquet
+Files:  28%|██▊       | 118/417 [28:47<07:32,  1.51s/it][2026-07-16 18:18:12] FILE 119/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00109-of-00400.parquet
+Files:  29%|██▊       | 119/417 [28:48<07:20,  1.48s/it][2026-07-16 18:18:14] FILE 120/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00110-of-00400.parquet
+Files:  29%|██▉       | 120/417 [28:50<07:52,  1.59s/it][2026-07-16 18:18:16] FILE 121/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00111-of-00400.parquet
+Files:  29%|██▉       | 121/417 [28:52<07:58,  1.62s/it][2026-07-16 18:18:17] FILE 122/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00112-of-00400.parquet
+Files:  29%|██▉       | 122/417 [28:53<07:44,  1.57s/it][2026-07-16 18:18:19] FILE 123/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00113-of-00400.parquet
+Files:  29%|██▉       | 123/417 [28:55<07:11,  1.47s/it][2026-07-16 18:18:20] FILE 124/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00114-of-00400.parquet
+Files:  30%|██▉       | 124/417 [28:56<07:00,  1.44s/it][2026-07-16 18:18:21] FILE 125/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00115-of-00400.parquet
+Files:  30%|██▉       | 125/417 [28:58<07:26,  1.53s/it][2026-07-16 18:18:23] FILE 126/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00116-of-00400.parquet
+Files:  30%|███       | 126/417 [29:00<07:50,  1.62s/it][2026-07-16 18:18:25] FILE 127/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00117-of-00400.parquet
+Files:  30%|███       | 127/417 [29:01<07:52,  1.63s/it][2026-07-16 18:18:26] FILE 128/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00118-of-00400.parquet
+Files:  31%|███       | 128/417 [29:03<07:26,  1.54s/it][2026-07-16 18:18:28] FILE 129/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00119-of-00400.parquet
+Files:  31%|███       | 129/417 [29:04<07:23,  1.54s/it][2026-07-16 18:18:29] FILE 130/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00120-of-00400.parquet
+Files:  31%|███       | 130/417 [29:06<07:31,  1.57s/it][2026-07-16 18:18:31] FILE 131/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00121-of-00400.parquet
+Files:  31%|███▏      | 131/417 [29:08<07:54,  1.66s/it][2026-07-16 18:18:33] FILE 132/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00122-of-00400.parquet
+Files:  32%|███▏      | 132/417 [29:09<07:42,  1.62s/it][2026-07-16 18:18:34] FILE 133/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00123-of-00400.parquet
+Files:  32%|███▏      | 133/417 [29:11<07:33,  1.60s/it][2026-07-16 18:18:36] FILE 134/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00124-of-00400.parquet
+Files:  32%|███▏      | 134/417 [29:12<07:00,  1.49s/it][2026-07-16 18:18:37] FILE 135/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00126-of-00400.parquet
+Files:  32%|███▏      | 135/417 [29:14<07:10,  1.53s/it][2026-07-16 18:18:39] FILE 136/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00127-of-00400.parquet
+Files:  33%|███▎      | 136/417 [29:15<07:21,  1.57s/it][2026-07-16 18:18:40] FILE 137/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00128-of-00400.parquet
+Files:  33%|███▎      | 137/417 [29:17<07:20,  1.57s/it][2026-07-16 18:18:42] FILE 138/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00129-of-00400.parquet
+Files:  33%|███▎      | 138/417 [29:18<06:59,  1.50s/it][2026-07-16 18:18:43] FILE 139/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00130-of-00400.parquet
+Files:  33%|███▎      | 139/417 [29:19<06:48,  1.47s/it][2026-07-16 18:18:45] FILE 140/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00131-of-00400.parquet
+Files:  34%|███▎      | 140/417 [29:21<07:10,  1.55s/it][2026-07-16 18:18:47] FILE 141/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00132-of-00400.parquet
+Files:  34%|███▍      | 141/417 [29:23<07:25,  1.61s/it][2026-07-16 18:18:48] FILE 142/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00133-of-00400.parquet
+Files:  34%|███▍      | 142/417 [29:24<07:12,  1.57s/it][2026-07-16 18:18:50] FILE 143/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00134-of-00400.parquet
+Files:  34%|███▍      | 143/417 [29:26<06:53,  1.51s/it][2026-07-16 18:18:51] FILE 144/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00135-of-00400.parquet
+Files:  35%|███▍      | 144/417 [29:27<06:50,  1.50s/it][2026-07-16 18:18:53] FILE 145/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00136-of-00400.parquet
+Files:  35%|███▍      | 145/417 [29:29<07:08,  1.57s/it][2026-07-16 18:18:54] FILE 146/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00137-of-00400.parquet
+Files:  35%|███▌      | 146/417 [29:31<07:27,  1.65s/it][2026-07-16 18:18:56] FILE 147/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00138-of-00400.parquet
+Files:  35%|███▌      | 147/417 [29:33<07:25,  1.65s/it][2026-07-16 18:18:58] FILE 148/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00139-of-00400.parquet
+Files:  35%|███▌      | 148/417 [29:34<07:07,  1.59s/it][2026-07-16 18:18:59] FILE 149/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00140-of-00400.parquet
+Files:  36%|███▌      | 149/417 [29:35<06:48,  1.53s/it][2026-07-16 18:19:01] FILE 150/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00141-of-00400.parquet
+Files:  36%|███▌      | 150/417 [29:37<06:35,  1.48s/it][2026-07-16 18:19:02] FILE 151/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00142-of-00400.parquet
+Files:  36%|███▌      | 151/417 [29:39<07:02,  1.59s/it][2026-07-16 18:19:04] FILE 152/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00143-of-00400.parquet
+Files:  36%|███▋      | 152/417 [29:40<07:03,  1.60s/it][2026-07-16 18:19:05] FILE 153/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00144-of-00400.parquet
+Files:  37%|███▋      | 153/417 [29:42<06:51,  1.56s/it][2026-07-16 18:19:07] FILE 154/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00145-of-00400.parquet
+Files:  37%|███▋      | 154/417 [29:43<06:55,  1.58s/it][2026-07-16 18:19:09] FILE 155/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00146-of-00400.parquet
+Files:  37%|███▋      | 155/417 [29:45<06:53,  1.58s/it][2026-07-16 18:19:10] FILE 156/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00147-of-00400.parquet
+Files:  37%|███▋      | 156/417 [29:47<07:03,  1.62s/it][2026-07-16 18:19:12] FILE 157/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00148-of-00400.parquet
+Files:  38%|███▊      | 157/417 [29:48<06:59,  1.61s/it][2026-07-16 18:19:13] FILE 158/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00149-of-00400.parquet
+Files:  38%|███▊      | 158/417 [29:50<06:51,  1.59s/it][2026-07-16 18:19:15] FILE 159/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00150-of-00400.parquet
+Files:  38%|███▊      | 159/417 [29:51<06:56,  1.61s/it][2026-07-16 18:19:17] FILE 160/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00151-of-00400.parquet
+Files:  38%|███▊      | 160/417 [29:53<06:56,  1.62s/it][2026-07-16 18:19:18] FILE 161/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00152-of-00400.parquet
+Files:  39%|███▊      | 161/417 [29:54<06:34,  1.54s/it][2026-07-16 18:19:20] FILE 162/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00153-of-00400.parquet
+Files:  39%|███▉      | 162/417 [29:56<06:28,  1.52s/it][2026-07-16 18:19:21] FILE 163/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00154-of-00400.parquet
+Files:  39%|███▉      | 163/417 [29:57<06:10,  1.46s/it][2026-07-16 18:19:22] FILE 164/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00155-of-00400.parquet
+Files:  39%|███▉      | 164/417 [29:59<06:30,  1.54s/it][2026-07-16 18:19:24] FILE 165/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00156-of-00400.parquet
+Files:  40%|███▉      | 165/417 [30:01<06:41,  1.59s/it][2026-07-16 18:19:26] FILE 166/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00157-of-00400.parquet
+Files:  40%|███▉      | 166/417 [30:02<06:23,  1.53s/it][2026-07-16 18:19:27] FILE 167/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00158-of-00400.parquet
+Files:  40%|████      | 167/417 [30:03<06:10,  1.48s/it][2026-07-16 18:19:29] FILE 168/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00159-of-00400.parquet
+[2026-07-16 18:19:30] PROGRESS rows=150,975 kept=150,916 dropped=59 rows/sec=83.6
+Files:  40%|████      | 168/417 [30:05<06:14,  1.50s/it][2026-07-16 18:19:30] FILE 169/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00160-of-00400.parquet
+Files:  41%|████      | 169/417 [30:07<06:21,  1.54s/it][2026-07-16 18:19:32] FILE 170/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00161-of-00400.parquet
+Files:  41%|████      | 170/417 [30:08<06:30,  1.58s/it][2026-07-16 18:19:33] FILE 171/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00162-of-00400.parquet
+Files:  41%|████      | 171/417 [30:10<06:24,  1.56s/it][2026-07-16 18:19:35] FILE 172/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00163-of-00400.parquet
+Files:  41%|████      | 172/417 [30:11<06:11,  1.52s/it][2026-07-16 18:19:36] FILE 173/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00164-of-00400.parquet
+Files:  41%|████▏     | 173/417 [30:12<05:48,  1.43s/it][2026-07-16 18:19:38] FILE 174/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00165-of-00400.parquet
+Files:  42%|████▏     | 174/417 [30:14<05:41,  1.40s/it][2026-07-16 18:19:39] FILE 175/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00166-of-00400.parquet
+Files:  42%|████▏     | 175/417 [30:15<06:02,  1.50s/it][2026-07-16 18:19:41] FILE 176/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00167-of-00400.parquet
+Files:  42%|████▏     | 176/417 [30:17<05:53,  1.46s/it][2026-07-16 18:19:42] FILE 177/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00168-of-00400.parquet
+Files:  42%|████▏     | 177/417 [30:18<05:41,  1.42s/it][2026-07-16 18:19:43] FILE 178/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00169-of-00400.parquet
+Files:  43%|████▎     | 178/417 [30:20<05:46,  1.45s/it][2026-07-16 18:19:45] FILE 179/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00170-of-00400.parquet
+Files:  43%|████▎     | 179/417 [30:21<05:56,  1.50s/it][2026-07-16 18:19:47] FILE 180/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00171-of-00400.parquet
+Files:  43%|████▎     | 180/417 [30:23<05:56,  1.51s/it][2026-07-16 18:19:48] FILE 181/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00172-of-00400.parquet
+Files:  43%|████▎     | 181/417 [30:24<06:02,  1.54s/it][2026-07-16 18:19:50] FILE 182/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00173-of-00400.parquet
+Files:  44%|████▎     | 182/417 [30:26<05:42,  1.46s/it][2026-07-16 18:19:51] FILE 183/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00174-of-00400.parquet
+Files:  44%|████▍     | 183/417 [30:27<05:43,  1.47s/it][2026-07-16 18:19:52] FILE 184/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00175-of-00400.parquet
+Files:  44%|████▍     | 184/417 [30:28<05:31,  1.42s/it][2026-07-16 18:19:54] FILE 185/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00176-of-00400.parquet
+Files:  44%|████▍     | 185/417 [30:30<05:35,  1.45s/it][2026-07-16 18:19:55] FILE 186/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00177-of-00400.parquet
+Files:  45%|████▍     | 186/417 [30:32<05:47,  1.51s/it][2026-07-16 18:19:57] FILE 187/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00178-of-00400.parquet
+Files:  45%|████▍     | 187/417 [30:33<05:34,  1.45s/it][2026-07-16 18:19:58] FILE 188/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00179-of-00400.parquet
+Files:  45%|████▌     | 188/417 [30:34<05:19,  1.39s/it][2026-07-16 18:19:59] FILE 189/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00180-of-00400.parquet
+Files:  45%|████▌     | 189/417 [30:36<05:15,  1.38s/it][2026-07-16 18:20:01] FILE 190/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00181-of-00400.parquet
+Files:  46%|████▌     | 190/417 [30:37<05:35,  1.48s/it][2026-07-16 18:20:03] FILE 191/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00182-of-00400.parquet
+Files:  46%|████▌     | 191/417 [30:39<05:49,  1.55s/it][2026-07-16 18:20:04] FILE 192/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00183-of-00400.parquet
+Files:  46%|████▌     | 192/417 [30:40<05:32,  1.48s/it][2026-07-16 18:20:06] FILE 193/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00184-of-00400.parquet
+Files:  46%|████▋     | 193/417 [30:42<05:19,  1.43s/it][2026-07-16 18:20:07] FILE 194/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00185-of-00400.parquet
+Files:  47%|████▋     | 194/417 [30:43<05:12,  1.40s/it][2026-07-16 18:20:08] FILE 195/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00186-of-00400.parquet
+Files:  47%|████▋     | 195/417 [30:44<05:10,  1.40s/it][2026-07-16 18:20:10] FILE 196/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00187-of-00400.parquet
+Files:  47%|████▋     | 196/417 [30:46<05:38,  1.53s/it][2026-07-16 18:20:11] FILE 197/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00188-of-00400.parquet
+Files:  47%|████▋     | 197/417 [30:48<05:45,  1.57s/it][2026-07-16 18:20:13] FILE 198/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00189-of-00400.parquet
+Files:  47%|████▋     | 198/417 [30:49<05:29,  1.50s/it][2026-07-16 18:20:14] FILE 199/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00190-of-00400.parquet
+Files:  48%|████▊     | 199/417 [30:51<05:17,  1.46s/it][2026-07-16 18:20:16] FILE 200/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00191-of-00400.parquet
+Files:  48%|████▊     | 200/417 [30:52<05:25,  1.50s/it][2026-07-16 18:20:17] FILE 201/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00192-of-00400.parquet
+Files:  48%|████▊     | 201/417 [30:54<05:53,  1.63s/it][2026-07-16 18:20:19] FILE 202/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00193-of-00400.parquet
+Files:  48%|████▊     | 202/417 [30:56<06:18,  1.76s/it][2026-07-16 18:20:21] FILE 203/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00194-of-00400.parquet
+Files:  49%|████▊     | 203/417 [30:58<05:52,  1.65s/it][2026-07-16 18:20:23] FILE 204/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00195-of-00400.parquet
+Files:  49%|████▉     | 204/417 [30:59<05:50,  1.64s/it][2026-07-16 18:20:24] FILE 205/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00196-of-00400.parquet
+Files:  49%|████▉     | 205/417 [31:01<05:45,  1.63s/it][2026-07-16 18:20:26] FILE 206/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00197-of-00400.parquet
+Files:  49%|████▉     | 206/417 [31:02<05:42,  1.62s/it][2026-07-16 18:20:28] FILE 207/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00198-of-00400.parquet
+Files:  50%|████▉     | 207/417 [31:04<06:02,  1.73s/it][2026-07-16 18:20:30] FILE 208/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00199-of-00400.parquet
+Files:  50%|████▉     | 208/417 [31:06<05:33,  1.60s/it][2026-07-16 18:20:31] FILE 209/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00200-of-00400.parquet
+Files:  50%|█████     | 209/417 [31:07<05:30,  1.59s/it][2026-07-16 18:20:32] FILE 210/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00201-of-00400.parquet
+Files:  50%|█████     | 210/417 [31:09<05:39,  1.64s/it][2026-07-16 18:20:34] FILE 211/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00202-of-00400.parquet
+Files:  51%|█████     | 211/417 [31:11<05:40,  1.65s/it][2026-07-16 18:20:36] FILE 212/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00203-of-00400.parquet
+Files:  51%|█████     | 212/417 [31:12<05:17,  1.55s/it][2026-07-16 18:20:37] FILE 213/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00204-of-00400.parquet
+Files:  51%|█████     | 213/417 [31:13<05:09,  1.52s/it][2026-07-16 18:20:39] FILE 214/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00205-of-00400.parquet
+Files:  51%|█████▏    | 214/417 [31:15<05:05,  1.51s/it][2026-07-16 18:20:40] FILE 215/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00206-of-00400.parquet
+Files:  52%|█████▏    | 215/417 [31:17<05:19,  1.58s/it][2026-07-16 18:20:42] FILE 216/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00207-of-00400.parquet
+Files:  52%|█████▏    | 216/417 [31:18<05:03,  1.51s/it][2026-07-16 18:20:43] FILE 217/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00208-of-00400.parquet
+Files:  52%|█████▏    | 217/417 [31:19<05:01,  1.51s/it][2026-07-16 18:20:45] FILE 218/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00209-of-00400.parquet
+Files:  52%|█████▏    | 218/417 [31:21<04:50,  1.46s/it][2026-07-16 18:20:46] FILE 219/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00210-of-00400.parquet
+Files:  53%|█████▎    | 219/417 [31:23<05:03,  1.53s/it][2026-07-16 18:20:48] FILE 220/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00211-of-00400.parquet
+Files:  53%|█████▎    | 220/417 [31:24<05:11,  1.58s/it][2026-07-16 18:20:49] FILE 221/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00212-of-00400.parquet
+Files:  53%|█████▎    | 221/417 [31:26<05:07,  1.57s/it][2026-07-16 18:20:51] FILE 222/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00213-of-00400.parquet
+Files:  53%|█████▎    | 222/417 [31:27<04:44,  1.46s/it][2026-07-16 18:20:52] FILE 223/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00214-of-00400.parquet
+Files:  53%|█████▎    | 223/417 [31:28<04:40,  1.45s/it][2026-07-16 18:20:54] FILE 224/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00215-of-00400.parquet
+[2026-07-16 18:20:55] PROGRESS rows=201,456 kept=201,375 dropped=81 rows/sec=106.6
+Files:  54%|█████▎    | 224/417 [31:30<04:48,  1.49s/it][2026-07-16 18:20:55] FILE 225/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00216-of-00400.parquet
+Files:  54%|█████▍    | 225/417 [31:32<04:55,  1.54s/it][2026-07-16 18:20:57] FILE 226/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00217-of-00400.parquet
+Files:  54%|█████▍    | 226/417 [31:33<04:50,  1.52s/it][2026-07-16 18:20:58] FILE 227/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00218-of-00400.parquet
+Files:  54%|█████▍    | 227/417 [31:35<04:43,  1.49s/it][2026-07-16 18:21:00] FILE 228/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00219-of-00400.parquet
+Files:  55%|█████▍    | 228/417 [31:36<04:22,  1.39s/it][2026-07-16 18:21:01] FILE 229/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00220-of-00400.parquet
+Files:  55%|█████▍    | 229/417 [31:37<04:28,  1.43s/it][2026-07-16 18:21:02] FILE 230/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00221-of-00400.parquet
+Files:  55%|█████▌    | 230/417 [31:39<04:36,  1.48s/it][2026-07-16 18:21:04] FILE 231/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00222-of-00400.parquet
+Files:  55%|█████▌    | 231/417 [31:40<04:45,  1.53s/it][2026-07-16 18:21:06] FILE 232/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00223-of-00400.parquet
+Files:  56%|█████▌    | 232/417 [31:42<04:32,  1.47s/it][2026-07-16 18:21:07] FILE 233/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00224-of-00400.parquet
+Files:  56%|█████▌    | 233/417 [31:43<04:26,  1.45s/it][2026-07-16 18:21:08] FILE 234/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00225-of-00400.parquet
+Files:  56%|█████▌    | 234/417 [31:45<04:23,  1.44s/it][2026-07-16 18:21:10] FILE 235/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00226-of-00400.parquet
+Files:  56%|█████▋    | 235/417 [31:46<04:31,  1.49s/it][2026-07-16 18:21:11] FILE 236/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00227-of-00400.parquet
+Files:  57%|█████▋    | 236/417 [31:48<04:27,  1.48s/it][2026-07-16 18:21:13] FILE 237/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00228-of-00400.parquet
+Files:  57%|█████▋    | 237/417 [31:49<04:23,  1.46s/it][2026-07-16 18:21:14] FILE 238/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00229-of-00400.parquet
+Files:  57%|█████▋    | 238/417 [31:50<04:14,  1.42s/it][2026-07-16 18:21:16] FILE 239/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00230-of-00400.parquet
+Files:  57%|█████▋    | 239/417 [31:52<04:12,  1.42s/it][2026-07-16 18:21:17] FILE 240/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00231-of-00400.parquet
+Files:  58%|█████▊    | 240/417 [31:53<04:18,  1.46s/it][2026-07-16 18:21:19] FILE 241/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00232-of-00400.parquet
+Files:  58%|█████▊    | 241/417 [31:55<04:23,  1.50s/it][2026-07-16 18:21:20] FILE 242/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00233-of-00400.parquet
+Files:  58%|█████▊    | 242/417 [31:56<04:21,  1.49s/it][2026-07-16 18:21:22] FILE 243/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00234-of-00400.parquet
+Files:  58%|█████▊    | 243/417 [31:58<04:32,  1.57s/it][2026-07-16 18:21:23] FILE 244/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00235-of-00400.parquet
+Files:  59%|█████▊    | 244/417 [31:59<04:17,  1.49s/it][2026-07-16 18:21:25] FILE 245/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00236-of-00400.parquet
+Files:  59%|█████▉    | 245/417 [32:01<04:17,  1.49s/it][2026-07-16 18:21:26] FILE 246/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00237-of-00400.parquet
+Files:  59%|█████▉    | 246/417 [32:03<04:25,  1.55s/it][2026-07-16 18:21:28] FILE 247/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00238-of-00400.parquet
+Files:  59%|█████▉    | 247/417 [32:04<04:27,  1.57s/it][2026-07-16 18:21:30] FILE 248/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00239-of-00400.parquet
+Files:  59%|█████▉    | 248/417 [32:06<04:12,  1.49s/it][2026-07-16 18:21:31] FILE 249/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00240-of-00400.parquet
+Files:  60%|█████▉    | 249/417 [32:07<04:07,  1.47s/it][2026-07-16 18:21:32] FILE 250/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00241-of-00400.parquet
+Files:  60%|█████▉    | 250/417 [32:08<03:59,  1.43s/it][2026-07-16 18:21:34] FILE 251/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00242-of-00400.parquet
+Files:  60%|██████    | 251/417 [32:10<04:03,  1.47s/it][2026-07-16 18:21:35] FILE 252/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00243-of-00400.parquet
+Files:  60%|██████    | 252/417 [32:11<04:03,  1.48s/it][2026-07-16 18:21:37] FILE 253/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00244-of-00400.parquet
+Files:  61%|██████    | 253/417 [32:13<04:01,  1.47s/it][2026-07-16 18:21:38] FILE 254/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00245-of-00400.parquet
+Files:  61%|██████    | 254/417 [32:14<03:57,  1.46s/it][2026-07-16 18:21:40] FILE 255/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00246-of-00400.parquet
+Files:  61%|██████    | 255/417 [32:16<03:55,  1.45s/it][2026-07-16 18:21:41] FILE 256/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00247-of-00400.parquet
+Files:  61%|██████▏   | 256/417 [32:17<03:58,  1.48s/it][2026-07-16 18:21:43] FILE 257/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00248-of-00400.parquet
+Files:  62%|██████▏   | 257/417 [32:19<03:57,  1.49s/it][2026-07-16 18:21:44] FILE 258/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00249-of-00400.parquet
+Files:  62%|██████▏   | 258/417 [32:20<03:46,  1.43s/it][2026-07-16 18:21:45] FILE 259/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00250-of-00400.parquet
+Files:  62%|██████▏   | 259/417 [32:22<04:06,  1.56s/it][2026-07-16 18:21:47] FILE 260/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00251-of-00400.parquet
+Files:  62%|██████▏   | 260/417 [32:23<04:02,  1.54s/it][2026-07-16 18:21:49] FILE 261/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00252-of-00400.parquet
+Files:  63%|██████▎   | 261/417 [32:25<03:55,  1.51s/it][2026-07-16 18:21:50] FILE 262/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00253-of-00400.parquet
+Files:  63%|██████▎   | 262/417 [32:26<03:55,  1.52s/it][2026-07-16 18:21:52] FILE 263/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00254-of-00400.parquet
+Files:  63%|██████▎   | 263/417 [32:28<03:53,  1.52s/it][2026-07-16 18:21:53] FILE 264/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00255-of-00400.parquet
+Files:  63%|██████▎   | 264/417 [32:30<04:06,  1.61s/it][2026-07-16 18:21:55] FILE 265/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00256-of-00400.parquet
+Files:  64%|██████▎   | 265/417 [32:31<04:03,  1.60s/it][2026-07-16 18:21:57] FILE 266/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00257-of-00400.parquet
+Files:  64%|██████▍   | 266/417 [32:33<03:52,  1.54s/it][2026-07-16 18:21:58] FILE 267/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00258-of-00400.parquet
+Files:  64%|██████▍   | 267/417 [32:34<03:57,  1.58s/it][2026-07-16 18:22:00] FILE 268/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00259-of-00400.parquet
+Files:  64%|██████▍   | 268/417 [32:36<03:46,  1.52s/it][2026-07-16 18:22:01] FILE 269/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00260-of-00400.parquet
+Files:  65%|██████▍   | 269/417 [32:38<03:53,  1.58s/it][2026-07-16 18:22:03] FILE 270/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00261-of-00400.parquet
+Files:  65%|██████▍   | 270/417 [32:39<03:53,  1.59s/it][2026-07-16 18:22:04] FILE 271/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00262-of-00400.parquet
+Files:  65%|██████▍   | 271/417 [32:41<03:42,  1.53s/it][2026-07-16 18:22:06] FILE 272/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00263-of-00400.parquet
+Files:  65%|██████▌   | 272/417 [32:42<03:40,  1.52s/it][2026-07-16 18:22:07] FILE 273/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00264-of-00400.parquet
+Files:  65%|██████▌   | 273/417 [32:44<03:39,  1.52s/it][2026-07-16 18:22:09] FILE 274/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00265-of-00400.parquet
+Files:  66%|██████▌   | 274/417 [32:45<03:37,  1.52s/it][2026-07-16 18:22:10] FILE 275/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00266-of-00400.parquet
+Files:  66%|██████▌   | 275/417 [32:47<03:35,  1.51s/it][2026-07-16 18:22:12] FILE 276/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00267-of-00400.parquet
+Files:  66%|██████▌   | 276/417 [32:48<03:37,  1.54s/it][2026-07-16 18:22:13] FILE 277/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00268-of-00400.parquet
+Files:  66%|██████▋   | 277/417 [32:49<03:21,  1.44s/it][2026-07-16 18:22:15] FILE 278/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00269-of-00400.parquet
+Files:  67%|██████▋   | 278/417 [32:51<03:17,  1.42s/it][2026-07-16 18:22:16] FILE 279/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00271-of-00400.parquet
+Files:  67%|██████▋   | 279/417 [32:53<03:39,  1.59s/it][2026-07-16 18:22:18] FILE 280/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00272-of-00400.parquet
+[2026-07-16 18:22:19] PROGRESS rows=251,896 kept=251,785 dropped=111 rows/sec=127.6
+Files:  67%|██████▋   | 280/417 [32:54<03:34,  1.56s/it][2026-07-16 18:22:20] FILE 281/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00273-of-00400.parquet
+Files:  67%|██████▋   | 281/417 [32:56<03:25,  1.51s/it][2026-07-16 18:22:21] FILE 282/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00274-of-00400.parquet
+Files:  68%|██████▊   | 282/417 [32:57<03:13,  1.43s/it][2026-07-16 18:22:22] FILE 283/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00275-of-00400.parquet
+Files:  68%|██████▊   | 283/417 [32:58<03:15,  1.46s/it][2026-07-16 18:22:24] FILE 284/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00276-of-00400.parquet
+Files:  68%|██████▊   | 284/417 [33:00<03:28,  1.57s/it][2026-07-16 18:22:25] FILE 285/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00277-of-00400.parquet
+Files:  68%|██████▊   | 285/417 [33:02<03:38,  1.65s/it][2026-07-16 18:22:27] FILE 286/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00278-of-00400.parquet
+Files:  69%|██████▊   | 286/417 [33:03<03:23,  1.55s/it][2026-07-16 18:22:29] FILE 287/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00279-of-00400.parquet
+Files:  69%|██████▉   | 287/417 [33:05<03:16,  1.51s/it][2026-07-16 18:22:30] FILE 288/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00280-of-00400.parquet
+Files:  69%|██████▉   | 288/417 [33:06<03:16,  1.52s/it][2026-07-16 18:22:32] FILE 289/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00281-of-00400.parquet
+Files:  69%|██████▉   | 289/417 [33:08<03:24,  1.60s/it][2026-07-16 18:22:33] FILE 290/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00282-of-00400.parquet
+Files:  70%|██████▉   | 290/417 [33:10<03:27,  1.63s/it][2026-07-16 18:22:35] FILE 291/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00283-of-00400.parquet
+Files:  70%|██████▉   | 291/417 [33:11<03:13,  1.53s/it][2026-07-16 18:22:36] FILE 292/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00284-of-00400.parquet
+Files:  70%|███████   | 292/417 [33:13<03:05,  1.48s/it][2026-07-16 18:22:38] FILE 293/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00285-of-00400.parquet
+Files:  70%|███████   | 293/417 [33:14<03:04,  1.49s/it][2026-07-16 18:22:39] FILE 294/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00286-of-00400.parquet
+Files:  71%|███████   | 294/417 [33:16<03:09,  1.54s/it][2026-07-16 18:22:41] FILE 295/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00287-of-00400.parquet
+Files:  71%|███████   | 295/417 [33:17<03:13,  1.59s/it][2026-07-16 18:22:43] FILE 296/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00288-of-00400.parquet
+Files:  71%|███████   | 296/417 [33:19<03:08,  1.56s/it][2026-07-16 18:22:44] FILE 297/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00289-of-00400.parquet
+Files:  71%|███████   | 297/417 [33:20<03:06,  1.56s/it][2026-07-16 18:22:46] FILE 298/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00290-of-00400.parquet
+Files:  71%|███████▏  | 298/417 [33:22<03:02,  1.54s/it][2026-07-16 18:22:47] FILE 299/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00291-of-00400.parquet
+Files:  72%|███████▏  | 299/417 [33:23<02:58,  1.51s/it][2026-07-16 18:22:49] FILE 300/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00292-of-00400.parquet
+Files:  72%|███████▏  | 300/417 [33:25<02:58,  1.52s/it][2026-07-16 18:22:50] FILE 301/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00293-of-00400.parquet
+Files:  72%|███████▏  | 301/417 [33:27<03:04,  1.59s/it][2026-07-16 18:22:52] FILE 302/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00294-of-00400.parquet
+Files:  72%|███████▏  | 302/417 [33:28<03:04,  1.60s/it][2026-07-16 18:22:54] FILE 303/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00295-of-00400.parquet
+Files:  73%|███████▎  | 303/417 [33:30<03:07,  1.65s/it][2026-07-16 18:22:55] FILE 304/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00296-of-00400.parquet
+Files:  73%|███████▎  | 304/417 [33:31<02:59,  1.58s/it][2026-07-16 18:22:57] FILE 305/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00297-of-00400.parquet
+Files:  73%|███████▎  | 305/417 [33:33<02:59,  1.60s/it][2026-07-16 18:22:58] FILE 306/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00298-of-00400.parquet
+Files:  73%|███████▎  | 306/417 [33:35<02:58,  1.61s/it][2026-07-16 18:23:00] FILE 307/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00299-of-00400.parquet
+Files:  74%|███████▎  | 307/417 [33:36<02:47,  1.52s/it][2026-07-16 18:23:01] FILE 308/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00300-of-00400.parquet
+Files:  74%|███████▍  | 308/417 [33:38<02:58,  1.63s/it][2026-07-16 18:23:03] FILE 309/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00301-of-00400.parquet
+Files:  74%|███████▍  | 309/417 [33:40<03:01,  1.68s/it][2026-07-16 18:23:05] FILE 310/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00302-of-00400.parquet
+Files:  74%|███████▍  | 310/417 [33:41<02:55,  1.64s/it][2026-07-16 18:23:07] FILE 311/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00303-of-00400.parquet
+Files:  75%|███████▍  | 311/417 [33:42<02:39,  1.51s/it][2026-07-16 18:23:08] FILE 312/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00304-of-00400.parquet
+Files:  75%|███████▍  | 312/417 [33:44<02:26,  1.39s/it][2026-07-16 18:23:09] FILE 313/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00305-of-00400.parquet
+Files:  75%|███████▌  | 313/417 [33:45<02:34,  1.49s/it][2026-07-16 18:23:11] FILE 314/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00306-of-00400.parquet
+Files:  75%|███████▌  | 314/417 [33:47<02:46,  1.62s/it][2026-07-16 18:23:13] FILE 315/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00307-of-00400.parquet
+Files:  76%|███████▌  | 315/417 [33:49<02:41,  1.58s/it][2026-07-16 18:23:14] FILE 316/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00308-of-00400.parquet
+Files:  76%|███████▌  | 316/417 [33:50<02:38,  1.57s/it][2026-07-16 18:23:16] FILE 317/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00309-of-00400.parquet
+Files:  76%|███████▌  | 317/417 [33:52<02:32,  1.52s/it][2026-07-16 18:23:17] FILE 318/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00310-of-00400.parquet
+Files:  76%|███████▋  | 318/417 [33:53<02:29,  1.51s/it][2026-07-16 18:23:18] FILE 319/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00311-of-00400.parquet
+Files:  76%|███████▋  | 319/417 [33:55<02:35,  1.59s/it][2026-07-16 18:23:20] FILE 320/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00312-of-00400.parquet
+Files:  77%|███████▋  | 320/417 [33:56<02:25,  1.50s/it][2026-07-16 18:23:21] FILE 321/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00313-of-00400.parquet
+Files:  77%|███████▋  | 321/417 [33:58<02:20,  1.46s/it][2026-07-16 18:23:23] FILE 322/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00314-of-00400.parquet
+Files:  77%|███████▋  | 322/417 [33:59<02:19,  1.47s/it][2026-07-16 18:23:24] FILE 323/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00315-of-00400.parquet
+Files:  77%|███████▋  | 323/417 [34:01<02:22,  1.52s/it][2026-07-16 18:23:26] FILE 324/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00316-of-00400.parquet
+Files:  78%|███████▊  | 324/417 [34:02<02:26,  1.58s/it][2026-07-16 18:23:28] FILE 325/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00317-of-00400.parquet
+Files:  78%|███████▊  | 325/417 [34:04<02:25,  1.58s/it][2026-07-16 18:23:29] FILE 326/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00318-of-00400.parquet
+Files:  78%|███████▊  | 326/417 [34:05<02:13,  1.47s/it][2026-07-16 18:23:31] FILE 327/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00319-of-00400.parquet
+Files:  78%|███████▊  | 327/417 [34:07<02:13,  1.49s/it][2026-07-16 18:23:32] FILE 328/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00320-of-00400.parquet
+Files:  79%|███████▊  | 328/417 [34:09<02:26,  1.64s/it][2026-07-16 18:23:34] FILE 329/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00321-of-00400.parquet
+Files:  79%|███████▉  | 329/417 [34:11<02:31,  1.72s/it][2026-07-16 18:23:36] FILE 330/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00322-of-00400.parquet
+Files:  79%|███████▉  | 330/417 [34:12<02:27,  1.69s/it][2026-07-16 18:23:38] FILE 331/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00323-of-00400.parquet
+Files:  79%|███████▉  | 331/417 [34:14<02:18,  1.61s/it][2026-07-16 18:23:39] FILE 332/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00324-of-00400.parquet
+Files:  80%|███████▉  | 332/417 [34:15<02:16,  1.61s/it][2026-07-16 18:23:41] FILE 333/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00325-of-00400.parquet
+Files:  80%|███████▉  | 333/417 [34:17<02:08,  1.52s/it][2026-07-16 18:23:42] FILE 334/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00326-of-00400.parquet
+Files:  80%|████████  | 334/417 [34:18<02:11,  1.59s/it][2026-07-16 18:23:44] FILE 335/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00327-of-00400.parquet
+Files:  80%|████████  | 335/417 [34:20<02:09,  1.57s/it][2026-07-16 18:23:45] FILE 336/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00328-of-00400.parquet
+[2026-07-16 18:23:47] PROGRESS rows=301,996 kept=301,868 dropped=128 rows/sec=146.5
+Files:  81%|████████  | 336/417 [34:21<02:04,  1.54s/it][2026-07-16 18:23:47] FILE 337/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00329-of-00400.parquet
+Files:  81%|████████  | 337/417 [34:23<02:08,  1.61s/it][2026-07-16 18:23:48] FILE 338/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00330-of-00400.parquet
+Files:  81%|████████  | 338/417 [34:25<02:10,  1.65s/it][2026-07-16 18:23:50] FILE 339/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00331-of-00400.parquet
+Files:  81%|████████▏ | 339/417 [34:27<02:07,  1.64s/it][2026-07-16 18:23:52] FILE 340/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00332-of-00400.parquet
+Files:  82%|████████▏ | 340/417 [34:29<02:14,  1.75s/it][2026-07-16 18:23:54] FILE 341/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00333-of-00400.parquet
+Files:  82%|████████▏ | 341/417 [34:30<02:09,  1.71s/it][2026-07-16 18:23:55] FILE 342/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00334-of-00400.parquet
+Files:  82%|████████▏ | 342/417 [34:32<02:02,  1.63s/it][2026-07-16 18:23:57] FILE 343/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00335-of-00400.parquet
+Files:  82%|████████▏ | 343/417 [34:33<01:54,  1.55s/it][2026-07-16 18:23:58] FILE 344/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00336-of-00400.parquet
+Files:  82%|████████▏ | 344/417 [34:34<01:50,  1.52s/it][2026-07-16 18:24:00] FILE 345/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00337-of-00400.parquet
+Files:  83%|████████▎ | 345/417 [34:36<01:58,  1.65s/it][2026-07-16 18:24:02] FILE 346/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00338-of-00400.parquet
+Files:  83%|████████▎ | 346/417 [34:38<01:51,  1.57s/it][2026-07-16 18:24:03] FILE 347/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00339-of-00400.parquet
+Files:  83%|████████▎ | 347/417 [34:39<01:43,  1.48s/it][2026-07-16 18:24:04] FILE 348/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00340-of-00400.parquet
+Files:  83%|████████▎ | 348/417 [34:40<01:35,  1.38s/it][2026-07-16 18:24:05] FILE 349/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00341-of-00400.parquet
+Files:  84%|████████▎ | 349/417 [34:41<01:32,  1.37s/it][2026-07-16 18:24:07] FILE 350/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00342-of-00400.parquet
+Files:  84%|████████▍ | 350/417 [34:43<01:36,  1.45s/it][2026-07-16 18:24:08] FILE 351/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00343-of-00400.parquet
+Files:  84%|████████▍ | 351/417 [34:45<01:41,  1.54s/it][2026-07-16 18:24:10] FILE 352/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00344-of-00400.parquet
+Files:  84%|████████▍ | 352/417 [34:46<01:39,  1.53s/it][2026-07-16 18:24:12] FILE 353/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00345-of-00400.parquet
+Files:  85%|████████▍ | 353/417 [34:48<01:34,  1.48s/it][2026-07-16 18:24:13] FILE 354/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00346-of-00400.parquet
+Files:  85%|████████▍ | 354/417 [34:49<01:31,  1.45s/it][2026-07-16 18:24:14] FILE 355/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00347-of-00400.parquet
+Files:  85%|████████▌ | 355/417 [34:51<01:36,  1.56s/it][2026-07-16 18:24:16] FILE 356/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00348-of-00400.parquet
+Files:  85%|████████▌ | 356/417 [34:52<01:35,  1.56s/it][2026-07-16 18:24:18] FILE 357/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00349-of-00400.parquet
+Files:  86%|████████▌ | 357/417 [34:54<01:30,  1.50s/it][2026-07-16 18:24:19] FILE 358/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00350-of-00400.parquet
+Files:  86%|████████▌ | 358/417 [34:56<01:33,  1.58s/it][2026-07-16 18:24:21] FILE 359/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00351-of-00400.parquet
+Files:  86%|████████▌ | 359/417 [34:57<01:32,  1.59s/it][2026-07-16 18:24:22] FILE 360/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00352-of-00400.parquet
+Files:  86%|████████▋ | 360/417 [34:59<01:27,  1.54s/it][2026-07-16 18:24:24] FILE 361/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00353-of-00400.parquet
+Files:  87%|████████▋ | 361/417 [35:00<01:27,  1.56s/it][2026-07-16 18:24:26] FILE 362/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00354-of-00400.parquet
+Files:  87%|████████▋ | 362/417 [35:02<01:24,  1.53s/it][2026-07-16 18:24:27] FILE 363/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00355-of-00400.parquet
+Files:  87%|████████▋ | 363/417 [35:03<01:26,  1.60s/it][2026-07-16 18:24:29] FILE 364/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00356-of-00400.parquet
+Files:  87%|████████▋ | 364/417 [35:05<01:30,  1.72s/it][2026-07-16 18:24:31] FILE 365/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00357-of-00400.parquet
+Files:  88%|████████▊ | 365/417 [35:07<01:27,  1.68s/it][2026-07-16 18:24:32] FILE 366/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00358-of-00400.parquet
+Files:  88%|████████▊ | 366/417 [35:09<01:23,  1.65s/it][2026-07-16 18:24:34] FILE 367/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00359-of-00400.parquet
+Files:  88%|████████▊ | 367/417 [35:10<01:23,  1.67s/it][2026-07-16 18:24:36] FILE 368/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00360-of-00400.parquet
+Files:  88%|████████▊ | 368/417 [35:12<01:19,  1.63s/it][2026-07-16 18:24:37] FILE 369/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00361-of-00400.parquet
+Files:  88%|████████▊ | 369/417 [35:14<01:22,  1.73s/it][2026-07-16 18:24:39] FILE 370/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00362-of-00400.parquet
+Files:  89%|████████▊ | 370/417 [35:16<01:20,  1.72s/it][2026-07-16 18:24:41] FILE 371/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00363-of-00400.parquet
+Files:  89%|████████▉ | 371/417 [35:17<01:15,  1.65s/it][2026-07-16 18:24:42] FILE 372/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00364-of-00400.parquet
+Files:  89%|████████▉ | 372/417 [35:18<01:08,  1.52s/it][2026-07-16 18:24:44] FILE 373/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00365-of-00400.parquet
+Files:  89%|████████▉ | 373/417 [35:20<01:03,  1.45s/it][2026-07-16 18:24:45] FILE 374/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00366-of-00400.parquet
+Files:  90%|████████▉ | 374/417 [35:21<01:05,  1.53s/it][2026-07-16 18:24:47] FILE 375/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00367-of-00400.parquet
+Files:  90%|████████▉ | 375/417 [35:23<01:04,  1.53s/it][2026-07-16 18:24:48] FILE 376/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00368-of-00400.parquet
+Files:  90%|█████████ | 376/417 [35:24<00:59,  1.45s/it][2026-07-16 18:24:49] FILE 377/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00369-of-00400.parquet
+Files:  90%|█████████ | 377/417 [35:26<00:59,  1.48s/it][2026-07-16 18:24:51] FILE 378/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00370-of-00400.parquet
+Files:  91%|█████████ | 378/417 [35:27<00:56,  1.44s/it][2026-07-16 18:24:52] FILE 379/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00371-of-00400.parquet
+Files:  91%|█████████ | 379/417 [35:29<00:59,  1.57s/it][2026-07-16 18:24:54] FILE 380/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00372-of-00400.parquet
+Files:  91%|█████████ | 380/417 [35:31<00:59,  1.60s/it][2026-07-16 18:24:56] FILE 381/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00373-of-00400.parquet
+Files:  91%|█████████▏| 381/417 [35:32<00:56,  1.56s/it][2026-07-16 18:24:57] FILE 382/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00374-of-00400.parquet
+Files:  92%|█████████▏| 382/417 [35:33<00:51,  1.49s/it][2026-07-16 18:24:59] FILE 383/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00375-of-00400.parquet
+Files:  92%|█████████▏| 383/417 [35:35<00:50,  1.49s/it][2026-07-16 18:25:00] FILE 384/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00376-of-00400.parquet
+Files:  92%|█████████▏| 384/417 [35:37<00:51,  1.57s/it][2026-07-16 18:25:02] FILE 385/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00377-of-00400.parquet
+Files:  92%|█████████▏| 385/417 [35:39<00:54,  1.69s/it][2026-07-16 18:25:04] FILE 386/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00378-of-00400.parquet
+Files:  93%|█████████▎| 386/417 [35:40<00:50,  1.64s/it][2026-07-16 18:25:05] FILE 387/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00379-of-00400.parquet
+Files:  93%|█████████▎| 387/417 [35:41<00:46,  1.55s/it][2026-07-16 18:25:07] FILE 388/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00380-of-00400.parquet
+Files:  93%|█████████▎| 388/417 [35:43<00:42,  1.48s/it][2026-07-16 18:25:08] FILE 389/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00381-of-00400.parquet
+Files:  93%|█████████▎| 389/417 [35:44<00:42,  1.52s/it][2026-07-16 18:25:10] FILE 390/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00382-of-00400.parquet
+Files:  94%|█████████▎| 390/417 [35:46<00:41,  1.54s/it][2026-07-16 18:25:11] FILE 391/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00383-of-00400.parquet
+Files:  94%|█████████▍| 391/417 [35:47<00:40,  1.55s/it][2026-07-16 18:25:13] FILE 392/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00384-of-00400.parquet
+[2026-07-16 18:25:14] PROGRESS rows=352,095 kept=351,943 dropped=152 rows/sec=163.8
+Files:  94%|█████████▍| 392/417 [35:49<00:38,  1.53s/it][2026-07-16 18:25:14] FILE 393/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00385-of-00400.parquet
+Files:  94%|█████████▍| 393/417 [35:50<00:36,  1.52s/it][2026-07-16 18:25:16] FILE 394/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00386-of-00400.parquet
+Files:  94%|█████████▍| 394/417 [35:52<00:34,  1.50s/it][2026-07-16 18:25:17] FILE 395/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00387-of-00400.parquet
+Files:  95%|█████████▍| 395/417 [35:54<00:34,  1.55s/it][2026-07-16 18:25:19] FILE 396/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00388-of-00400.parquet
+Files:  95%|█████████▍| 396/417 [35:55<00:32,  1.57s/it][2026-07-16 18:25:20] FILE 397/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00389-of-00400.parquet
+Files:  95%|█████████▌| 397/417 [35:57<00:30,  1.51s/it][2026-07-16 18:25:22] FILE 398/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00390-of-00400.parquet
+Files:  95%|█████████▌| 398/417 [35:58<00:27,  1.44s/it][2026-07-16 18:25:23] FILE 399/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00391-of-00400.parquet
+Files:  96%|█████████▌| 399/417 [35:59<00:25,  1.40s/it][2026-07-16 18:25:24] FILE 400/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00392-of-00400.parquet
+Files:  96%|█████████▌| 400/417 [36:01<00:24,  1.45s/it][2026-07-16 18:25:26] FILE 401/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00393-of-00400.parquet
+Files:  96%|█████████▌| 401/417 [36:02<00:23,  1.49s/it][2026-07-16 18:25:28] FILE 402/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00394-of-00400.parquet
+Files:  96%|█████████▋| 402/417 [36:04<00:22,  1.53s/it][2026-07-16 18:25:29] FILE 403/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00395-of-00400.parquet
+Files:  97%|█████████▋| 403/417 [36:05<00:20,  1.45s/it][2026-07-16 18:25:30] FILE 404/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00396-of-00400.parquet
+Files:  97%|█████████▋| 404/417 [36:06<00:18,  1.41s/it][2026-07-16 18:25:32] FILE 405/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00397-of-00400.parquet
+Files:  97%|█████████▋| 405/417 [36:08<00:18,  1.52s/it][2026-07-16 18:25:34] FILE 406/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00398-of-00400.parquet
+Files:  97%|█████████▋| 406/417 [36:10<00:17,  1.58s/it][2026-07-16 18:25:35] FILE 407/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/train-00399-of-00400.parquet
+Files:  98%|█████████▊| 407/417 [36:11<00:14,  1.45s/it][2026-07-16 18:25:36] FILE 408/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/validation-00000-of-00010.parquet
+Files:  98%|█████████▊| 408/417 [36:13<00:13,  1.53s/it][2026-07-16 18:25:38] FILE 409/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/validation-00001-of-00010.parquet
+Files:  98%|█████████▊| 409/417 [36:14<00:11,  1.49s/it][2026-07-16 18:25:39] FILE 410/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/validation-00002-of-00010.parquet
+Files:  98%|█████████▊| 410/417 [36:16<00:10,  1.50s/it][2026-07-16 18:25:41] FILE 411/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/validation-00003-of-00010.parquet
+Files:  99%|█████████▊| 411/417 [36:17<00:09,  1.53s/it][2026-07-16 18:25:43] FILE 412/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/validation-00004-of-00010.parquet
+Files:  99%|█████████▉| 412/417 [36:19<00:07,  1.56s/it][2026-07-16 18:25:44] FILE 413/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/validation-00005-of-00010.parquet
+Files:  99%|█████████▉| 413/417 [36:21<00:06,  1.57s/it][2026-07-16 18:25:46] FILE 414/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/validation-00006-of-00010.parquet
+Files:  99%|█████████▉| 414/417 [36:22<00:04,  1.55s/it][2026-07-16 18:25:47] FILE 415/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/validation-00007-of-00010.parquet
+Files: 100%|█████████▉| 415/417 [36:24<00:03,  1.59s/it][2026-07-16 18:25:49] FILE 416/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/validation-00008-of-00010.parquet
+Files: 100%|█████████▉| 416/417 [36:25<00:01,  1.55s/it][2026-07-16 18:25:50] FILE 417/417: /workspace/asr/Palestinian-ASR/data/masc_c_only/data/validation-00009-of-00010.parquet
+Files: 100%|██████████| 417/417 [36:27<00:00,  1.70s/it]Files: 100%|██████████| 417/417 [36:27<00:00,  5.25s/it]
+[2026-07-16 18:26:00] DONE rows=373,624 elapsed_min=36.59
+{'total': 373624, 'kept': 373464, 'audio_too_short': 160, 'dropped_audio_too_short': 160}
+Reports written to: /workspace/asr/Palestinian-ASR/data_cleaned_text_v1/reports
+       dataset   total  ...  dropped_audio_too_short  pct_dropped_audio_too_short
+0  masc_c_only  373624  ...                      160                     0.042824
+
+[1 rows x 18 columns]
+Clean shards: 417
+
+Dropped folders:
+- audio_too_short: 135 shard(s)
+
+Report files:
+- /workspace/asr/Palestinian-ASR/data_cleaned_text_v1/reports/cleaning_report.json
+- /workspace/asr/Palestinian-ASR/data_cleaned_text_v1/reports/config.json
+- /workspace/asr/Palestinian-ASR/data_cleaned_text_v1/reports/per_dataset_report.csv
+- /workspace/asr/Palestinian-ASR/data_cleaned_text_v1/reports/run.log
+- /workspace/asr/Palestinian-ASR/data_cleaned_text_v1/reports/run_manifest.json
+                                                text  ... flag_contains_bracket_token
+0  اللهم من ارادنا وبلادنا وبلاد المسلمين بسوء ال...  ...                       False
+1                                  لا باس بها كبدايه  ...                       False
+2                     برئ من الكبر من حمل حاجته بيده  ...                       False
+3                             الى مراد الله و رضوانه  ...                       False
+4         مع جذب الكبرى و مسافه تتناسب مع جذب الصغرى  ...                       False
+5  يقوم هذين الشخصين بنقل مجموعه من البراميل باست...  ...                       False
+6        طبعا الا في حالات الدراسه باللغه الانجليزيه  ...                       False
+7  فتستطيع النقر مرتين هنا و اختيار اللون الاول ل...  ...                       False
+8  وبتتطور الحاله بسبب الاهمال الى نمو الاظافر دا...  ...                       False
+9       و تعد بذور الكتان مثاليه لعلاج تصلب الشرايين  ...                       False
+
+[10 rows x 5 columns]
