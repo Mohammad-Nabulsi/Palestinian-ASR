@@ -373,6 +373,51 @@ Important note on the Omnilingual English report:
 - They can also come from fields like `prompt`, `prompt_id`, `source_file`, and other metadata carried into dropped shards.
 - The generated report records token counts by field and row-level examples.
 
+## Post-Merge Cleanup: Deleting Superseded Raw/Intermediate Directories
+
+Once `data_cleaned_text_merged_v1/` existed and was verified (119/119 + 417/417 shards present,
+`run.log` ended with `DONE rows=...` matching the report totals, no zero-byte files), several
+raw/intermediate directories became redundant: their entire content was already captured, in
+cleaned form, inside `data_cleaned_text_merged_v1/clean/`. They were deleted directly on network
+storage (`/workspace/asr/Palestinian-ASR/...`) to free space:
+
+- `MASC-Arabic2/` (raw, ~173GB) — only the `type=='c'` subset was ever used (via
+  `filter_masc_c_only.py`), and that filtered+cleaned subset is fully captured in
+  `data_cleaned_text_merged_v1/clean/masc_c_only__*`.
+- `casablanca/` (raw, ~8.6GB) — fully captured in `data_cleaned_text_merged_v1/clean/casablanca_*`;
+  row counts matched the historical counts in this file exactly.
+- `processed_qasr_segments/` (intermediate, ~55GB) — the QASR-segments-as-Arrow intermediate from
+  `preprocess/qasr_segment_to_arrow.py`; fully captured in
+  `data_cleaned_text_merged_v1/clean/processed_qasr_segments__train__*`. Note: this only reflects
+  the 961/3,545 QASR transcripts that had matched audio at the time — see the QASR Gap 2 discussion
+  below before assuming this is the full QASR dataset.
+- `data/` (staging root from `scripts/stage_raw_datasets.py`, ~80GB) — every one of its five
+  entries (`casablanca_jordanian`, `casablanca_palestinian`, `masc_c_only/`, `omnilingual_apc`,
+  `processed_qasr_segments`) is covered by `data_cleaned_text_merged_v1/clean/`, except `layla/`
+  (Layla was never run through the text-cleaning notebooks — see the Layla sections above). The raw
+  Layla source of truth stays independently safe in `Layla/`, so `data/layla/` was not a unique copy.
+- `.venv/` (broken pre-existing venv, ~2.4GB) — had a broken `pyarrow.parquet` import and a `pip`
+  with a dead shebang; fully superseded by a freshly built `.venv_data` (python3.11, from
+  `requirements-data.txt`).
+
+**Explicitly NOT deleted, and why:**
+
+- `QASR/` raw (~150GB, including the un-extracted `qasr_wav_v1.0.tar.bz2.part_aa`/`part_ab`) — see
+  "QASR Gap 2" below. Only 961/3,545 QASR transcripts have matched audio in
+  `processed_qasr_segments/`; the two un-extracted archives (96.6GB compressed) are suspected to
+  hold the other ~2,584 transcripts' audio (their compressed size alone exceeds the uncompressed
+  size of everything already extracted, and their mtime is ~4 years newer than the already-extracted
+  "alt" wav folder — the two were never the same data).
+- `Layla/` raw — needed for steps 10-11 (Layla normalize + shard), not yet run.
+- `omnilingual_selected/` raw — needed as the input for step 7 (Omnilingual reclean v2).
+- `Runs/` — do **not** assume this is safe to delete just because it also holds stale dialect-scan
+  summary/log leftovers from the old VM. It also contains `.unreliable urns/` (~95MB of unrelated
+  training-run notebooks/configs for whisper_medium, whisper_large_v3, qwen3_asr_0_6b,
+  omnilingual_asr_1b) and a `README.md` describing it as the general training/eval workflow
+  directory — unrelated to data curation.
+
+Net effect: freed ~317GB (project usage 618GB → 301GB on `/workspace/asr/Palestinian-ASR/`).
+
 ## Omnilingual Recleaning and Recovery
 
 After the first merged audit, the Omnilingual APC subset was re-cleaned in explicit Python steps.
@@ -626,6 +671,40 @@ Run command:
 cd /home/MohammadNabulsi/whisper
 ./.venv/bin/python scripts/repair_qasr_audio_and_rebuild_levant_binary.py
 ```
+
+## Note: Same Script Reused Across Multiple Steps
+
+Several pipeline steps are not distinct implementations — they reuse an already-documented script
+against a different dataset or a different input, sometimes via a generator script and sometimes
+via direct subprocess orchestration:
+
+- **Fast text-cleaning notebook, run 3x.** The base notebook
+  [preprocess/fast_asr_data_cleaning_text_only_arrow_parquet.ipynb](/home/MohammadNabulsi/whisper/preprocess/fast_asr_data_cleaning_text_only_arrow_parquet.ipynb)
+  (broad pass, effectively `masc_c_only`), the QASR+Casablanca+Omnilingual notebook
+  [preprocess/fast_asr_data_cleaning_text_only_arrow_parquet_qasr_casablanca_omni.ipynb](/home/MohammadNabulsi/whisper/preprocess/fast_asr_data_cleaning_text_only_arrow_parquet_qasr_casablanca_omni.ipynb),
+  and the Layla notebook
+  [preprocess/fast_asr_data_cleaning_text_only_arrow_parquet_layla.ipynb](/home/MohammadNabulsi/whisper/preprocess/fast_asr_data_cleaning_text_only_arrow_parquet_layla.ipynb)
+  all share the same cleaning logic (drop English letters, drop numbers, drop `<0.5s` duration,
+  create `manual_normalized_transcript`). Only `INPUT_ROOT`/`OUTPUT_ROOT`/discovery globs differ.
+  The QASR+Casablanca+Omnilingual notebook is mechanically generated from the base notebook by
+  [preprocess/build_qasr_casablanca_omnilingual_cleaning_notebook.py](/home/MohammadNabulsi/whisper/preprocess/build_qasr_casablanca_omnilingual_cleaning_notebook.py);
+  the Layla notebook is a hand-adapted copy of the same base with the same diff shape (config cells
+  changed, cleaning logic untouched).
+
+- **QASR repair-and-rebuild orchestrator has no processing logic of its own.**
+  [scripts/repair_qasr_audio_and_rebuild_levant_binary.py](/home/MohammadNabulsi/whisper/scripts/repair_qasr_audio_and_rebuild_levant_binary.py)
+  is a subprocess wrapper: it reruns
+  [dialect_identifiaction/arabic_dialect_scan_badrex_mms300m.py](/home/MohammadNabulsi/whisper/dialect_identifiaction/arabic_dialect_scan_badrex_mms300m.py)
+  (the same script used for the original audio dialect ID pass) with the PCM-aware loader, then
+  reruns [scripts/create_levant_non_levant_splits.py](/home/MohammadNabulsi/whisper/scripts/create_levant_non_levant_splits.py)
+  (the same script used for the first binary split) against the repaired audio output. Neither call
+  is a new implementation.
+
+- **The audio dialect scan script (`arabic_dialect_scan_badrex_mms300m.py`) has been invoked at
+  least three times** against different candidate subsets over the pipeline's history: once against
+  combined `masc_c`+`qasr` candidates (`Runs/dialect_scan_badrex_mms300m_lev08_text_candidates_masc_c_qasr/`),
+  once against a `qasr`-only candidate set (`Runs/dialect_scan_badrex_mms300m_lev08_text_candidates_qasr_only_qasrfix/`),
+  and again via the repair-and-rebuild orchestrator above.
 
 ## Related Utility Scripts
 
