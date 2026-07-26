@@ -1,0 +1,149 @@
+[2026-07-26T14:00:45+00:00] === QASR full pipeline starting ===
+[2026-07-26T14:00:45+00:00] Log file: /root/Palestinian-ASR/.logs/qasr_full_extract_20260726_140045.log
+[2026-07-26T14:00:45+00:00] CPUs to use: 4
+[2026-07-26T14:00:45+00:00] Downloading qasr_wav_v1.0.tar.bz2.part_ac (attempt 1, no -c: see note above on why)...
+[2026-07-26T14:02:46+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  1968979968/48318382080 bytes (4%)  last-120s-rate=15MB/s  elapsed=121s
+[2026-07-26T14:04:46+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  3939303424/48318382080 bytes (8%)  last-120s-rate=15MB/s  elapsed=241s
+[2026-07-26T14:06:46+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  6106906624/48318382080 bytes (12%)  last-120s-rate=17MB/s  elapsed=361s
+[2026-07-26T14:08:46+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  8380219392/48318382080 bytes (17%)  last-120s-rate=18MB/s  elapsed=481s
+[2026-07-26T14:10:46+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  10612506624/48318382080 bytes (21%)  last-120s-rate=17MB/s  elapsed=601s
+[2026-07-26T14:12:46+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  12220907520/48318382080 bytes (25%)  last-120s-rate=12MB/s  elapsed=721s
+[2026-07-26T14:14:46+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  14523432960/48318382080 bytes (30%)  last-120s-rate=18MB/s  elapsed=841s
+[2026-07-26T14:16:47+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  16731078656/48318382080 bytes (34%)  last-120s-rate=17MB/s  elapsed=962s
+[2026-07-26T14:18:47+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  18955075584/48318382080 bytes (39%)  last-120s-rate=17MB/s  elapsed=1082s
+[2026-07-26T14:20:48+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  21164457984/48318382080 bytes (43%)  last-120s-rate=17MB/s  elapsed=1203s
+[2026-07-26T14:22:48+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  23416799232/48318382080 bytes (48%)  last-120s-rate=17MB/s  elapsed=1323s
+[2026-07-26T14:24:48+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  25689636864/48318382080 bytes (53%)  last-120s-rate=18MB/s  elapsed=1443s
+[2026-07-26T14:26:48+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  27947548672/48318382080 bytes (57%)  last-120s-rate=17MB/s  elapsed=1563s
+[2026-07-26T14:28:48+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  30130356224/48318382080 bytes (62%)  last-120s-rate=17MB/s  elapsed=1683s
+[2026-07-26T14:30:48+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  32340754432/48318382080 bytes (66%)  last-120s-rate=17MB/s  elapsed=1803s
+[2026-07-26T14:32:48+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  34071085056/48318382080 bytes (70%)  last-120s-rate=13MB/s  elapsed=1923s
+[2026-07-26T14:34:48+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  35723509760/48318382080 bytes (73%)  last-120s-rate=13MB/s  elapsed=2043s
+[2026-07-26T14:36:48+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  37962645504/48318382080 bytes (78%)  last-120s-rate=17MB/s  elapsed=2163s
+[2026-07-26T14:38:48+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  40177238016/48318382080 bytes (83%)  last-120s-rate=17MB/s  elapsed=2283s
+[2026-07-26T14:40:48+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  42336829440/48318382080 bytes (87%)  last-120s-rate=17MB/s  elapsed=2403s
+[2026-07-26T14:42:48+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  44615827456/48318382080 bytes (92%)  last-120s-rate=18MB/s  elapsed=2523s
+[2026-07-26T14:44:48+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  46711635968/48318382080 bytes (96%)  last-120s-rate=16MB/s  elapsed=2643s
+[2026-07-26T14:46:48+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ac  48318382080/48318382080 bytes (100%)  last-120s-rate=12MB/s  elapsed=2763s
+[2026-07-26T14:46:48+00:00] wget exited status=0, final size=48318382080 (expected 48318382080)
+[2026-07-26T14:46:48+00:00] OK: qasr_wav_v1.0.tar.bz2.part_ac already complete (48318382080 bytes)
+[2026-07-26T14:46:49+00:00] Downloading qasr_wav_v1.0.tar.bz2.part_ad (attempt 1, no -c: see note above on why)...
+[2026-07-26T14:48:49+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ad  1986379776/25648868607 bytes (7%)  last-120s-rate=15MB/s  elapsed=120s
+[2026-07-26T14:50:49+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ad  3825205248/25648868607 bytes (14%)  last-120s-rate=14MB/s  elapsed=240s
+[2026-07-26T14:52:49+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ad  5734252544/25648868607 bytes (22%)  last-120s-rate=15MB/s  elapsed=360s
+[2026-07-26T14:54:49+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ad  7730102272/25648868607 bytes (30%)  last-120s-rate=15MB/s  elapsed=480s
+[2026-07-26T14:56:49+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ad  9745596416/25648868607 bytes (37%)  last-120s-rate=16MB/s  elapsed=600s
+[2026-07-26T14:58:49+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ad  11727175680/25648868607 bytes (45%)  last-120s-rate=15MB/s  elapsed=720s
+[2026-07-26T15:00:49+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ad  13642268672/25648868607 bytes (53%)  last-120s-rate=15MB/s  elapsed=840s
+[2026-07-26T15:02:49+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ad  15740239872/25648868607 bytes (61%)  last-120s-rate=16MB/s  elapsed=960s
+[2026-07-26T15:04:49+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ad  17878073344/25648868607 bytes (69%)  last-120s-rate=16MB/s  elapsed=1080s
+[2026-07-26T15:06:49+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ad  19984171008/25648868607 bytes (77%)  last-120s-rate=16MB/s  elapsed=1200s
+[2026-07-26T15:08:49+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ad  22002679808/25648868607 bytes (85%)  last-120s-rate=16MB/s  elapsed=1320s
+[2026-07-26T15:10:49+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ad  24151572480/25648868607 bytes (94%)  last-120s-rate=17MB/s  elapsed=1440s
+[2026-07-26T15:12:49+00:00] progress: qasr_wav_v1.0.tar.bz2.part_ad  25648868607/25648868607 bytes (100%)  last-120s-rate=11MB/s  elapsed=1560s
+[2026-07-26T15:12:49+00:00] wget exited status=0, final size=25648868607 (expected 25648868607)
+[2026-07-26T15:12:49+00:00] OK: qasr_wav_v1.0.tar.bz2.part_ad already complete (25648868607 bytes)
+[2026-07-26T15:12:49+00:00] === All 4 parts present locally ===
+-rw-r--r-- 1 100000 100000 48318382080 Mar 22  2025 /workspace/asr/Palestinian-ASR/QASR/qasr_wav_v1.0.tar.bz2.part_aa
+-rw-r--r-- 1 100000 100000 48318382080 Mar 22  2025 /workspace/asr/Palestinian-ASR/QASR/qasr_wav_v1.0.tar.bz2.part_ab
+-rw-r--r-- 1 root   root   48318382080 Mar 22  2025 /workspace/asr/Palestinian-ASR/QASR/qasr_wav_v1.0.tar.bz2.part_ac
+-rw-r--r-- 1 root   root   25648868607 Mar 22  2025 /workspace/asr/Palestinian-ASR/QASR/qasr_wav_v1.0.tar.bz2.part_ad
+[2026-07-26T15:12:49+00:00] Total compressed bytes across 4 parts: 170604014847
+[2026-07-26T15:12:50+00:00] === BEFORE sizes ===
+Filesystem                  Size  Used Avail Use% Mounted on
+mfs#euro-3.runpod.net:9421  1.4P  885T  513T  64% /workspace
+[2026-07-26T15:12:50+00:00] === Starting parallel decompression (pbzip2 -p4) + extraction into /workspace/asr/Palestinian-ASR/QASR/wav_all ===
+[2026-07-26T15:12:50+00:00] Progress line every 120s from pv (bytes of compressed input consumed):
+2.45GiB 0:02:00 [20.9MiB/s] [>                                 ]  1% ETA 2:07:35
+4.88GiB 0:04:00 [20.7MiB/s] [>                                 ]  3% ETA 2:06:11
+7.21GiB 0:06:00 [19.9MiB/s] [>                                 ]  4% ETA 2:06:10
+9.42GiB 0:08:00 [18.9MiB/s] [>                                 ]  5% ETA 2:06:53
+11.6GiB 0:10:00 [18.7MiB/s] [=>                                ]  7% ETA 2:06:52
+13.8GiB 0:12:00 [18.5MiB/s] [=>                                ]  8% ETA 2:06:22
+15.9GiB 0:14:00 [18.5MiB/s] [==>                               ] 10% ETA 2:05:30
+18.0GiB 0:16:00 [17.8MiB/s] [==>                               ] 11% ETA 2:05:00
+20.0GiB 0:18:00 [17.1MiB/s] [===>                              ] 12% ETA 2:04:47
+22.1GiB 0:20:00 [17.8MiB/s] [===>                              ] 13% ETA 2:03:39
+24.2GiB 0:22:00 [18.1MiB/s] [====>                             ] 15% ETA 2:02:12
+26.3GiB 0:24:00 [17.9MiB/s] [====>                             ] 16% ETA 2:00:48
+28.4GiB 0:26:00 [17.9MiB/s] [====>                             ] 17% ETA 1:59:19
+30.5GiB 0:28:00 [17.7MiB/s] [=====>                            ] 19% ETA 1:57:51
+32.5GiB 0:30:00 [17.4MiB/s] [=====>                            ] 20% ETA 1:56:29
+34.4GiB 0:32:00 [15.7MiB/s] [======>                           ] 21% ETA 1:55:53
+36.1GiB 0:34:00 [14.6MiB/s] [======>                           ] 22% ETA 1:55:41
+37.9GiB 0:36:00 [15.6MiB/s] [======>                           ] 23% ETA 1:54:49
+39.8GiB 0:38:00 [15.7MiB/s] [=======>                          ] 25% ETA 1:53:51
+41.6GiB 0:40:00 [15.6MiB/s] [=======>                          ] 26% ETA 1:52:48
+43.5GiB 0:42:00 [16.0MiB/s] [========>                         ] 27% ETA 1:51:33
+45.3GiB 0:44:00 [15.3MiB/s] [========>                         ] 28% ETA 1:50:29
+47.1GiB 0:46:00 [16.0MiB/s] [========>                         ] 29% ETA 1:49:04
+49.3GiB 0:48:00 [18.3MiB/s] [=========>                        ] 31% ETA 1:46:48
+51.2GiB 0:50:00 [16.1MiB/s] [=========>                        ] 32% ETA 1:45:17
+53.2GiB 0:52:00 [17.6MiB/s] [==========>                       ] 33% ETA 1:43:14
+55.1GiB 0:54:00 [16.3MiB/s] [==========>                       ] 34% ETA 1:41:38
+57.0GiB 0:56:00 [15.7MiB/s] [==========>                       ] 35% ETA 1:40:12
+58.8GiB 0:58:00 [15.8MiB/s] [===========>                      ] 37% ETA 1:38:40
+60.6GiB 1:00:00 [15.2MiB/s] [===========>                      ] 38% ETA 1:37:18
+62.4GiB 1:02:00 [15.0MiB/s] [============>                     ] 39% ETA 1:35:58
+64.2GiB 1:04:00 [15.8MiB/s] [============>                     ] 40% ETA 1:34:22
+66.1GiB 1:06:00 [16.0MiB/s] [============>                     ] 41% ETA 1:32:41
+68.0GiB 1:08:00 [16.1MiB/s] [=============>                    ] 42% ETA 1:30:58
+69.7GiB 1:10:00 [15.2MiB/s] [=============>                    ] 43% ETA 1:29:27
+71.6GiB 1:12:00 [15.6MiB/s] [==============>                   ] 45% ETA 1:27:49
+73.3GiB 1:14:00 [15.1MiB/s] [==============>                   ] 46% ETA 1:26:18
+75.1GiB 1:16:00 [15.3MiB/s] [==============>                   ] 47% ETA 1:24:42
+77.0GiB 1:18:00 [16.0MiB/s] [===============>                  ] 48% ETA 1:22:56
+78.8GiB 1:20:00 [15.5MiB/s] [===============>                  ] 49% ETA 1:21:15
+80.6GiB 1:22:00 [15.3MiB/s] [================>                 ] 50% ETA 1:19:36
+82.4GiB 1:24:00 [15.4MiB/s] [================>                 ] 51% ETA 1:17:56
+84.2GiB 1:26:00 [15.0MiB/s] [================>                 ] 52% ETA 1:16:19
+86.0GiB 1:28:00 [15.3MiB/s] [=================>                ] 54% ETA 1:14:38
+87.8GiB 1:30:00 [15.4MiB/s] [=================>                ] 55% ETA 1:12:54
+89.6GiB 1:32:00 [15.7MiB/s] [==================>               ] 56% ETA 1:11:06
+91.4GiB 1:34:00 [15.3MiB/s] [==================>               ] 57% ETA 1:09:22
+93.3GiB 1:36:00 [16.4MiB/s] [==================>               ] 58% ETA 1:07:25
+95.3GiB 1:38:00 [16.7MiB/s] [===================>              ] 59% ETA 1:05:23
+97.2GiB 1:40:00 [16.5MiB/s] [===================>              ] 61% ETA 1:03:24
+99.2GiB 1:42:00 [16.4MiB/s] [====================>             ] 62% ETA 1:01:26
+ 101GiB 1:44:00 [16.6MiB/s] [====================>             ] 63% ETA 0:59:26
+ 103GiB 1:46:00 [16.8MiB/s] [====================>             ] 64% ETA 0:57:24
+ 104GiB 1:48:00 [15.7MiB/s] [=====================>            ] 66% ETA 0:55:34
+ 106GiB 1:50:00 [15.2MiB/s] [=====================>            ] 67% ETA 0:53:49
+ 108GiB 1:52:00 [15.1MiB/s] [======================>           ] 68% ETA 0:52:04
+ 110GiB 1:54:00 [15.7MiB/s] [======================>           ] 69% ETA 0:50:12
+ 112GiB 1:56:00 [16.2MiB/s] [======================>           ] 70% ETA 0:48:15
+ 114GiB 1:58:00 [17.6MiB/s] [=======================>          ] 71% ETA 0:46:04
+ 116GiB 2:00:00 [17.5MiB/s] [=======================>          ] 73% ETA 0:43:54
+ 117GiB 2:02:00 [14.2MiB/s] [========================>         ] 74% ETA 0:42:17
+ 119GiB 2:04:00 [15.6MiB/s] [========================>         ] 75% ETA 0:40:26
+ 121GiB 2:06:00 [16.5MiB/s] [========================>         ] 76% ETA 0:38:26
+ 123GiB 2:08:00 [14.0MiB/s] [=========================>        ] 77% ETA 0:36:49
+ 125GiB 2:10:00 [14.2MiB/s] [=========================>        ] 78% ETA 0:35:10
+ 126GiB 2:12:00 [16.3MiB/s] [=========================>        ] 79% ETA 0:33:11
+ 128GiB 2:14:00 [16.0MiB/s] [==========================>       ] 81% ETA 0:31:15
+ 130GiB 2:16:00 [17.1MiB/s] [==========================>       ] 82% ETA 0:29:09
+ 132GiB 2:18:00 [16.6MiB/s] [===========================>      ] 83% ETA 0:27:07
+ 134GiB 2:20:00 [16.0MiB/s] [===========================>      ] 84% ETA 0:25:11
+ 136GiB 2:22:00 [16.8MiB/s] [===========================>      ] 85% ETA 0:23:08
+ 138GiB 2:24:00 [16.1MiB/s] [============================>     ] 87% ETA 0:21:10
+ 140GiB 2:26:00 [15.9MiB/s] [============================>     ] 88% ETA 0:19:15
+ 142GiB 2:28:00 [15.7MiB/s] [=============================>    ] 89% ETA 0:17:20
+ 144GiB 2:30:00 [16.6MiB/s] [=============================>    ] 90% ETA 0:15:19
+ 146GiB 2:32:00 [16.5MiB/s] [=============================>    ] 91% ETA 0:13:18
+ 148GiB 2:34:00 [16.6MiB/s] [==============================>   ] 93% ETA 0:11:17
+ 150GiB 2:36:00 [18.9MiB/s] [==============================>   ] 94% ETA 0:08:58
+ 152GiB 2:38:00 [18.0MiB/s] [===============================>  ] 95% ETA 0:06:45
+ 154GiB 2:40:00 [17.7MiB/s] [===============================>  ] 97% ETA 0:04:36
+ 156GiB 2:42:00 [18.0MiB/s] [================================> ] 98% ETA 0:02:24
+ 158GiB 2:44:00 [18.2MiB/s] [================================> ] 99% ETA 0:00:12
+ 158GiB 2:44:11 [16.5MiB/s] [================================>] 100%            
+
+[2026-07-26T17:57:02+00:00] === Extraction command finished with status 0 ===
+[2026-07-26T17:57:02+00:00] Total wav files extracted into /workspace/asr/Palestinian-ASR/QASR/wav_all: 3545
+[2026-07-26T17:57:02+00:00] Total xml transcripts: 3545
+[2026-07-26T17:57:03+00:00] xml transcripts with a matching wav: 3545 / 3545
+[2026-07-26T17:57:03+00:00] === AFTER sizes ===
+220G	/workspace/asr/Palestinian-ASR/QASR/wav_all
+Filesystem                  Size  Used Avail Use% Mounted on
+mfs#euro-3.runpod.net:9421  1.4P  891T  507T  64% /workspace
+[2026-07-26T17:57:03+00:00] DONE status=success wav_count=3545 matched=3545 xml_total=3545

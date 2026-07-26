@@ -1,6 +1,43 @@
 # HANDOFF — Data prep pipeline run (this session)
 
-_Last updated: 2026-07-16 18:40 UTC. Read this first if picking this up cold._
+_Last updated: 2026-07-26 18:00 UTC. Read this first if picking this up cold._
+
+## UPDATE 2026-07-26 — read this before trusting anything below dated 07-16
+
+Significant progress happened between the 07-16 snapshot below and today, both in earlier sessions
+(confirmed by inspecting network storage timestamps/content) and in this session. Corrections to the
+07-16 table:
+
+- **Step 6 (merge) is done.** `data_cleaned_text_merged_v1/` exists on network storage (not present
+  as of 07-16). Repo symlinks for `Layla`, `QASR`, `omnilingual_selected`, and
+  `data_cleaned_text_merged_v1` were missing from the local clone (only `Runs`/`intermediate` existed)
+  and have been added, matching `scripts/stage_raw_datasets.py`'s symlink pattern.
+- **Steps 12-13 (dialect ID) were attempted** (2026-06-27) but left no usable
+  `row_probabilities.jsonl` artifacts on disk — only `summary.json`/log files survived on network
+  storage. The audio-stage run (`Runs/dialect_scan_badrex_mms300m_lev08_text_candidates_masc_c_qasr/`)
+  also used the pre-fix QASR loader and had a 68% error rate (91,351/133,053 rows). A second,
+  fixed-loader attempt (`..._qasr_only_qasrfix/`) only got to 15.3% before stopping. **Both need a
+  full rerun from scratch** — treat steps 12-13 as still `⏳ not started` in practice, not `done`.
+- **Gap 1 (Layla) is partially resolved.** Raw Layla audio is back (874 files under `Layla/`,
+  confirmed present as of 07-18/07-26) — the "total loss" described below no longer applies. However
+  the 4 merged/normalized transcript JSONs (`normalized_output_appended.json` etc.) that steps 10-11
+  need are still missing, and no `layla__*.parquet` shards exist yet. Steps 10-11 remain blocked, but
+  now on "re-run normalization+sharding," not "re-source the raw dataset from scratch."
+- **Gap 2 (QASR) is now fully resolved (this session, 2026-07-26).** The archive was missing 2 of its
+  4 split parts (`part_ac`, `part_ad` — confirmed via the container's blob listing, not a corruption
+  issue). Downloaded both (do **not** use `wget -c` against
+  `arabicspeechdata.blob.core.windows.net` — measured ~30x slower than plain `wget` for a fresh
+  download, see gotchas) and extracted all 4 parts in one pass into a new `QASR/wav_all/` (220GB):
+  **3,545/3,545 wav files now match all 3,545 xml transcripts — 100%, up from 57%.** `pbzip2 -p4`
+  did not parallelize (this archive is plain single-threaded `bzip2`, not multi-stream `pbzip2`
+  output — decompression is inherently single-core regardless of flags). Old `QASR/wav_extracted/`
+  (125GB) and `QASR/alt/` (59GB) are now redundant subsets of `wav_all/`, not yet deleted.
+  Full details/commands: `data.md`'s QASR section and `DATA_CURATION.md`'s "QASR Full Extraction"
+  section, both updated today. Script used: `.logs/qasr_full_extract.sh`.
+- Net effect: **the QASR audio gap that blocked getting the full ~1.19M-row QASR volume is gone.**
+  Steps 12-15 can now be re-run against the complete QASR set instead of the 27%/57% partial one.
+
+
 
 Goal: run the raw→cleaned data pipeline described in `DATA_CURATION.md` on this box
 (`/root/Palestinian-ASR`, symlinked to network storage at `/workspace/asr/Palestinian-ASR/`),
@@ -130,7 +167,11 @@ Verified with `du -sh` against the real `/workspace` paths, not just the local s
    where parallelizing is actually justified — CPU-bound model inference, not I/O-contended, unlike
    the earlier steps). Needed inputs (`Runs/.../row_probabilities.jsonl`) are currently missing
    entirely on network storage (only summary/log files survived) — must be regenerated from
-   scratch.
+   scratch. **Update 2026-07-26: QASR audio is now 100% complete (`QASR/wav_all/`, 3,545/3,545,
+   see update note at top of this file) — re-running QASR segmentation
+   (`preprocess/qasr_segment_to_arrow.py`) against `wav_all/` before this step will produce
+   substantially more QASR rows than the 424K/961-wav or ~1.19M historical count this file cites
+   elsewhere; expect the dialect-ID compute budget to grow accordingly.**
 5. **Steps 14-15** depend on 12-13's output and the QASR gap resolution — do these last.
 6. Keep patching hardcoded `/home/MohammadNabulsi/whisper/` paths as you hit them; no script has
    been "fully" audited past step 6, only fixed reactively per-step so far.

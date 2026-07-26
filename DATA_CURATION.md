@@ -408,6 +408,9 @@ storage (`/workspace/asr/Palestinian-ASR/...`) to free space:
   hold the other ~2,584 transcripts' audio (their compressed size alone exceeds the uncompressed
   size of everything already extracted, and their mtime is ~4 years newer than the already-extracted
   "alt" wav folder — the two were never the same data).
+  **Update 2026-07-26: this suspicion was confirmed and the gap is now fully closed — see
+  "QASR Full Extraction" below. `QASR/` raw should still not be deleted (annotations still live
+  there), but the audio gap itself is resolved.**
 - `Layla/` raw — needed for steps 10-11 (Layla normalize + shard), not yet run.
 - `omnilingual_selected/` raw — needed as the input for step 7 (Omnilingual reclean v2).
 - `Runs/` — do **not** assume this is safe to delete just because it also holds stale dialect-scan
@@ -417,6 +420,43 @@ storage (`/workspace/asr/Palestinian-ASR/...`) to free space:
   directory — unrelated to data curation.
 
 Net effect: freed ~317GB (project usage 618GB → 301GB on `/workspace/asr/Palestinian-ASR/`).
+
+## QASR Full Extraction (2026-07-26)
+
+The QASR audio gap described above (and in "QASR Gap 2" / the QASR Audio Classification Repair
+section below) turned out to be a genuinely incomplete archive, not corruption: the source archive
+on `arabicspeechdata.blob.core.windows.net` has **4** split parts
+(`qasr_wav_v1.0.tar.bz2.part_a{a,b,c,d}`, confirmed by listing the container directly with the
+existing SAS token — `sig=D8KB7c2B5f4c6ikXd4nHl8QR620lTk3C0SMaB1rZeN0%3D`, valid until 2030-03-08),
+totaling ~159GiB compressed. This box only ever had `part_aa`+`part_ab` (~90GB, 56.7% of the total)
+downloaded, which is exactly why extraction stopped at 2,021/3,545 matched wav files (57%) — the
+`pbzip2`/`tar` "Unexpected EOF" error from the 2026-07-18 extraction attempt was the decompressor
+correctly running out of genuinely-missing input, not disk/stream corruption.
+
+What was done to close the gap:
+
+1. Downloaded the missing `part_ac` (48.3GB) and `part_ad` (23.9GB) with plain `wget` (no `-c` — see
+   the gotcha in `data.md`'s QASR section, `wget -c` against this specific endpoint measured ~30x
+   slower than a plain GET).
+2. Extracted all 4 parts in one pass: `cat part_aa part_ab part_ac part_ad | pv | pbzip2 -dc -p4 |
+   tar -xf - -C QASR/wav_all/`. Note `pbzip2 -p4` did not actually parallelize decompression — CPU
+   usage stayed at ~100% (one core) throughout, because this archive was originally compressed with
+   plain single-threaded `bzip2`, not `pbzip2` (parallel bzip2 *decompression* only works on files
+   that were themselves compressed as multiple independent streams). Sustained throughput was
+   ~15-20MB/s the whole way through, consistent with single-core bzip2 decompression speed.
+3. Verified: 3,545 wav files extracted, matching all 3,545 xml transcripts exactly (100%, up from
+   57%). Total pipeline time ~4h10m (downloads ~85min + extraction ~2h44m).
+
+Result: `QASR/wav_all/` (220GB) on network storage now contains the **complete** QASR audio set.
+`QASR/wav_extracted/` (125GB) and `QASR/alt/` (59GB) are now redundant strict subsets of `wav_all/`
+and can be deleted to reclaim ~184GB (not yet done as of this writing — pending confirmation, since
+their historical row counts were already baked into the now-superseded
+`processed_qasr_segments/` numbers referenced elsewhere in this file).
+
+Practical implication for the rest of the pipeline: any future re-run of QASR segmentation
+(`preprocess/qasr_segment_to_arrow.py`), the QASR fast-cleaning pass, or the QASR audio dialect scan
+should now point at `QASR/wav_all/` to get the full 3,545-transcript set, rather than the old
+`QASR/wav_extracted/`/`QASR/alt/` (961- or 2,021-file partial sets) that earlier pipeline runs used.
 
 ## Omnilingual Recleaning and Recovery
 
