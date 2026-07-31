@@ -436,6 +436,47 @@ FastConformer-CTC and CohereAsr through *this* unified file specifically. Since 
 mechanical copy of the exact same class bodies already GPU-verified in their own dedicated
 notebooks, this is a low-risk gap, not an unverified code path — but it's still a gap.
 
+### Whisper added as a fifth family (2026-07-31)
+
+The repo had a Whisper zero-shot eval notebook/script but no Whisper *fine-tuning* adapter —
+the omni notebook's own placeholder `WhisperAdapter` was always dead code
+(`raise NotImplementedError("register when needed")`). Built a real one and added it only to
+the unified notebook (no separate dedicated `asr_whisper_*_finetune.ipynb` — the request was
+specifically to extend the unified file), verified against the real API before writing any
+adapter code (same discipline as every other adapter here), not guessed:
+
+- Confirmed `WhisperForConditionalGeneration.forward()` accepts `labels` directly (auto-shifts
+  to `decoder_input_ids` via `config.decoder_start_token_id`, no manual shift needed).
+- Loaded the real cached weights (2.9GB, already present under the *default* HF cache from the
+  earlier zero-shot run; symlinked into this project's own `HF_HOME` so the adapter doesn't
+  redundantly redownload it) and ran a real generate + forward-with-labels round trip on a real
+  apc clip: coherent Arabic transcription, finite loss (1.52).
+- Confirmed real `torch.nn.Linear` leaves via `named_modules()`: `q_proj, k_proj, v_proj,
+  out_proj, fc1, fc2` (LoRA targets) plus `proj_out` (the vocab head — deliberately excluded,
+  same convention as excluding `lm_head` elsewhere in this repo).
+- Confirmed the training-label prefix trick: setting `language=`/`task=` on `AutoProcessor.
+  from_pretrained(...)` makes plain `tokenizer(text).input_ids` automatically emit
+  `<|startoftranscript|><|ar|><|transcribe|><|notimestamps|>` + text + `<|endoftext|>` — so
+  training labels condition on the same language/task prefix `generate()` uses at inference,
+  without hand-building a prompt (unlike CohereAsr, which does need to hand-build one).
+- `pad_token_id == eos_token_id` (both 50257) here, so batched label padding is masked via the
+  tokenizer's `attention_mask`, not by comparing to a fixed id (which would also wipe the one
+  real trailing eos in each sequence).
+
+Uses `ModelAdapter`'s default `apply_lora`/`save_checkpoint`/`load_checkpoint` unchanged — no
+override needed (real PEFT LoRA on real `torch.nn.Linear`, same category as Qwen3-ASR).
+Runs under `qwen_gpu` (`venv_qwen_gpu`) — Whisper has no fairseq2/NeMo-style version pin, so it
+needs nothing venv_qwen_gpu doesn't already have.
+
+Smoke test (`venv_qwen_gpu`, `MODEL_NAME=openai/whisper-large-v3`): **PASS**, 21/21 cells,
+0 errors, 437.0s. Real 2-epoch LoRA training loop executed (train loss 1.2348 → 1.1516, val WER
+stable at 0.3721), checkpoint dirs (`best/`, `ckpt_step00000001/2`, `history.json`) created
+correctly. Base WER 0.78 / tuned WER 0.93 on this one n=1 test clip — notably worse than the
+other four families' ~0.2–0.4 range on the same corpus, plausible since whisper-large-v3 is a
+general multilingual model with no Levantine-dialect fine-tuning, and per the standing
+disclaimer throughout this file: n=1, 2 epochs, not a quality signal, only a plumbing check
+(the point proven is that load → train → checkpoint → resume-compatible all execute correctly).
+
 ---
 
 ## Zero-shot generation: FastConformer-CTC was the missing model (2026-07-31)
