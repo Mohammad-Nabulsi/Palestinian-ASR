@@ -11,8 +11,8 @@ from typing import Any
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-INPUT_DIR = Path('/home/MohammadNabulsi/whisper/data_cleaned_text_omnilingual_v2/dropped/contains_english')
-OUTPUT_ROOT = Path('/home/MohammadNabulsi/whisper/data_cleaned_text_omnilingual_v3_recovered_from_v2')
+INPUT_DIR = Path('/workspace/asr/Palestinian-ASR/data_cleaned_text_omnilingual_v2/dropped/contains_english')
+OUTPUT_ROOT = Path('/workspace/asr/Palestinian-ASR/data_cleaned_text_omnilingual_v3_recovered_from_v2')
 ENGLISH_RE = re.compile(r'[A-Za-z]')
 NUMBER_RE = re.compile(r'[0-9٠-٩۰-۹]')
 DIACRITICS_RE = re.compile(r'[ؐ-ًؚ-ٰٟۖ-ۭ]')

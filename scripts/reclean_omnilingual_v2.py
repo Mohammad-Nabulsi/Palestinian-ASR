@@ -14,8 +14,8 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 from datasets import Dataset
 
-INPUT_ROOT = Path('/home/MohammadNabulsi/whisper/.intermediate_data/omnilingual_selected/apc_north_levantine_all_splits')
-OUTPUT_ROOT = Path('/home/MohammadNabulsi/whisper/data_cleaned_text_omnilingual_v2')
+INPUT_ROOT = Path('/workspace/asr/Palestinian-ASR/omnilingual_selected/apc_north_levantine_all_splits')
+OUTPUT_ROOT = Path('/workspace/asr/Palestinian-ASR/data_cleaned_text_omnilingual_v2')
 DISCOVERY_GLOB = 'data-*.arrow'
 MIN_DURATION_SEC = 0.5
 DROP_MISSING_DURATION = False
@@ -129,6 +129,9 @@ def main() -> None:
 
     for shard_path in shard_paths:
         ds = Dataset.from_file(str(shard_path))
+        if 'audio' in ds.column_names:
+            from datasets import Audio
+            ds = ds.cast_column('audio', Audio(decode=False))
         rows = [dict(row) for row in ds]
         if not rows:
             continue

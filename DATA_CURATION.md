@@ -453,10 +453,126 @@ and can be deleted to reclaim ~184GB (not yet done as of this writing — pendin
 their historical row counts were already baked into the now-superseded
 `processed_qasr_segments/` numbers referenced elsewhere in this file).
 
+**Update 2026-07-30:** the four split archive parts (`qasr_wav_v1.0.tar.bz2.part_a{a,b,c,d}`,
+170.6 GB) were deleted after verifying all 3,545 extracted wav open cleanly. `wav_extracted/` and
+`alt/` were sampled and confirmed byte-identical (md5) to their counterparts in `wav_all/`, so they
+remain safe to delete, but as of this writing they still exist. Note `QASR/alt/...` is the
+`original_audio_path` recorded in the 110 part-1 QASR shards; deleting it only makes that provenance
+string stale, since the audio bytes live inside the parquet and the identical files remain under
+`wav_all/`. The annotation archive `qasr_annotation_v1.0.tar.bz2` (77 MB) was deliberately kept —
+the XML transcripts it holds are the only copy of the text.
+
 Practical implication for the rest of the pipeline: any future re-run of QASR segmentation
 (`preprocess/qasr_segment_to_arrow.py`), the QASR fast-cleaning pass, or the QASR audio dialect scan
 should now point at `QASR/wav_all/` to get the full 3,545-transcript set, rather than the old
 `QASR/wav_extracted/`/`QASR/alt/` (961- or 2,021-file partial sets) that earlier pipeline runs used.
+
+## QASR Part 2: Closing the Segmentation Gap (2026-07-30)
+
+The 2026-07-26 extraction closed the *audio* gap, but the cleaned dataset still only contained the
+961 recordings that the original segmentation run had covered. This step segmented and cleaned the
+remaining 2,584 recordings and merged them in, so `data_cleaned_text_merged_v1/` now reflects the
+complete 3,545-recording QASR set.
+
+Measured starting point (scan of all 440 QASR shards in the merge, clean + dropped):
+
+- 424,086 rows from exactly **961 distinct `recording_id`s**, all under `QASR/alt/...`
+- `QASR/wav_all/` holds 3,545 wav; the XML dir holds 3,545 transcripts
+- **2,584 recordings uncovered**, all 2,584 with a matching XML
+
+Audio integrity was verified before any archive was deleted: all 3,545 wav open cleanly, 0 zero-byte,
+0 truncated, 235.2 GB, **2,041.9 hours** of audio.
+
+### Step A: segment the uncovered recordings
+
+```bash
+cd /workspace/asr/Palestinian-ASR
+/root/Palestinian-ASR/.venv_data/bin/python -u preprocess/qasr_segment_to_arrow.py \
+  --wav-dir QASR/wav_all/alt/arabic-speech-web/mgb2.1/wav \
+  --xml-dir QASR/mgb2.1/release/train_20210109/xml \
+  --output-dir /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2 \
+  --wav-stem-list /workspace/asr/Palestinian-ASR/.logs/qasr_new_stems_2584.json
+```
+
+`--wav-stem-list` is a new optional flag on `preprocess/qasr_segment_to_arrow.py`: it restricts
+segmentation to WAV stems listed in a JSON array. Default behaviour is unchanged when it is omitted.
+It exists so the already-covered 961 recordings can be excluded without building a symlink farm,
+which keeps `original_audio_path` pointing at the real `wav_all/` location. Running from the
+`/workspace/...` root keeps that path relative, matching the rows already in the merge.
+
+Result: **2,584/2,584 recordings → 1,177,332 segments, 304 Arrow shards** (151 GB), ~47 min.
+
+### Step B: fast text clean
+
+`.logs/clean_qasr_part2.py` is a copy of the step-5 cleaning script with only `INPUT_ROOT`,
+`OUTPUT_ROOT`, and the discovery glob changed — the cleaning logic is untouched, so the new rows are
+in exactly the same state as every other dataset in the merge. Output root
+`data_cleaned_text_qasr_part2_v1/`; glob `processed_qasr_segments_part2/train/*.arrow`.
+
+The `_part2` root name is load-bearing: `stable_file_id()` hashes the path relative to `INPUT_ROOT`,
+so a distinct root guarantees output filenames disjoint from the 110 QASR shards already merged.
+`merge_cleaned_outputs_and_report.py` hard-fails on a destination collision, and a re-run of the
+original `processed_qasr_segments/` path would have collided on all 110.
+
+Result: **1,177,332 rows, 304 clean shards**, ~29 min at ~690 rows/sec.
+
+### Step C: merge
+
+```bash
+/root/Palestinian-ASR/.venv_data/bin/python -u scripts/merge_cleaned_outputs_and_report.py \
+  --source /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_part2_v1 \
+  --dest /workspace/asr/Palestinian-ASR/data_cleaned_text_merged_v1 \
+  --intermediate-root /workspace/asr/Palestinian-ASR/intermediate/merged_cleaned_sources
+```
+
+~3 min: source and dest share a filesystem, so `shutil.move` is a rename and the ~150 GB never moves.
+The pre-merge `merge_manifest.json` was preserved as `merge_manifest.pre_qasr_part2.json`.
+
+### Verified end state of `data_cleaned_text_merged_v1/`
+
+| dataset | clean shards | clean rows |
+|---|---|---|
+| **QASR combined** | **414** | **1,508,531** |
+| ├ `processed_qasr_segments` (part 1, 961 recordings) | 110 | 399,633 |
+| └ `processed_qasr_segments_part2` (part 2, 2,584 recordings) | 304 | 1,108,898 |
+| `masc_c_only` | 417 | 373,464 |
+| `casablanca_jordanian` | 2 | 1,695 |
+| `casablanca_palestinian` | 4 | 1,328 |
+| `omnilingual_apc` | 3 | 43 |
+| **total** | **840** | **1,885,061** |
+
+Dropped tree: 550 `audio_too_short` / 417 `contains_english` / 414 `contains_number` shards,
+93,528 rows. Grand total 1,978,589 rows, **0 corrupt files** across all 2,221 shards.
+
+QASR grew **399,633 → 1,508,531 clean rows (3.8x)**. Note this exceeds the ~1.19M "historical"
+QASR figure cited elsewhere in this file — that number came from a partial run and should no longer
+be treated as the target.
+
+### Gotchas from this run
+
+- **The project directory has a ~800 GB quota**, entirely invisible to `df` (which reports the
+  cluster's 419 TB free). The first Step B died at 283/304 shards with
+  `OSError [Errno 122] Disk quota exceeded`. Check headroom with a `dd` test write, not `df`.
+- **A quota death corrupts far more than the file being written.** After the failure, 57 of 283
+  clean shards *and* 392 of the dropped shards had unreadable parquet footers, scattered throughout
+  the run rather than confined to the tail. Sampling a few shards gave a false all-clear; only a
+  footer read of *every* file found them.
+- **Do not trust a resumed run's report.** A resume that validates only `clean/` will happily leave a
+  corrupt `dropped/` tree behind, and its report covers only the resumed subset. After the quota was
+  lifted, the whole 304-shard pass was re-run from scratch rather than patched, and correctness was
+  established by counting rows in the files: clean + dropped must equal Step A's segment count
+  (1,177,332 = 1,177,332).
+- **Concurrent sessions are a real hazard.** Another session re-ran the pipeline script mid-flight;
+  its Step A skipped (shards present) and its Step B started cleaning partial Arrow output. Any
+  re-runnable driver script here should take a lockfile.
+
+### Ordering constraint with step 9
+
+`scripts/create_data_with_final_omnilingual.py` hardlink-copies `data_cleaned_text_merged_v1/` into
+`data/`, i.e. it **snapshots the merge at the moment it runs**, and refuses to run if `data/` already
+exists. It must therefore run *after* this merge; running it before would silently produce a `data/`
+containing only the old 399,633 QASR rows. Steps 7 and 8 (Omnilingual v2/v3) are unaffected — they
+touch only `omnilingual_selected/` and their own output roots.
 
 ## Omnilingual Recleaning and Recovery
 

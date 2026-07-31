@@ -1,0 +1,238 @@
+# Production config: the full raw -> curated pipeline on this box.
+#
+#   python -m pipeline run --config configs/full.yaml --only ingest
+#   python -m pipeline run --config configs/full.yaml            # everything
+#
+# Paths point at the real /workspace mount rather than the repo symlinks. That is
+# deliberate: several stages delete their output root before writing, and Python's
+# shutil.rmtree refuses to operate on a symlink (see HANDOFF_DATA_PIPELINE.md's
+# gotchas). The stages now raise a clear error instead of crashing, but pointing at
+# the real path avoids the situation entirely.
+#
+# Availability of raw sources on this box, per DATA_CURATION.md's post-merge cleanup:
+#   QASR        available -- wav_all/ is the COMPLETE 3,545-recording set
+#   Omnilingual available
+#   Layla       available (874 files; 218 .txt + 218 .docx transcripts)
+#   MASC        RAW DELETED (~173GB reclaimed) -- cleaned shards survive, see below
+#   Casablanca  RAW DELETED (~8.6GB reclaimed) -- cleaned shards survive, see below
+#
+# The two deleted sources are re-entered at the `assemble` stage from their already
+# cleaned shards in data_cleaned_text_merged_v1/clean/. Their ingest+clean entries are
+# kept below but disabled, so restoring the raw data is a one-word change.
+
+name: full
+
+vars:
+  ws: /workspace/asr/Palestinian-ASR
+  merged: /workspace/asr/Palestinian-ASR/data_cleaned_text_merged_v1
+  work: /workspace/asr/Palestinian-ASR/.pipeline/work
+  run_root: /workspace/asr/Palestinian-ASR/.pipeline
+
+stages:
+  # ---------------------------------------------------------------- ingest
+  - id: ingest
+    stage: ingest
+    output_root: "{work}/ingested"
+    sources:
+      # The complete QASR set. Earlier runs used QASR/wav_extracted (2,021 wav) or
+      # QASR/alt (961 wav); wav_all has all 3,545, matching all 3,545 xml files.
+      - name: qasr
+        adapter: qasr_xml_wav
+        wav_dir: "{ws}/QASR/wav_all/alt/arabic-speech-web/mgb2.1/wav"
+        xml_dir: "{ws}/QASR/mgb2.1/release/train_20210109/xml"
+        output: "{work}/ingested/qasr"
+        target_shard_mb: 512
+
+      - name: omnilingual_apc
+        adapter: passthrough
+        input: "{ws}/omnilingual_selected/apc_north_levantine_all_splits"
+        output: "{work}/ingested/omnilingual_apc"
+        include: ["data-*.arrow"]      # excludes cache-*.arrow
+        mode: symlink
+
+      # Reads transcripts straight from the sibling .txt/.docx, so this no longer
+      # blocks on the four missing normalized_*.json files (HANDOFF Gap 1). Drop
+      # those JSONs into {ws}/Layla/ and list them under normalized_json to layer
+      # the LLM-normalized text on top.
+      - name: layla
+        adapter: audio_text_pairs
+        input: "{ws}/Layla/Layla Witheeb Jordanian Arabic Acoustic Dataset"
+        output: "{work}/ingested/layla"
+        dataset: layla
+        rows_per_shard: 250
+        normalized_json: []
+
+      - name: masc_c
+        enabled: false                 # raw MASC-Arabic2/ was deleted post-merge
+        adapter: parquet_filter
+        input: "{ws}/MASC-Arabic2/data"
+        output: "{work}/ingested/masc_c/data"
+        column: type
+        equals: c
+
+      - name: casablanca_palestinian
+        enabled: false                 # raw casablanca/ was deleted post-merge
+        adapter: passthrough
+        input: "{ws}/casablanca/levant/Palestine"
+        output: "{work}/ingested/casablanca_palestinian"
+
+      - name: casablanca_jordanian
+        enabled: false                 # raw casablanca/ was deleted post-merge
+        adapter: passthrough
+        input: "{ws}/casablanca/levant/Jordan"
+        output: "{work}/ingested/casablanca_jordanian"
+
+  # ----------------------------------------------------------------- clean
+  - id: clean
+    stage: clean
+    input_root: "{work}/ingested"
+    output_root: "{work}/cleaned"
+    defaults:
+      min_duration_sec: 0.5
+      drop_missing_duration: false
+      compression: zstd
+      batch_size: 20000
+    datasets:
+      - name: qasr
+        globs: ["qasr/train/*.arrow"]      # index/*.jsonl deliberately excluded
+      - name: layla
+        globs: ["layla/*.parquet"]
+      - name: omnilingual_apc
+        globs: ["omnilingual_apc/data-*.arrow"]
+        precheck: [placeholders]           # the v2 reclean
+        column_suffix: _v2
+        text_columns: [raw_text]
+
+  # --------------------------------------------------------------- recover
+  - id: recover_omnilingual
+    stage: clean
+    mode: recover
+    input_root: "{work}/cleaned/dropped/contains_english"
+    output_root: "{work}/recovered_omnilingual"
+    datasets:
+      - name: omnilingual_apc
+        globs: ["omnilingual_apc__*.parquet"]
+        precheck: [spans, placeholders]    # the v3 token-span recovery
+        column_suffix: _v3
+        text_columns: [raw_text]
+
+  # -------------------------------------------------------------- assemble
+  - id: assemble
+    stage: assemble
+    output_root: "{work}/curated"
+    layout: flat
+    mode: hardlink
+    contributions:
+      - name: qasr
+        input: "{work}/cleaned/clean"
+        include: ["qasr__*__clean.parquet"]
+        prefix: qasr
+      - name: layla
+        input: "{work}/cleaned/clean"
+        include: ["layla__*__clean.parquet"]
+        prefix: layla
+      - name: omnilingual_v2
+        input: "{work}/cleaned/clean"
+        include: ["omnilingual_apc__*__clean.parquet"]
+        prefix: omnilingual_apc
+      - name: omnilingual_recovered
+        input: "{work}/recovered_omnilingual/recovered_clean"
+        include: ["*.parquet"]
+        prefix: omnilingual_apc
+        rename: {"__dropped.parquet": "__recovered_clean.parquet"}
+        optional: true
+      # Deleted-raw sources re-enter here from their already-cleaned shards.
+      - name: masc_c
+        input: "{merged}/clean"
+        include: ["masc_c_only__*.parquet"]
+        prefix: masc_c
+      - name: casablanca_palestinian
+        input: "{merged}/clean"
+        include: ["casablanca_palestinian__*.parquet"]
+        prefix: casablanca_palestinian
+      - name: casablanca_jordanian
+        input: "{merged}/clean"
+        include: ["casablanca_jordanian__*.parquet"]
+        prefix: casablanca_jordanian
+    audit_english:
+      input: "{work}/recovered_omnilingual/still_dropped/contains_english"
+      include: ["*.parquet"]
+      fields: [raw_text, prompt, prompt_id, source_file, manual_normalized_transcript]
+
+  # ------------------------------------------------------- dialect (text)
+  # Heavy: MarBERTv2 over every masc_c + qasr row. Needs torch + transformers
+  # (requirements.txt, NOT requirements-data.txt). --resume is safe to re-run.
+  - id: dialect_text
+    stage: dialect
+    modality: text
+    backend: marbertv2_text
+    model_id: IbrahimAmin/marbertv2-arabic-written-dialect-classifier
+    device: auto
+    input_root: "{work}/curated"
+    output_dir: "{run_root}/runs/text_dialect_scan_marbertv2"
+    target_label: LEV
+    batch_size: 32
+    max_length: 512
+    resume: true
+    sources:
+      - name: masc_c
+        include: ["masc_c__*.parquet"]
+      - name: qasr
+        include: ["qasr__*.parquet"]
+
+  # ------------------------------------------------------ dialect (audio)
+  # Only text-stage LEV >= 0.80 rows are decoded, keeping the audio pass ~10x
+  # smaller. Carries the raw-PCM decode fix that the pre-repair run lacked.
+  - id: dialect_audio
+    stage: dialect
+    modality: audio
+    backend: badrex_audio
+    model_id: badrex/mms-300m-arabic-dialect-identifier
+    device: auto
+    input_root: "{work}/curated"
+    output_dir: "{run_root}/runs/audio_dialect_scan_badrex"
+    target_label: Levantine
+    batch_size: 16
+    target_sr: 16000
+    min_seconds: 2.0
+    resume: true
+    candidates_from:
+      path: "{run_root}/runs/text_dialect_scan_marbertv2/row_probabilities.jsonl"
+      label: LEV
+      threshold: 0.80
+    sources:
+      - name: masc_c
+        include: ["masc_c__*.parquet"]
+      - name: qasr
+        include: ["qasr__*.parquet"]
+
+  # ----------------------------------------------------------------- split
+  - id: split
+    stage: split
+    input_root: "{work}/curated"
+    output_root: "{ws}/data_curated_levant_binary_v3"
+    audio_row_probs: "{run_root}/runs/audio_dialect_scan_badrex/row_probabilities.jsonl"
+    threshold: 0.80
+    text_label: LEV
+    audio_label: Levantine
+    seed: 42
+    train_ratio: 0.70
+    val_ratio: 0.15
+    test_ratio: 0.15
+    rows_per_shard: 50000
+    compression: snappy
+    leaves:
+      - name: masc
+        binary: true
+        include: ["masc_c__*.parquet"]
+      - name: qasr
+        binary: true
+        include: ["qasr__*.parquet"]
+      - name: omni
+        include: ["omnilingual_apc__*.parquet"]
+      - name: layla
+        include: ["layla__*.parquet"]
+      - name: casa/pal
+        include: ["casablanca_palestinian__*.parquet"]
+      - name: casa/jor
+        include: ["casablanca_jordanian__*.parquet"]

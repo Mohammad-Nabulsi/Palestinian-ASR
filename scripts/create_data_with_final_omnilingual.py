@@ -8,12 +8,12 @@ from pathlib import Path
 
 import pyarrow.parquet as pq
 
-SOURCE_ROOT = Path("/home/MohammadNabulsi/whisper/data_cleaned_text_merged_v1")
-DEST_ROOT = Path("/home/MohammadNabulsi/whisper/data")
-OMNI_V2_CLEAN = Path("/home/MohammadNabulsi/whisper/data_cleaned_text_omnilingual_v2/clean")
-OMNI_RECOVERED_CLEAN = Path("/home/MohammadNabulsi/whisper/data_cleaned_text_omnilingual_v3_recovered_from_v2/recovered_clean")
-OMNI_STILL_ENGLISH = Path("/home/MohammadNabulsi/whisper/data_cleaned_text_omnilingual_v3_recovered_from_v2/still_contains_english")
-INTERMEDIATE_ROOT = Path("/home/MohammadNabulsi/whisper/intermediate")
+SOURCE_ROOT = Path("/workspace/asr/Palestinian-ASR/data_cleaned_text_merged_v1")
+DEST_ROOT = Path("/workspace/asr/Palestinian-ASR/data")
+OMNI_V2_CLEAN = Path("/workspace/asr/Palestinian-ASR/data_cleaned_text_omnilingual_v2/clean")
+OMNI_RECOVERED_CLEAN = Path("/workspace/asr/Palestinian-ASR/data_cleaned_text_omnilingual_v3_recovered_from_v2/recovered_clean")
+OMNI_STILL_ENGLISH = Path("/workspace/asr/Palestinian-ASR/data_cleaned_text_omnilingual_v3_recovered_from_v2/still_contains_english")
+INTERMEDIATE_ROOT = Path("/workspace/asr/Palestinian-ASR/intermediate")
 
 
 def count_rows(paths: list[Path]) -> int:
@@ -21,7 +21,10 @@ def count_rows(paths: list[Path]) -> int:
 
 
 def hardlink_copytree(src: Path, dst: Path) -> None:
-    shutil.copytree(src, dst, copy_function=os.link)
+    # MooseFS charges hardlinks against the directory quota like full copies,
+    # so snapshot via symlinks instead (os.symlink(src, dst) matches the
+    # copy_function signature).
+    shutil.copytree(src, dst, copy_function=os.symlink)
 
 
 def ensure_dir(path: Path) -> None:
@@ -68,7 +71,7 @@ def main() -> None:
         "script": str(Path(__file__).resolve()),
         "source_root": str(SOURCE_ROOT),
         "dest_root": str(DEST_ROOT),
-        "mode": "hardlink_copy_then_replace_omnilingual_clean",
+        "mode": "symlink_copy_then_replace_omnilingual_clean",
         "old_omnilingual_clean_files_removed": [str(p) for p in old_omni_clean],
         "old_omnilingual_clean_rows_removed": old_omni_clean_rows,
         "new_omnilingual_clean_files_from_v2": [str(p) for p in written_v2],

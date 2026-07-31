@@ -1,6 +1,36 @@
 # HANDOFF — Data prep pipeline run (this session)
 
-_Last updated: 2026-07-26 18:00 UTC. Read this first if picking this up cold._
+_Last updated: 2026-07-30 16:25 UTC. Read this first if picking this up cold._
+
+## UPDATE 2026-07-30 — QASR is now COMPLETE in the merge; steps 6-8 done
+
+Supersedes the 07-26 and 07-16 notes below wherever they conflict.
+
+- **The QASR segmentation gap is closed.** The 2,584 recordings that had audio but were never
+  segmented are now segmented, cleaned, and merged. `data_cleaned_text_merged_v1/` holds
+  **840 clean shards / 1,885,061 rows**, of which QASR is **414 shards / 1,508,531 rows** — up from
+  110 shards / 399,633 rows, a 3.8x increase. Verified 0 corrupt files across all 2,221 shards
+  (clean + dropped), with clean+dropped reconciling exactly against the segmenter's own count
+  (1,177,332 = 1,177,332). Full detail: `DATA_CURATION.md`, "QASR Part 2" section.
+- **Steps 6, 7, 8 are done.** Step 6 (merge) was already done before this session; steps 7 and 8
+  (Omnilingual v2 reclean, v3 token-span recovery) completed 2026-07-30 ~14:05 by a parallel session.
+- **Step 9 ran 2026-07-30 ~16:30 UTC** (after the QASR merge, as required) — see the pipeline
+  table below. It now snapshots via **symlinks, not hardlinks** (MooseFS quota charges hardlinks
+  as full copies). `intermediate/` was deleted by the script as designed.
+- **Steps 12-13 (dialect ID) are done for MASC** (2026-07-30, GPU box) — see table. QASR remains.
+  Note for step 14: the scan JSONLs record `source_file` under `data_cleaned_text_merged_v1/clean/`,
+  and `data/clean/` symlinks resolve there too, but `create_levant_non_levant_splits.py` matches by
+  resolved absolute path — verify the match (or patch to basename matching) before trusting counts.
+- **Storage:** the 4 QASR split archives (170.6 GB) were deleted after verifying the extraction.
+  `QASR/wav_extracted/` (125 GB) + `QASR/alt/` (59 GB) are verified byte-identical subsets of
+  `wav_all/` and are still deletable for another 184 GB.
+- **New hazard to know about — a ~800 GB quota on the project dir that `df` does not show.** It
+  killed a Step B run mid-write and corrupted 57 clean + 392 dropped shards scattered across the
+  run, not just the file being written. Test headroom with a `dd` write, and validate parquet
+  footers on *every* output file before trusting a run — sampling gives false all-clears.
+- **Multiple Claude Code sessions were operating on this repo concurrently**, including one that
+  re-ran the QASR pipeline script mid-flight against partial output. Add a lockfile to any
+  re-runnable driver script here.
 
 ## UPDATE 2026-07-26 — read this before trusting anything below dated 07-16
 
@@ -74,13 +104,14 @@ Verified with `du -sh` against the real `/workspace` paths, not just the local s
 | 3 | Stage raw datasets (`scripts/stage_raw_datasets.py`) | ✅ done | `data/` populated (see below); Layla staged 0 files (Gap 1) |
 | 4 | Fast clean, broad pass (`preprocess/fast_asr_data_cleaning_text_only_arrow_parquet.ipynb`) | ✅ done | 373,624 total, 373,464 kept, 160 dropped (too short) → `data_cleaned_text_v1/` (417 clean shards) |
 | 5 | Fast clean, targeted pass (QASR+Casablanca+Omni notebook) | ✅ done, **QASR partial** | 427,633 total, 402,699 kept → `data_cleaned_text_qasr_casablanca_omni_v1/` (119 clean shards) — see per-dataset breakdown below |
-| 6 | Merge cleaned outputs (`scripts/merge_cleaned_outputs_and_report.py`) | ⏳ not started | → `data_cleaned_text_merged_v1/` |
-| 7 | Omnilingual reclean v2 (`scripts/reclean_omnilingual_v2.py`) | ⏳ not started | → `data_cleaned_text_omnilingual_v2/` |
-| 8 | Omnilingual recovery v3 (`scripts/recover_omnilingual_token_span_rows_v3.py`) | ⏳ not started | → `data_cleaned_text_omnilingual_v3_recovered_from_v2/` |
-| 9 | Rebuild `data/` with final Omnilingual rows (`scripts/create_data_with_final_omnilingual.py`) | ⏳ not started | updates `data/` |
+| 5b | QASR part 2: segment + clean the 2,584 uncovered recordings | ✅ done 07-30 | 1,177,332 segments → 304 clean shards / 1,108,898 rows; see `DATA_CURATION.md` "QASR Part 2" |
+| 6 | Merge cleaned outputs (`scripts/merge_cleaned_outputs_and_report.py`) | ✅ done | `data_cleaned_text_merged_v1/` = 840 clean shards / 1,885,061 rows, QASR 414 shards / 1,508,531 rows, 0 corrupt |
+| 7 | Omnilingual reclean v2 (`scripts/reclean_omnilingual_v2.py`) | ✅ done 07-30 | `data_cleaned_text_omnilingual_v2/` — 517 total, 406 kept, 111 dropped English |
+| 8 | Omnilingual recovery v3 (`scripts/recover_omnilingual_token_span_rows_v3.py`) | ✅ done 07-30 | `data_cleaned_text_omnilingual_v3_recovered_from_v2/` — 10 recovered, 101 still English |
+| 9 | Rebuild `data/` with final Omnilingual rows (`scripts/create_data_with_final_omnilingual.py`) | ✅ done 07-30 | `data/clean/` = 837 symlinked shards + 6 real Omnilingual shards (416 rows). **Script patched to symlink instead of hardlink** — MooseFS charges hardlinks against the ~800GB quota like full copies (first attempt died on `Errno 122`; partial tree was removed). Repo symlink `data` → `/workspace/asr/Palestinian-ASR/data` added. |
 | 10-11 | Layla normalize/shard + flatten `data/clean/` | ❌ blocked | Gap 1 — raw Layla source is gone |
-| 12 | Text dialect ID, MarBERTv2 | ⏳ not started | → `Runs/text_dialect_scan_.../row_probabilities.jsonl` (heavy, CPU-only box) |
-| 13 | Audio dialect ID, badrex mms300m | ⏳ not started | → `Runs/dialect_scan_badrex.../row_probabilities.jsonl` (heavy) |
+| 12 | Text dialect ID, MarBERTv2 | 🟡 MASC done 07-30 | MASC-only run (GPU box): 318,078/373,464 rows → `Runs/text_dialect_scan_marbertv2_written_clean_masc_c/row_probabilities.jsonl`; 42,092 rows with LEV≥0.80. ~55k rows skipped by `make_uid` video_id collisions (same as original run). **QASR (1.5M rows) still to do.** |
+| 13 | Audio dialect ID, badrex mms300m | 🟡 MASC done 07-30 | On the 42,092 text candidates: 39,162 classified (2,930 <2s, 2 errors) → `Runs/dialect_scan_badrex_mms300m_lev08_text_candidates_masc_c/row_probabilities.jsonl`; **6,949 rows pass text≥0.80 AND audio Levantine≥0.80**. Crashed 2x at ~58% from 31GB cgroup page-cache pressure; `--resume` recovered. **QASR still to do.** |
 | 14 | Build Levant/non-Levant binary split | ⏳ not started | → `data_curated_levant_binary_v1/` |
 | 15 | QASR audio-decode repair + rebuild | ⏳ not started | → `data_curated_levant_binary_v2_qasr_audio_fix/` |
 

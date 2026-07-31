@@ -1,0 +1,227 @@
+# Tiny end-to-end smoke config.
+#
+# Runs all five stages over the fixture set built by tools/make_sample_data.py.
+# Everything is small enough to finish in seconds on a CPU-only box, and the
+# dialect stage uses the offline `hash_stub` backend so no model download is needed.
+#
+#   python tools/make_sample_data.py --output .sample_data
+#   python -m pipeline run --config configs/sample.yaml
+#
+# Note: hash_stub produces deterministic placeholder scores. It proves the plumbing
+# (candidate filtering, PCM/FLAC decoding, jsonl schema, routing), NOT dialect quality.
+
+name: sample
+
+vars:
+  raw: "{repo_root}/.sample_data"
+  work: "{repo_root}/.sample_run/work"
+  run_root: "{repo_root}/.sample_run"
+
+stages:
+  # ---------------------------------------------------------------- ingest
+  - id: ingest
+    stage: ingest
+    output_root: "{work}/ingested"
+    sources:
+      - name: qasr
+        adapter: qasr_xml_wav
+        wav_dir: "{raw}/QASR/wav"
+        xml_dir: "{raw}/QASR/xml"
+        output: "{work}/ingested/qasr"
+        target_shard_mb: 8
+
+      - name: masc_c
+        adapter: parquet_filter
+        input: "{raw}/MASC-Arabic2/data"
+        output: "{work}/ingested/masc_c/data"
+        column: type
+        equals: c
+
+      - name: omnilingual_apc
+        adapter: passthrough
+        input: "{raw}/omnilingual/apc_north_levantine_all_splits"
+        output: "{work}/ingested/omnilingual_apc"
+        include: ["data-*.arrow"]      # cache-*.arrow deliberately excluded
+        mode: symlink
+
+      - name: casablanca_palestinian
+        adapter: passthrough
+        input: "{raw}/casablanca/levant/Palestine"
+        output: "{work}/ingested/casablanca_palestinian"
+        include: ["*.parquet"]
+
+      - name: casablanca_jordanian
+        adapter: passthrough
+        input: "{raw}/casablanca/levant/Jordan"
+        output: "{work}/ingested/casablanca_jordanian"
+        include: ["*.parquet"]
+
+      - name: layla
+        adapter: audio_text_pairs
+        input: "{raw}/Layla/dataset"
+        output: "{work}/ingested/layla"
+        dataset: layla
+        normalized_json:
+          - "{raw}/Layla/normalized_sample_appended.json"
+        rows_per_shard: 2
+
+  # ----------------------------------------------------------------- clean
+  # One stage, six datasets. Historically this was three separate ~680-line
+  # scripts plus three notebooks that differed only in these globs.
+  - id: clean
+    stage: clean
+    input_root: "{work}/ingested"
+    output_root: "{work}/cleaned"
+    defaults:
+      min_duration_sec: 0.5
+      drop_missing_duration: false
+      compression: zstd
+    datasets:
+      - name: qasr
+        globs: ["qasr/train/*.arrow"]
+      - name: masc_c
+        globs: ["masc_c/data/*.parquet"]
+      - name: casablanca_palestinian
+        globs: ["casablanca_palestinian/*.parquet"]
+      - name: casablanca_jordanian
+        globs: ["casablanca_jordanian/*.parquet"]
+      - name: layla
+        globs: ["layla/*.parquet"]
+      # Omnilingual gets the v2 pre-check: strip placeholder words ("noise",
+      # "hesitation", ...) and lone brackets before the English/number rules.
+      - name: omnilingual_apc
+        globs: ["omnilingual_apc/data-*.arrow"]
+        precheck: [placeholders]
+        column_suffix: _v2
+        text_columns: [raw_text]
+
+  # --------------------------------------------------------------- recover
+  # v3 token-span recovery: re-check the rows the Omnilingual pass dropped for
+  # English, this time removing whole (...) / [...] / <...> spans first.
+  - id: recover_omnilingual
+    stage: clean
+    mode: recover
+    input_root: "{work}/cleaned/dropped/contains_english"
+    output_root: "{work}/recovered_omnilingual"
+    datasets:
+      - name: omnilingual_apc
+        globs: ["omnilingual_apc__*.parquet"]
+        precheck: [spans, placeholders]
+        column_suffix: _v3
+        text_columns: [raw_text]
+
+  # -------------------------------------------------------------- assemble
+  - id: assemble
+    stage: assemble
+    output_root: "{work}/curated"
+    layout: flat
+    mode: hardlink
+    contributions:
+      - name: qasr
+        input: "{work}/cleaned/clean"
+        include: ["qasr__*__clean.parquet"]
+        prefix: qasr
+      - name: masc_c
+        input: "{work}/cleaned/clean"
+        include: ["masc_c__*__clean.parquet"]
+        prefix: masc_c
+      - name: casablanca_palestinian
+        input: "{work}/cleaned/clean"
+        include: ["casablanca_palestinian__*__clean.parquet"]
+        prefix: casablanca_palestinian
+      - name: casablanca_jordanian
+        input: "{work}/cleaned/clean"
+        include: ["casablanca_jordanian__*__clean.parquet"]
+        prefix: casablanca_jordanian
+      - name: layla
+        input: "{work}/cleaned/clean"
+        include: ["layla__*__clean.parquet"]
+        prefix: layla
+      - name: omnilingual_v1
+        input: "{work}/cleaned/clean"
+        include: ["omnilingual_apc__*__clean.parquet"]
+        prefix: omnilingual_apc
+      # Swap the fast-pass Omnilingual shards for v2-clean + v3-recovered.
+      - name: omnilingual_final
+        input: "{work}/cleaned/clean"
+        include: ["omnilingual_apc__*__clean.parquet"]
+        prefix: omnilingual_apc
+        replaces: omnilingual_v1
+      - name: omnilingual_recovered
+        input: "{work}/recovered_omnilingual/recovered_clean"
+        include: ["*.parquet"]
+        prefix: omnilingual_apc
+        rename: {"__dropped.parquet": "__recovered_clean.parquet"}
+        optional: true          # a run may legitimately recover nothing
+    audit_english:
+      input: "{work}/recovered_omnilingual/still_dropped/contains_english"
+      include: ["*.parquet"]
+      fields: [raw_text, prompt, source_file]
+
+  # ------------------------------------------------------- dialect (text)
+  - id: dialect_text
+    stage: dialect
+    modality: text
+    backend: hash_stub
+    input_root: "{work}/curated"
+    output_dir: "{run_root}/runs/text_dialect_scan"
+    target_label: LEV
+    batch_size: 64
+    sources:
+      - name: masc_c
+        include: ["masc_c__*.parquet"]
+      - name: qasr
+        include: ["qasr__*.parquet"]
+
+  # ------------------------------------------------------ dialect (audio)
+  # Only rows the text stage scored at/above the threshold are decoded, exactly like
+  # the historical two-stage design. This is where the QASR raw-PCM decode path runs.
+  - id: dialect_audio
+    stage: dialect
+    modality: audio
+    backend: hash_stub
+    input_root: "{work}/curated"
+    output_dir: "{run_root}/runs/audio_dialect_scan"
+    target_label: Levantine
+    batch_size: 16
+    target_sr: 16000
+    min_seconds: 0.0
+    candidates_from:
+      path: "{run_root}/runs/text_dialect_scan/row_probabilities.jsonl"
+      label: LEV
+      threshold: 0.20        # stub-calibrated; real runs use 0.80
+    sources:
+      - name: masc_c
+        include: ["masc_c__*.parquet"]
+      - name: qasr
+        include: ["qasr__*.parquet"]
+
+  # ----------------------------------------------------------------- split
+  - id: split
+    stage: split
+    input_root: "{work}/curated"
+    output_root: "{run_root}/data_curated_levant_binary"
+    audio_row_probs: "{run_root}/runs/audio_dialect_scan/row_probabilities.jsonl"
+    threshold: 0.25          # stub-calibrated so rows route both ways; real runs use 0.80
+    text_label: LEV
+    audio_label: Levantine
+    seed: 42
+    train_ratio: 0.70
+    val_ratio: 0.15
+    test_ratio: 0.15
+    rows_per_shard: 5000
+    leaves:
+      - name: masc
+        binary: true
+        include: ["masc_c__*.parquet"]
+      - name: qasr
+        binary: true
+        include: ["qasr__*.parquet"]
+      - name: omni
+        include: ["omnilingual_apc__*.parquet"]
+      - name: layla
+        include: ["layla__*.parquet"]
+      - name: casa/pal
+        include: ["casablanca_palestinian__*.parquet"]
+      - name: casa/jor
+        include: ["casablanca_jordanian__*.parquet"]

@@ -1,0 +1,16 @@
+=== Layla pipeline start Thu Jul 30 14:36:32 UTC 2026 ===
+=== STEP A: copy zip -> /workspace/asr/Palestinian-ASR/Layla/Layla Witheeb Jordanian Arabic Acoustic Dataset.zip ===
+'/root/Palestinian-ASR/Layla Witheeb Jordanian Arabic Acoustic Dataset.zip' -> '/workspace/asr/Palestinian-ASR/Layla/Layla Witheeb Jordanian Arabic Acoustic Dataset.zip'
+STEP A: verifying archive integrity
+STEP A done: 1.6G
+=== STEP B: extract -> /workspace/asr/Palestinian-ASR/Layla/Layla Witheeb Jordanian Arabic Acoustic Dataset ===
+STEP B done: 874 files, 2.3G
+=== STEP C: build shards -> /workspace/asr/Palestinian-ASR/processed_layla_shards_v1 ===
+Built 218 rows (0 using normalized JSON text)
+  layla__data-00000-of-00004.parquet: 55 rows, 449.4 MB
+  layla__data-00001-of-00004.parquet: 55 rows, 455.4 MB
+  layla__data-00002-of-00004.parquet: 54 rows, 410.0 MB
+  layla__data-00003-of-00004.parquet: 54 rows, 425.6 MB
+Wrote 4 shards to /workspace/asr/Palestinian-ASR/processed_layla_shards_v1
+Total audio: 6.70 h
+Manifest: /workspace/asr/Palestinian-ASR/processed_layla_shards_v1/reports/layla_shard_manifest.json

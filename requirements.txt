@@ -23,6 +23,9 @@ sentencepiece
 protobuf
 safetensors
 
+# Experiment tracking
+mlflow
+
 # Data
 numpy
 pandas

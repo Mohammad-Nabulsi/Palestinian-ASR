@@ -85,3 +85,8 @@ comparison/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+
+# Unified pipeline scratch (see PIPELINE.md)
+.sample_data/
+.sample_run/
+.pipeline/

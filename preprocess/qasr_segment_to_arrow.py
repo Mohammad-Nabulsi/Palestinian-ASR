@@ -151,6 +151,16 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Skip work if the output directory already has shard files.",
     )
+    parser.add_argument(
+        "--wav-stem-list",
+        type=Path,
+        default=None,
+        help=(
+            "Optional JSON file holding a list of WAV stems (filenames without extension). "
+            "When given, only those stems are segmented. Used to segment the QASR recordings "
+            "that are not already covered by an earlier run, without symlink farms."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -482,8 +492,14 @@ def write_shard(path: Path, rows: Sequence[Dict[str, Any]], skip_existing: bool)
     temp_path.replace(path)
 
 
-def discover_audio_files(wav_dir: Path, pattern: str) -> List[Path]:
-    return sorted(path for path in wav_dir.rglob(pattern) if path.is_file())
+def discover_audio_files(
+    wav_dir: Path, pattern: str, stem_list: Optional[Path] = None
+) -> List[Path]:
+    paths = sorted(path for path in wav_dir.rglob(pattern) if path.is_file())
+    if stem_list is None:
+        return paths
+    wanted = set(json.loads(stem_list.read_text()))
+    return [path for path in paths if path.stem in wanted]
 
 
 def existing_shards(output_dir: Path) -> bool:
@@ -690,8 +706,10 @@ def main() -> None:
     )
     shard_accumulator = ShardAccumulator(context)
 
-    wav_files = discover_audio_files(args.wav_dir, args.audio_glob)
+    wav_files = discover_audio_files(args.wav_dir, args.audio_glob, args.wav_stem_list)
     logger.info("Discovered %d WAV files under %s", len(wav_files), args.wav_dir)
+    if args.wav_stem_list is not None:
+        logger.info("Restricted to stems listed in %s", args.wav_stem_list)
 
     for wav_path in maybe_limit(wav_files, args.max_audio_files):
         process_audio_file(wav_path, args.xml_dir, context, shard_accumulator)
