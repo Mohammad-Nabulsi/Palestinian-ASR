@@ -342,6 +342,9 @@ But note:
 - `data_cleaned_text_qasr_casablanca_omni_v1/`: targeted fast text-cleaning output for QASR + Casablanca + Omnilingual APC
 - `data_cleaned_text_merged_v1/`: merged cleaned-data root combining both cleaned outputs
 - `intermediate/merged_cleaned_sources/`: archived empty source roots after the merge step
+- `segmented/`: sibling to `data/` (not nested inside it), long-audio (>30s) segmentation
+  artifacts — `flagged_over30s.json` (scan output) and `v1/` (segmented shards, reports,
+  pre-overwrite backups of the `data/` originals, replacement manifest/checkpoint)
 
 ## Merge and Omnilingual English Audit
 
@@ -879,6 +882,164 @@ Run command:
 cd /home/MohammadNabulsi/whisper
 ./.venv/bin/python scripts/repair_qasr_audio_and_rebuild_levant_binary.py
 ```
+
+## Long-Audio Segmentation (VAD + Forced Alignment) — 2026-07-31
+
+After dialect identification (text + audio stages above), the working `data/` root was
+scanned for rows whose `duration` exceeds Whisper's 30s hard positional-embedding limit,
+using headroom of 28s. This is a two-part stage: Part A segments the flagged audio
+offline into a new versioned artifact without touching `data/`; Part B then splices those
+segments into `data/` in place of the original long rows. Both parts are one-time,
+re-runnable, resumable (checkpoint-file) scripts under `scripts/segmentation/`.
+
+### Flagging pass
+
+A cheap duration-only scan (no audio decode) of every `data/clean/*.parquet` and
+top-level `data/layla__*.parquet` shard found:
+
+| group | rows scanned | rows > 30s | max duration |
+|---|---|---|---|
+| `layla` | 218 | **218 (100%)** | 253.3s |
+| `omnilingual_apc` | 416 | **375 (90%)** | 98.1s |
+| `masc_c_only` | 373,464 | 15 | 43.0s |
+| `casablanca_jordanian` | 1,695 | 0 | 17.8s |
+| `casablanca_palestinian` | 1,328 | 0 | 29.5s |
+| `processed_qasr_segments` (part 1) | 399,633 | 0 | 10.9s |
+| `processed_qasr_segments_part2` | 1,108,898 | 0 | 10.9s |
+
+608 flagged rows total. QASR (both parts) and Casablanca needed no segmentation — they
+are already pre-segmented at the utterance level from forced alignment upstream. Output:
+`segmented/flagged_over30s.json` (one record per flagged row: `file`, `row_index`,
+`duration`, `group`).
+
+### Part A — segment (`scripts/segmentation/segment_whisperx.py`)
+
+Run in a dedicated venv (`/workspace/venv_whisperx`, `pip install whisperx silero-vad
+soundfile hf_transfer`; needs `HF_HUB_ENABLE_HF_TRANSFER`-compatible `hf_transfer`
+installed or the WhisperX align-model download fails). WhisperX primarily for its
+packaged alignment model loader (`jonatasgrosman/wav2vec2-large-xlsr-53-arabic`), used
+purely as an alignment tool, not for transcription — the existing transcript text
+(`manual_normalized_transcript`, falling back to the group's raw text column) is what
+gets aligned and sliced, never re-decoded from scratch.
+
+Per flagged row:
+
+1. Decode audio to mono float32 @16kHz.
+2. **Silero VAD** → speech regions (silence gaps are the only legal cut points).
+3. **WhisperX forced alignment** of the existing transcript against the audio
+   (`whisperx.align`, `language_code="ar"`) → per-word `(start, end, score)`.
+4. **Cut-point selection**: walk forward accumulating audio, cutting at the VAD silence
+   gap nearest to (but not past) 28s; falls back to the largest inter-word pause in the
+   window if VAD found no gap in range.
+5. **Transcript slicing**: each transcript word is assigned to a segment by whether its
+   alignment-timestamp midpoint falls before/after the cut point.
+6. **Quality gate**: a segment is dropped (not down-weighted) if its text is empty, its
+   duration is below 0.5s, its mean word alignment score is below `0.45`, or fewer than
+   half its words got a timestamp at all (majority-untimed segments are almost always
+   transcript/audio mismatch — the dominant failure mode noted in the build spec).
+
+Run command:
+
+```bash
+/workspace/venv_whisperx/bin/python scripts/segmentation/segment_whisperx.py --device cuda
+```
+
+Resumable via `segmented/v1/checkpoint.txt` (one source shard per line). Output:
+
+- `segmented/v1/<orig_file>__segmented.parquet` — one shard per flagged source file, one
+  row per kept segment, columns: `audio` (struct, WAV PCM16 bytes), `text`, `group`,
+  `orig_file`, `orig_row_index`, `orig_id`, `segment_idx`, `start_offset`, `end_offset`,
+  `duration`, `align_score`, `n_words`.
+- `segmented/v1/segmentation_report.json` — per-group totals (samples, segments kept /
+  dropped, hours in / kept, errors).
+- `segmented/v1/dropped_segments.json` — every dropped segment with its drop reason, for
+  audit.
+
+Result: **608/608 flagged rows processed, 0 errors, 2,322 segments kept, 7 dropped**
+(6 `empty_text`, 1 `low_align_score`) — a ~0.3% loss, well within the "drop rather than
+inject noise" policy. Alignment scores in spot checks were 0.71–0.79. Per-group:
+
+| group | samples segmented | segments kept | dropped | hours in | hours kept |
+|---|---|---|---|---|---|
+| `layla` | 218 | 1,022 | 4 | 6.70 | 6.70 |
+| `omnilingual_apc` | 375 | 1,270 | 3 | 7.71 | 7.70 |
+| `masc_c_only` | 15 | 30 | 0 | 0.14 | 0.14 |
+
+`segmented/` is a **new top-level directory, sibling to `data/`, not nested inside it** —
+`data/` was not written to by Part A. The raw/staged corpora these rows came from remain
+untouched and un-tagged, as does everything else in `data/`.
+
+### Part B — splice into `data/` (`scripts/segmentation/replace_long_audio_in_data.py`)
+
+Part A only produces a derived artifact; this script performs the actual "use these in
+place of the corresponding data" replacement inside `data/`, one source shard at a time:
+
+1. Back up the untouched original shard to `segmented/v1/backup_originals/<relative
+   path under data/>` (4.2GB total across the 20 affected shards — cheap insurance
+   before an in-place overwrite of real training data).
+2. Remove exactly the flagged (> 30s) rows.
+3. Insert the corresponding segment rows, mapped into **that shard's own column
+   schema** — same `audio`/`duration`/id/text columns every other row in the file uses,
+   so nothing downstream needs to special-case segmented rows. Every non-text, non-flag
+   column (`gender`, `speaker_id`, `language`, `type`, `iso_639_3`, ...) is carried over
+   from the original row onto every sub-segment it produced.
+4. Recompute `flag_contains_english` / `flag_contains_number` / `flag_contains_bracket_token`
+   / `flag_audio_too_short` / `flag_missing_duration` and `manual_normalized_transcript`
+   with `pipeline/textnorm.py` (`has_english`, `has_number`, `has_bracket_token`,
+   `normalize_arabic_transcript`) — the same functions the `clean` stage uses — instead
+   of carrying stale flags computed against the pre-split, much longer original text.
+5. Append 6 provenance columns to **every** row in the shard (null on untouched rows):
+   `segment_source_file`, `segment_source_row_index`, `segment_idx`,
+   `segment_start_offset`, `segment_end_offset`, `segment_align_score` — so segmented
+   rows stay identifiable inside `data/` itself, not just in `segmented/v1/`.
+6. Write to a staging copy under `segmented/v1/staged_replacement/`, verify the parquet
+   footer's row count, only then overwrite the original in place.
+
+New row IDs are `{orig_id}__seg{NN}` (e.g. `layla_Ajlun_JS1M_JS1M_Laylawetheeb_read__seg00`,
+`iXuQlqAYIJY__seg00`, `s01__seg00`).
+
+Run command:
+
+```bash
+/workspace/venv_omni_gpu/bin/python scripts/segmentation/replace_long_audio_in_data.py
+```
+
+(Any Python with `pyarrow` works — Part B never decodes audio, so it doesn't need the
+WhisperX venv.) Resumable via `segmented/v1/replacement_checkpoint.txt`. Manifest at
+`segmented/v1/replacement_manifest.json` (per-shard rows before/removed/added/after).
+
+Result, cross-checked exactly against Part A's segmentation report:
+
+| group | shards touched | rows removed (>30s) | rows added (segments) |
+|---|---|---|---|
+| `layla` | 4/4 | 218 | 1,022 |
+| `masc_c_only` | 10/417 | 15 | 30 |
+| `omnilingual_apc` | 6/6 | 375 | 1,270 |
+| **total** | **20 shards** | **608** | **2,322** |
+
+`data/` row count across the touched shards: 9,702 → 11,416. Every other shard in
+`data/` (the other 408 `masc_c_only` shards, all QASR, all Casablanca) is byte-identical
+to before this stage — Part B only opens shards that appear in `flagged_over30s.json`.
+
+### Known ordering gap: stale dialect-ID rows for the 15 replaced `masc_c_only` rows
+
+Text + audio dialect identification (see "Binary Levantine Split Curation" /
+"QASR Audio Classification Repair" above) already ran against `masc_c_only` *before*
+this segmentation stage, keyed by `video_id`. The 15 `masc_c_only` rows this stage
+removed no longer exist under their original `video_id`s (their 30 replacement
+sub-segments have new `{video_id}__segNN` IDs that were never dialect-scored), so:
+
+- `Runs/text_dialect_scan_marbertv2_written_clean_masc_c/row_probabilities.jsonl` and
+  `Runs/dialect_scan_badrex_mms300m_lev08_text_candidates_masc_c/row_probabilities.jsonl`
+  each carry 15 now-orphaned `video_id` rows.
+- The 30 new segment rows have no dialect-ID score at all.
+
+This is a **15-row / 373,464-row (~0.004%) gap** in a stage (14, the Levant binary
+split) that had not started as of this writing — see `HANDOFF_DATA_PIPELINE.md`. `layla`
+and `omnilingual_apc` were never part of the dialect-ID scan (only `masc_c` and `qasr`
+are), so they're unaffected. If step 14 is built before this gap is closed, either
+re-score just these 30 new rows or accept the negligible loss — do not assume the
+existing `row_probabilities.jsonl` files already cover them.
 
 ## Note: Same Script Reused Across Multiple Steps
 

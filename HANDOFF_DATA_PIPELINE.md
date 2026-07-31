@@ -1,6 +1,24 @@
 # HANDOFF — Data prep pipeline run (this session)
 
-_Last updated: 2026-07-30 16:25 UTC. Read this first if picking this up cold._
+_Last updated: 2026-07-31. Read this first if picking this up cold._
+
+## UPDATE 2026-07-31 — long-audio (>30s) segmentation done, new step 16
+
+Added a new step **16** (table below): flagged and segmented every `data/` row longer
+than Whisper's 30s limit (608 rows: 218/218 `layla`, 375/416 `omnilingual_apc`, 15
+`masc_c_only`; QASR and Casablanca needed none) via Silero VAD + WhisperX forced
+alignment, then spliced the resulting 2,322 sub-30s segments into `data/` in place of
+the originals. Full detail, commands, and per-group numbers: `DATA_CURATION.md`,
+"Long-Audio Segmentation (VAD + Forced Alignment)". Originals backed up to
+`segmented/v1/backup_originals/` before any overwrite.
+
+**Ordering note for step 14 (not yet started):** dialect ID (steps 12-13) ran on
+`masc_c_only` *before* this segmentation step, keyed by `video_id`. The 15
+`masc_c_only` rows this step replaced are gone under their old `video_id`s; their 30 new
+`{video_id}__segNN` sub-rows were never dialect-scored. Negligible volume
+(15/373,464 ≈ 0.004%) but real — see the "Known ordering gap" note in `DATA_CURATION.md`
+before trusting step 14's coverage to be exhaustive. `layla`/`omnilingual_apc` were never
+in the dialect-ID scan, so unaffected.
 
 ## UPDATE 2026-07-30 — QASR is now COMPLETE in the merge; steps 6-8 done
 
@@ -114,6 +132,7 @@ Verified with `du -sh` against the real `/workspace` paths, not just the local s
 | 13 | Audio dialect ID, badrex mms300m | 🟡 MASC done 07-30 | On the 42,092 text candidates: 39,162 classified (2,930 <2s, 2 errors) → `Runs/dialect_scan_badrex_mms300m_lev08_text_candidates_masc_c/row_probabilities.jsonl`; **6,949 rows pass text≥0.80 AND audio Levantine≥0.80**. Crashed 2x at ~58% from 31GB cgroup page-cache pressure; `--resume` recovered. **QASR still to do.** |
 | 14 | Build Levant/non-Levant binary split | ⏳ not started | → `data_curated_levant_binary_v1/` |
 | 15 | QASR audio-decode repair + rebuild | ⏳ not started | → `data_curated_levant_binary_v2_qasr_audio_fix/` |
+| 16 | Long-audio (>30s) segmentation: flag → VAD+forced-align segment → splice into `data/` (`scripts/segmentation/segment_whisperx.py` + `scripts/segmentation/replace_long_audio_in_data.py`) | ✅ done 07-31 | 608 rows flagged (218 `layla`, 375 `omnilingual_apc`, 15 `masc_c_only`) → 2,322 segments, spliced into `data/` in place; see `DATA_CURATION.md`. **Ran after step 11 (Layla), before steps 14-15 — see ordering note above re: stale `masc_c_only` dialect-ID rows.** |
 
 ### Step 5 per-dataset breakdown (from `data_cleaned_text_qasr_casablanca_omni_v1/reports/cleaning_report.json`)
 

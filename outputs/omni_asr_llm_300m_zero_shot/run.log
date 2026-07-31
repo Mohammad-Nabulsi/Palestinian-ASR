@@ -1,0 +1,97 @@
+2026-07-31 14:46:42,010 | INFO | [casablanca_jordanian] resume: 0 rows already done (lang=apc_Arab)
+2026-07-31 14:48:45,619 | INFO | [casablanca_jordanian] progress: 88 new / 88 seen (+0 resumed) | 0.71 rows/s | elapsed=124s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 14:50:48,370 | INFO | [casablanca_jordanian] progress: 200 new / 200 seen (+0 resumed) | 0.81 rows/s | elapsed=246s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 14:52:49,861 | INFO | [casablanca_jordanian] progress: 312 new / 312 seen (+0 resumed) | 0.85 rows/s | elapsed=368s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 14:54:50,728 | INFO | [casablanca_jordanian] progress: 432 new / 432 seen (+0 resumed) | 0.88 rows/s | elapsed=489s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 14:56:52,633 | INFO | [casablanca_jordanian] progress: 528 new / 528 seen (+0 resumed) | 0.86 rows/s | elapsed=611s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 14:58:57,916 | INFO | [casablanca_jordanian] progress: 648 new / 648 seen (+0 resumed) | 0.88 rows/s | elapsed=736s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 15:01:02,559 | INFO | [casablanca_jordanian] progress: 760 new / 760 seen (+0 resumed) | 0.88 rows/s | elapsed=861s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 15:02:52,106 | INFO | [casablanca_jordanian] prediction pass done: 848 new rows written (848 total incl. resumed) in 970s
+2026-07-31 15:02:52,237 | INFO | [casablanca_jordanian] metrics: {'n_total': 848, 'n_scored': 848, 'n_dropped_empty_ref': 0, 'wer': 0.4297088262056415, 'cer': 0.13678417802129142}
+2026-07-31 15:02:52,262 | INFO | [casablanca_palestinian] resume: 0 rows already done (lang=apc_Arab)
+2026-07-31 15:05:56,597 | INFO | [casablanca_palestinian] progress: 80 new / 80 seen (+0 resumed) | 0.43 rows/s | elapsed=184s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 15:08:10,236 | INFO | [casablanca_palestinian] progress: 112 new / 112 seen (+0 resumed) | 0.35 rows/s | elapsed=318s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 15:10:20,772 | INFO | [casablanca_palestinian] progress: 168 new / 168 seen (+0 resumed) | 0.37 rows/s | elapsed=449s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 15:12:25,900 | INFO | [casablanca_palestinian] progress: 216 new / 216 seen (+0 resumed) | 0.38 rows/s | elapsed=574s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 15:14:31,623 | INFO | [casablanca_palestinian] progress: 280 new / 280 seen (+0 resumed) | 0.40 rows/s | elapsed=699s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 15:16:57,099 | INFO | [casablanca_palestinian] progress: 336 new / 336 seen (+0 resumed) | 0.40 rows/s | elapsed=845s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 15:18:58,588 | INFO | [casablanca_palestinian] progress: 392 new / 392 seen (+0 resumed) | 0.41 rows/s | elapsed=966s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 15:21:00,960 | INFO | [casablanca_palestinian] progress: 456 new / 456 seen (+0 resumed) | 0.42 rows/s | elapsed=1089s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 15:23:01,979 | INFO | [casablanca_palestinian] progress: 480 new / 480 seen (+0 resumed) | 0.40 rows/s | elapsed=1210s | gpu=3.30GB alloc / 3.53GB reserved
+2026-07-31 15:25:05,763 | INFO | [casablanca_palestinian] progress: 568 new / 568 seen (+0 resumed) | 0.43 rows/s | elapsed=1334s | gpu=3.30GB alloc / 3.35GB reserved
+2026-07-31 15:27:15,308 | INFO | [casablanca_palestinian] progress: 648 new / 648 seen (+0 resumed) | 0.44 rows/s | elapsed=1463s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 15:27:33,417 | INFO | [casablanca_palestinian] prediction pass done: 664 new rows written (664 total incl. resumed) in 1481s
+2026-07-31 15:27:33,515 | INFO | [casablanca_palestinian] metrics: {'n_total': 664, 'n_scored': 664, 'n_dropped_empty_ref': 0, 'wer': 0.5211203461231926, 'cer': 0.1882779340931852}
+2026-07-31 15:27:33,517 | INFO | [masc_c_only] resume: 0 rows already done (lang=arb_Arab)
+2026-07-31 15:29:35,705 | INFO | [masc_c_only] progress: 120 new / 120 seen (+0 resumed) | 0.98 rows/s | elapsed=122s | gpu=3.30GB alloc / 3.33GB reserved
+2026-07-31 15:31:39,419 | INFO | [masc_c_only] progress: 232 new / 232 seen (+0 resumed) | 0.94 rows/s | elapsed=246s | gpu=3.30GB alloc / 3.33GB reserved
+2026-07-31 15:33:45,267 | INFO | [masc_c_only] progress: 352 new / 352 seen (+0 resumed) | 0.95 rows/s | elapsed=372s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 15:35:50,458 | INFO | [masc_c_only] progress: 472 new / 472 seen (+0 resumed) | 0.95 rows/s | elapsed=497s | gpu=3.30GB alloc / 3.35GB reserved
+2026-07-31 15:37:52,384 | INFO | [masc_c_only] progress: 592 new / 592 seen (+0 resumed) | 0.96 rows/s | elapsed=619s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 15:39:52,613 | INFO | [masc_c_only] progress: 704 new / 704 seen (+0 resumed) | 0.95 rows/s | elapsed=739s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 15:41:56,735 | INFO | [masc_c_only] progress: 824 new / 824 seen (+0 resumed) | 0.95 rows/s | elapsed=863s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 15:44:00,238 | INFO | [masc_c_only] progress: 944 new / 944 seen (+0 resumed) | 0.96 rows/s | elapsed=987s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 15:46:03,551 | INFO | [masc_c_only] progress: 1072 new / 1072 seen (+0 resumed) | 0.97 rows/s | elapsed=1110s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 15:48:05,236 | INFO | [masc_c_only] progress: 1192 new / 1192 seen (+0 resumed) | 0.97 rows/s | elapsed=1232s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 15:50:12,994 | INFO | [masc_c_only] progress: 1304 new / 1304 seen (+0 resumed) | 0.96 rows/s | elapsed=1359s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 15:52:19,439 | INFO | [masc_c_only] progress: 1432 new / 1432 seen (+0 resumed) | 0.96 rows/s | elapsed=1486s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 15:54:23,561 | INFO | [masc_c_only] progress: 1560 new / 1560 seen (+0 resumed) | 0.97 rows/s | elapsed=1610s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 15:56:25,640 | INFO | [masc_c_only] progress: 1696 new / 1696 seen (+0 resumed) | 0.98 rows/s | elapsed=1732s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 15:58:25,646 | INFO | [masc_c_only] progress: 1880 new / 1880 seen (+0 resumed) | 1.02 rows/s | elapsed=1852s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:00:29,474 | INFO | [masc_c_only] progress: 2056 new / 2056 seen (+0 resumed) | 1.04 rows/s | elapsed=1976s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:02:31,217 | INFO | [masc_c_only] progress: 2224 new / 2224 seen (+0 resumed) | 1.06 rows/s | elapsed=2098s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:04:34,316 | INFO | [masc_c_only] progress: 2408 new / 2408 seen (+0 resumed) | 1.08 rows/s | elapsed=2221s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:06:41,609 | INFO | [masc_c_only] progress: 2584 new / 2584 seen (+0 resumed) | 1.10 rows/s | elapsed=2348s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:08:45,831 | INFO | [masc_c_only] progress: 2776 new / 2776 seen (+0 resumed) | 1.12 rows/s | elapsed=2472s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:10:48,098 | INFO | [masc_c_only] progress: 2968 new / 2968 seen (+0 resumed) | 1.14 rows/s | elapsed=2595s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:12:51,265 | INFO | [masc_c_only] progress: 3152 new / 3152 seen (+0 resumed) | 1.16 rows/s | elapsed=2718s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:14:55,724 | INFO | [masc_c_only] progress: 3304 new / 3304 seen (+0 resumed) | 1.16 rows/s | elapsed=2842s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:16:59,202 | INFO | [masc_c_only] progress: 3488 new / 3488 seen (+0 resumed) | 1.18 rows/s | elapsed=2966s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:19:03,641 | INFO | [masc_c_only] progress: 3656 new / 3656 seen (+0 resumed) | 1.18 rows/s | elapsed=3090s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:21:09,399 | INFO | [masc_c_only] progress: 3856 new / 3856 seen (+0 resumed) | 1.20 rows/s | elapsed=3216s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:23:11,336 | INFO | [masc_c_only] progress: 4048 new / 4048 seen (+0 resumed) | 1.21 rows/s | elapsed=3338s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:25:15,006 | INFO | [masc_c_only] progress: 4224 new / 4224 seen (+0 resumed) | 1.22 rows/s | elapsed=3461s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:27:16,430 | INFO | [masc_c_only] progress: 4408 new / 4408 seen (+0 resumed) | 1.23 rows/s | elapsed=3583s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:29:16,913 | INFO | [masc_c_only] progress: 4584 new / 4584 seen (+0 resumed) | 1.24 rows/s | elapsed=3703s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:31:18,860 | INFO | [masc_c_only] progress: 4752 new / 4752 seen (+0 resumed) | 1.24 rows/s | elapsed=3825s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:33:19,659 | INFO | [masc_c_only] progress: 4912 new / 4912 seen (+0 resumed) | 1.24 rows/s | elapsed=3946s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:35:20,182 | INFO | [masc_c_only] progress: 5096 new / 5096 seen (+0 resumed) | 1.25 rows/s | elapsed=4067s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:37:22,216 | INFO | [masc_c_only] progress: 5264 new / 5264 seen (+0 resumed) | 1.26 rows/s | elapsed=4189s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:39:24,212 | INFO | [masc_c_only] progress: 5440 new / 5440 seen (+0 resumed) | 1.26 rows/s | elapsed=4311s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:41:27,588 | INFO | [masc_c_only] progress: 5616 new / 5616 seen (+0 resumed) | 1.27 rows/s | elapsed=4434s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:43:27,919 | INFO | [masc_c_only] progress: 5776 new / 5776 seen (+0 resumed) | 1.27 rows/s | elapsed=4554s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:45:31,925 | INFO | [masc_c_only] progress: 5952 new / 5952 seen (+0 resumed) | 1.27 rows/s | elapsed=4678s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:47:39,435 | INFO | [masc_c_only] progress: 6144 new / 6144 seen (+0 resumed) | 1.28 rows/s | elapsed=4806s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:49:41,792 | INFO | [masc_c_only] progress: 6320 new / 6320 seen (+0 resumed) | 1.28 rows/s | elapsed=4928s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:51:42,174 | INFO | [masc_c_only] progress: 6488 new / 6488 seen (+0 resumed) | 1.29 rows/s | elapsed=5049s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:53:45,191 | INFO | [masc_c_only] progress: 6664 new / 6664 seen (+0 resumed) | 1.29 rows/s | elapsed=5172s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:55:48,508 | INFO | [masc_c_only] progress: 6864 new / 6864 seen (+0 resumed) | 1.30 rows/s | elapsed=5295s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:57:50,998 | INFO | [masc_c_only] progress: 7040 new / 7040 seen (+0 resumed) | 1.30 rows/s | elapsed=5417s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 16:59:52,717 | INFO | [masc_c_only] progress: 7224 new / 7224 seen (+0 resumed) | 1.30 rows/s | elapsed=5539s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:01:55,043 | INFO | [masc_c_only] progress: 7408 new / 7408 seen (+0 resumed) | 1.31 rows/s | elapsed=5662s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:03:55,166 | INFO | [masc_c_only] progress: 7592 new / 7592 seen (+0 resumed) | 1.31 rows/s | elapsed=5782s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:05:58,726 | INFO | [masc_c_only] progress: 7776 new / 7776 seen (+0 resumed) | 1.32 rows/s | elapsed=5905s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:08:05,330 | INFO | [masc_c_only] progress: 7960 new / 7960 seen (+0 resumed) | 1.32 rows/s | elapsed=6032s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:10:11,077 | INFO | [masc_c_only] progress: 8136 new / 8136 seen (+0 resumed) | 1.32 rows/s | elapsed=6158s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:12:14,800 | INFO | [masc_c_only] progress: 8320 new / 8320 seen (+0 resumed) | 1.32 rows/s | elapsed=6281s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:14:19,786 | INFO | [masc_c_only] progress: 8504 new / 8504 seen (+0 resumed) | 1.33 rows/s | elapsed=6406s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:15:54,927 | INFO | [masc_c_only] prediction pass done: 8612 new rows written (8612 total incl. resumed) in 6501s
+2026-07-31 17:15:55,915 | INFO | [masc_c_only] metrics: {'n_total': 8612, 'n_scored': 8612, 'n_dropped_empty_ref': 0, 'wer': 0.20665861150335552, 'cer': 0.062351570302963046}
+2026-07-31 17:15:55,940 | INFO | [omnilingual_apc_full] resume: 0 rows already done (lang=apc_Arab)
+2026-07-31 17:19:42,386 | INFO | [omnilingual_apc_full] progress: 16 new / 16 seen (+0 resumed) | 0.07 rows/s | elapsed=226s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:23:19,467 | INFO | [omnilingual_apc_full] progress: 32 new / 32 seen (+0 resumed) | 0.07 rows/s | elapsed=444s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:26:30,130 | INFO | [omnilingual_apc_full] progress: 48 new / 48 seen (+0 resumed) | 0.08 rows/s | elapsed=634s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:29:09,224 | INFO | [omnilingual_apc_full] progress: 64 new / 64 seen (+0 resumed) | 0.08 rows/s | elapsed=793s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:32:03,895 | INFO | [omnilingual_apc_full] progress: 80 new / 80 seen (+0 resumed) | 0.08 rows/s | elapsed=968s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:34:57,071 | INFO | [omnilingual_apc_full] progress: 96 new / 96 seen (+0 resumed) | 0.08 rows/s | elapsed=1141s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:38:14,653 | INFO | [omnilingual_apc_full] progress: 112 new / 112 seen (+0 resumed) | 0.08 rows/s | elapsed=1339s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:40:37,447 | INFO | [omnilingual_apc_full] progress: 128 new / 128 seen (+0 resumed) | 0.09 rows/s | elapsed=1482s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:42:50,142 | INFO | [omnilingual_apc_full] progress: 160 new / 160 seen (+0 resumed) | 0.10 rows/s | elapsed=1614s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:45:04,087 | INFO | [omnilingual_apc_full] progress: 192 new / 192 seen (+0 resumed) | 0.11 rows/s | elapsed=1748s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:47:24,951 | INFO | [omnilingual_apc_full] progress: 224 new / 224 seen (+0 resumed) | 0.12 rows/s | elapsed=1889s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:49:38,044 | INFO | [omnilingual_apc_full] progress: 256 new / 256 seen (+0 resumed) | 0.13 rows/s | elapsed=2022s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:51:42,008 | INFO | [omnilingual_apc_full] progress: 288 new / 288 seen (+0 resumed) | 0.13 rows/s | elapsed=2146s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:54:09,654 | INFO | [omnilingual_apc_full] progress: 328 new / 328 seen (+0 resumed) | 0.14 rows/s | elapsed=2294s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:56:42,370 | INFO | [omnilingual_apc_full] progress: 368 new / 368 seen (+0 resumed) | 0.15 rows/s | elapsed=2446s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 17:58:51,069 | INFO | [omnilingual_apc_full] progress: 400 new / 400 seen (+0 resumed) | 0.16 rows/s | elapsed=2575s | gpu=3.30GB alloc / 3.34GB reserved
+2026-07-31 18:01:06,117 | INFO | [omnilingual_apc_full] progress: 432 new / 432 seen (+0 resumed) | 0.16 rows/s | elapsed=2710s | gpu=3.30GB alloc / 3.34GB reserved
