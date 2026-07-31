@@ -1,0 +1,23 @@
+{
+  "casablanca_jordanian": {
+    "n_total": 848,
+    "n_scored": 848,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.5275250227479527,
+    "cer": 0.18621584600966043
+  },
+  "casablanca_palestinian": {
+    "n_total": 664,
+    "n_scored": 664,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.6208584766025276,
+    "cer": 0.23680194572941007
+  },
+  "masc_c_only": {
+    "n_total": 8623,
+    "n_scored": 8623,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.3124044662483805,
+    "cer": 0.08136137769158419
+  }
+}

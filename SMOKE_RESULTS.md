@@ -296,3 +296,176 @@ same run, so the content hash matches by construction.)
 same diagnosis independently; the fix and the re-runs described here were applied by the
 session that produced the table above. Two sessions were editing these notebooks within the
 same few minutes — see `DATA_CURATION.md`'s "Concurrent sessions are a real hazard".
+
+---
+
+## Build-instructions compliance pass: MLflow, checkpoint/resume, bucket sampling (2026-07-31)
+
+Applied the model-agnostic LoRA fine-tuning build spec's remaining gaps to all four training
+notebooks (`asr_model_agnostic_finetune.ipynb` = OmniASR, `asr_conformer_ctc_finetune.ipynb`,
+`asr_qwen3_finetune.ipynb`, `asr_cohere_transcribe_finetune.ipynb`) via one shared recipe
+(the `TrainAPI`/save-results cells are now byte-identical across all four notebooks):
+
+- **MLflow instead of W&B** (`wandb` was `WANDB_MODE=disabled` dead weight anyway): params,
+  per-step/per-epoch metrics (`train/step_loss`, `grad_norm`, `lr`, `gpu_mem_gb`,
+  `train/throughput_audio_s_per_s`, `val/wer`, `val/cer`, ...), a qualitative GT-vs-hyp table
+  logged every eval via `mlflow.log_table`, tags (dataset version, hardware, dev/experiment
+  stage), and dataset hours/counts pushed as params at the end.
+- **Length-grouped bucket sampler** (`LengthGroupedSampler`): batches examples of similar
+  audio length together for padding efficiency, reshuffles bucket order every epoch.
+- **Uniform checkpoint API**: added `ModelAdapter.save_checkpoint()`/`load_checkpoint()`
+  (+ `trainable_parameters()`) to the shared adapter base class, with per-model overrides
+  where the LoRA weights don't live on `self.model` directly (OmniASR's manual `_LoRALinear`
+  injection; FastConformer's `self.peft` wrapper). This replaced four different ad hoc
+  save/restore code paths with one, and is what let the `TrainAPI` cell become byte-identical
+  across notebooks.
+- **Real resumable checkpointing**: rotating `ckpt_step<gstep>/` dirs (adapter weights +
+  optimizer/scheduler state + RNG state + `trainer_state.json` incl. the MLflow `run_id`),
+  saved at `max(200, steps_per_epoch // 3)` step intervals AND at every epoch boundary,
+  pruned to `save_total_limit=3` (best checkpoint lives in a separate protected `best/` dir,
+  never pruned). `TrainAPI.run(..., resume=True)` (default) auto-detects and resumes from the
+  latest one, restoring epoch/global-step/best-metric/early-stop-counter/RNG and reusing the
+  same MLflow run via its persisted `run_id`.
+- **DataLoader tuning**: `pin_memory` now genuinely conditioned on CUDA (was hardcoded
+  `False` in three of the four notebooks), `persistent_workers`/`prefetch_factor` wired in
+  when `num_workers > 0`.
+- Config defaults aligned to the spec: `early_stopping_patience` 4→3, `save_total_limit` 2→3.
+
+### Two real environment bugs found only by actually running it (not by reading the spec)
+1. **mlflow 3.x deprecated the plain `"file:"` tracking backend** — raises
+   `MlflowException: ... is in maintenance mode ...` unless `MLFLOW_ALLOW_FILE_STORE=true`.
+   Fixed by using `sqlite:///{ROOT}/mlflow.db` instead (the currently-recommended local
+   backend), with an explicit `artifact_location` set on first `mlflow.create_experiment`
+   (sqlite backends don't default one).
+2. **`torch.load` defaults to `weights_only=True` on torch ≥2.6**, which rejects the
+   numpy-backed RNG checkpoint (`numpy.random.get_state()` pickles via numpy's own
+   `_reconstruct`, not in the default safe-globals allowlist). The `try/except` around resume
+   caught this gracefully the first time (`[resume] failed (...); starting fresh` — training
+   just restarted instead of crashing) but resume never actually worked until
+   `weights_only=False` was added to the three resume-path `torch.load` calls (these are our
+   own trusted local checkpoint files, not untrusted downloads).
+
+### OmniASR notebook (`asr_model_agnostic_finetune.ipynb`) — hand-validated first, GPU
+
+Two full end-to-end runs (`venv_omni_gpu`), 17/17 cells, 0 errors:
+
+| run | time | result |
+|---|---|---|
+| 1st (post sqlite-fix, pre weights_only-fix) | 349.3s | PASS; resume silently no-op'd (caught by try/except, fell back to fresh — the bug above) |
+| 2nd (post weights_only-fix) | 298.7s | PASS; **resume genuinely worked**: `[resume] epoch 3 gstep 2 best_wer 0.2639 <- .../ckpt_step00000002`, picked up from the *first* run's checkpoint (a real cross-process resume, not just within-run) |
+
+Also fixed: the bottom `smoke()` wrapper cell calls `TrainAPI.run()` a second time but never
+reaches the save-results cell, so the MLflow run it starts was left dangling in `RUNNING`
+state forever — added an explicit `mlflow.end_run()` there. Confirmed via
+`mlflow.search_runs()`: both runs for this experiment now show `FINISHED`, and the second
+run's MLflow `run_id` was the *same* one from the first run (proving `run_id` persistence +
+resume + end_run all compose correctly), not a new fork.
+
+WER on real apc North-Levantine data (n=1 plumbing check, not a quality signal, per usual):
+base 0.2037, best val WER 0.2639, tuned test WER 0.2037 (byte-identical predictions —
+consistent with the already-documented "2 epochs over 1 clip rarely moves a greedy decode"
+pattern seen on the other notebooks too).
+
+### Conformer/Qwen/Cohere notebooks — patched by 3 parallel agents
+
+Same recipe, applied by three background agents working concurrently (one per notebook) once
+the OmniASR notebook proved the recipe correct, each smoke-testing its own notebook on GPU.
+All three passed clean (0 errors, 35/35 cells) and reproduced their historical baseline WER
+exactly, confirming the patch changed only tracking/checkpointing/sampling, not model behavior:
+
+| notebook | venv | errors | base WER | tuned WER | best val WER |
+|---|---|---|---|---|---|
+| `asr_conformer_ctc_finetune.ipynb` | `venv_nemo_gpu` | 0 | 0.4146 | 0.3902 | 0.5581 |
+| `asr_qwen3_finetune.ipynb` | `venv_qwen_gpu` | 0 | 0.4390 | 0.4878 | 0.4651 |
+| `asr_cohere_transcribe_finetune.ipynb` | `venv_qwen_gpu` | 0 | 0.3659 | 0.3659 (expected — see the existing note above on the 2-epochs/1-clip greedy-decode plateau) | 0.2791 |
+
+`grep -c wandb` on all three: 0. `ls checkpoints/<slug>/`: `best/` + `ckpt_step00000001/`
+`ckpt_step00000002/` + `history.json`, matching the OmniASR pattern exactly.
+
+### A fourth real bug, caught only by the unified notebook below: mlflow run-resume across experiments
+
+`mlflow.start_run(run_id=...)` sat *outside* the resume `try/except` in the original patch, so
+resuming a checkpoint whose persisted `run_id` belongs to a *different* MLflow experiment than
+the one currently active (e.g. the same `CKPT_DIR/<slug>` directory previously used by a sibling
+notebook under a different experiment name) raised `MlflowException: ... active experiment ID
+does not match environment run ID` and crashed the whole run instead of falling back to a fresh
+one. Fixed by wrapping `mlflow.start_run()` itself in a try/except that starts a new run
+(`run_id=None`) on any failure — applied to all five notebooks (the four dedicated ones plus the
+unified notebook below) and to the shared `TrainAPI` source.
+
+---
+
+## Unified switch-notebook (`asr_lora_finetune_unified.ipynb`) (2026-07-31)
+
+One notebook covering all four model families via a merged adapter `REGISTRY`, with
+`MODEL_NAME` + `DATASET_DIR` as the only two things you change (Cell 2). All four adapter
+classes (`OmniASRAdapter`, `ConformerCTCAdapter`, `Qwen3ASRAdapter`, `CohereAsrAdapter`) are
+always defined regardless of which kernel is running — their real package imports are lazy,
+inside each `load_base()` — so the notebook file itself never changes; only which
+pre-built venv/kernel you launch it with does, driven purely by `MODEL_NAME` (a
+`KERNEL_BY_MODEL` table in Cell 2 tells you which, and prints the expected kernel on run so a
+mismatch is caught early via an import error rather than silently).
+
+This is also what the per-adapter `save_checkpoint()`/`load_checkpoint()`/
+`trainable_parameters()` refactor (added to the shared `ModelAdapter` base class while patching
+the four dedicated notebooks) was for: it made the `TrainAPI`/save-results cells byte-identical
+across all four families, which is what let this notebook exist as a straight merge rather than
+a rewrite. Per-family divergence that's real (not just historical duplication) stayed as
+overrides on the concrete adapter classes: `apply_lora` (OmniASR manual LoRA injection;
+FastConformer keeps the PEFT wrapper in `self.peft` instead of `self.model`; CohereAsr discovers
+`target_modules` at runtime), and `save_checkpoint`/`load_checkpoint` for the same two non-default
+cases.
+
+Smoke-tested by literally switching `MODEL_NAME` in Cell 2 and re-running under the matching
+kernel — proving the switch mechanism itself, not just that each adapter individually works:
+
+| run | kernel | MODEL_NAME | errors | base WER | tuned WER |
+|---|---|---|---|---|---|
+| 1st (hit the mlflow cross-experiment bug above, in the final smoke() cell after the main run already succeeded) | `omni_gpu` | `omnilingual-asr/omniASR_LLM_300M` | 1 (fixed immediately, see above) | 0.3478 | 0.3478 |
+| 2nd, after the mlflow-resume fix — clean | `omni_gpu` | `omnilingual-asr/omniASR_LLM_300M` | 0 | 0.3478 | 0.3478 |
+| 3rd — switched MODEL_NAME + kernel, same file | `qwen_gpu` | `Qwen/Qwen3-ASR-0.6B-hf` | 0 | 0.4390 | 0.4878 |
+
+The Qwen3-ASR run's WER matches the dedicated `asr_qwen3_finetune.ipynb` run exactly (same
+corpus, same smoke selection, same seed) — same model, same data, same result, launched from a
+completely different notebook file. That's the switch mechanism proven, not just each adapter in
+isolation.
+
+Not GPU-tested here (would need the gated Cohere token + the NeMo kernel in the same sweep,
+which is what the three dedicated-notebook agent runs above already cover individually):
+FastConformer-CTC and CohereAsr through *this* unified file specifically. Since the merge is a
+mechanical copy of the exact same class bodies already GPU-verified in their own dedicated
+notebooks, this is a low-risk gap, not an unverified code path — but it's still a gap.
+
+---
+
+## Zero-shot generation: FastConformer-CTC was the missing model (2026-07-31)
+
+Standalone large-scale zero-shot eval already existed for Whisper, Cohere-Transcribe, Qwen3-ASR,
+and OmniASR (`scripts/zero_shot_eval/{whisper,cohere,qwen,omni}_predict.py` +
+`run_*eval*.py`, writing to `outputs/<model>_zero_shot/`) — but not for the FastConformer-CTC
+model used in `asr_conformer_ctc_finetune.ipynb`. Forged the missing pair,
+`conformer_predict.py` + `run_conformer_eval.py`, mirroring the OmniASR driver's structure
+exactly (same resumable predictions.jsonl + progress logging + evaluate() call), with the
+NeMo-specific difference that `ASRModel.transcribe()` takes file paths, not raw arrays, so
+each batch is written to short-lived temp WAV files (mirrors the collate-time pattern already
+used for training in `ConformerCTCAdapter.generate()`).
+
+**Real bug found and fixed**: `nemo.collections.asr`'s import chain does its own internal
+`from datasets import concatenate_datasets` (the real HF `datasets` package). This
+directory's own `datasets.py` (the `discover_eval_targets` helper shared by every
+`run_*_eval*.py` script) sits at `sys.path[0]` (Python puts a script's own directory there
+automatically), which shadows the real package for the whole process — including inside
+nemo's lazy internal imports — crashing with
+`ImportError: cannot import name 'concatenate_datasets' from 'datasets'`. Fixed with two
+things, in order: (1) strip this directory from `sys.path` before importing nemo, so nemo
+resolves and caches the *real* `datasets` package under `sys.modules["datasets"]`; (2) for
+this script's own `discover_eval_targets` access, never go through the ambiguous bare name
+"datasets" again afterwards (a later `from datasets import ...` would just reuse the now
+poisoned `sys.modules` cache) — load `datasets.py` directly by file path via
+`importlib.util` under a private module name instead.
+
+Smoke test (`venv_nemo_gpu`, 3 real rows from `casablanca_jordanian`): PASS —
+`{'n_total': 3, 'n_scored': 3, 'wer': 0.611, 'cer': 0.237}`, predictions.jsonl +
+metrics.json + summary.json all written correctly. Only 3 dialectal-Jordanian test rows;
+not a quality signal, only a plumbing check (same convention as every other number in this
+file). Run for real with `python run_conformer_eval.py --all`.

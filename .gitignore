@@ -90,3 +90,6 @@ __pycache__/
 .sample_data/
 .sample_run/
 .pipeline/
+
+# Scratch/working directory for this session's ad-hoc pipeline runs
+.logs/
