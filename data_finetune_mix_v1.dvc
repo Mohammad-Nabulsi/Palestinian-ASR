@@ -1,0 +1,6 @@
+outs:
+- md5: 7d69f6f3005c16ad2ecd65fa5aaaf9fe.dir
+  size: 33335858551
+  nfiles: 228
+  hash: md5
+  path: data_finetune_mix_v1

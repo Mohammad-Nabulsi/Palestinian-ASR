@@ -44,6 +44,9 @@ Runs/**/outputs/
 # to a directory - so these are listed WITHOUT a trailing slash to also catch the symlink itself.
 data
 data_*
+# ...except DVC pointer files, which are small metadata (not data) and must be git-tracked
+# for DVC versioning to work (e.g. data_finetune_mix_v1.dvc).
+!*.dvc
 processed_qasr_segments
 omnilingual_selected
 casablanca
