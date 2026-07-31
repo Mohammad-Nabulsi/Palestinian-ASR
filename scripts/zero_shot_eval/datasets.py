@@ -1,6 +1,7 @@
-"""Discover the zero-shot eval targets in data/clean:
-- every *test* split (masc_c_only, casablanca_jordanian, casablanca_palestinian)
-- the entire omnilingual_apc (omni) dataset, all shards (clean + recovered_clean)
+"""Discover the zero-shot eval targets:
+- data/clean: every *test* split (masc_c_only, casablanca_jordanian, casablanca_palestinian)
+- data/clean: the entire omnilingual_apc (omni) dataset, all shards (clean + recovered_clean)
+- processed_layla_shards_v1/layla: the entire Layla (Jordanian) dataset, all shards
 """
 from __future__ import annotations
 
@@ -8,6 +9,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA_CLEAN_DIR = REPO_ROOT / "data" / "clean"
+LAYLA_DIR = REPO_ROOT / "processed_layla_shards_v1" / "layla"
 
 
 def discover_eval_targets() -> dict[str, list[Path]]:
@@ -20,6 +22,11 @@ def discover_eval_targets() -> dict[str, list[Path]]:
             continue
         key = "omnilingual_apc_full" if is_omni else name.split("__", 1)[0]
         groups.setdefault(key, []).append(f)
+
+    layla_files = sorted(LAYLA_DIR.glob("*.parquet"))
+    if layla_files:
+        groups["layla"] = layla_files
+
     return {k: sorted(v) for k, v in groups.items()}
 
 

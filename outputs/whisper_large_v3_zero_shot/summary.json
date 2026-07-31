@@ -1,0 +1,47 @@
+{
+  "casablanca_jordanian": {
+    "dataset": "casablanca_jordanian",
+    "n_total": 848,
+    "n_scored": 848,
+    "n_dropped_empty_ref": 0,
+    "WER_%": 40.28,
+    "CER_%": 13.7,
+    "partial": false
+  },
+  "casablanca_palestinian": {
+    "dataset": "casablanca_palestinian",
+    "n_total": 664,
+    "n_scored": 664,
+    "n_dropped_empty_ref": 0,
+    "WER_%": 50.53,
+    "CER_%": 18.02,
+    "partial": false
+  },
+  "masc_c_only": {
+    "dataset": "masc_c_only",
+    "n_total": 1064,
+    "n_scored": 1064,
+    "n_dropped_empty_ref": 0,
+    "WER_%": 24.55,
+    "CER_%": 7.14,
+    "partial": true
+  },
+  "omnilingual_apc_full": {
+    "dataset": "omnilingual_apc_full",
+    "n_total": 112,
+    "n_scored": 112,
+    "n_dropped_empty_ref": 0,
+    "WER_%": 53.39,
+    "CER_%": 27.83,
+    "partial": true
+  },
+  "layla": {
+    "dataset": "layla",
+    "n_total": 24,
+    "n_scored": 24,
+    "n_dropped_empty_ref": 0,
+    "WER_%": 58.82,
+    "CER_%": 44.79,
+    "partial": true
+  }
+}

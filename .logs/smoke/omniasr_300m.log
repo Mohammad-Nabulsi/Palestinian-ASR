@@ -1,0 +1,4 @@
+[17:36:05] START asr_model_agnostic_finetune.ipynb (17 code cells) kernel=/workspace/venv_omni_gpu/bin/python
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+[17:43:38] DONE ALL CELLS in 452.8s
+[17:43:38] saved -> asr_model_agnostic_finetune.ipynb

@@ -1,0 +1,37 @@
+{
+  "casablanca_jordanian": {
+    "n_total": 848,
+    "n_scored": 848,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.2994767970882621,
+    "cer": 0.09919976930286209
+  },
+  "casablanca_palestinian": {
+    "n_total": 664,
+    "n_scored": 664,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.380052373904133,
+    "cer": 0.1306452382087844
+  },
+  "masc_c_only": {
+    "n_total": 8623,
+    "n_scored": 8623,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.19099471561876755,
+    "cer": 0.05811962966353984
+  },
+  "omnilingual_apc_full": {
+    "n_total": 1311,
+    "n_scored": 1311,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.3545711854007086,
+    "cer": 0.10323730647383456
+  },
+  "layla": {
+    "n_total": 218,
+    "n_scored": 218,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.22488529340738952,
+    "cer": 0.09716708842338445
+  }
+}

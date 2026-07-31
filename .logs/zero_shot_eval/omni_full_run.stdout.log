@@ -1,0 +1,8 @@
+Device set to use cuda:0
+2026-07-31 13:53:53,623 | INFO | [omnilingual_apc_full] resume: 0 rows already done
+2026-07-31 13:56:35,763 | INFO | [omnilingual_apc_full] progress: 16 new / 16 seen (+0 resumed) | 0.10 rows/s | elapsed=162s | gpu=3.10GB alloc / 15.28GB reserved
+2026-07-31 13:58:55,697 | INFO | [omnilingual_apc_full] progress: 32 new / 32 seen (+0 resumed) | 0.11 rows/s | elapsed=302s | gpu=3.10GB alloc / 15.28GB reserved
+2026-07-31 14:01:37,461 | INFO | [omnilingual_apc_full] progress: 56 new / 56 seen (+0 resumed) | 0.12 rows/s | elapsed=464s | gpu=3.10GB alloc / 15.28GB reserved
+2026-07-31 14:03:38,932 | INFO | [omnilingual_apc_full] progress: 72 new / 72 seen (+0 resumed) | 0.12 rows/s | elapsed=585s | gpu=3.10GB alloc / 15.28GB reserved
+You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
+2026-07-31 14:06:20,233 | INFO | [omnilingual_apc_full] progress: 96 new / 96 seen (+0 resumed) | 0.13 rows/s | elapsed=747s | gpu=3.10GB alloc / 15.28GB reserved
