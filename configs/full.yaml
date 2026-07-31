@@ -51,16 +51,17 @@ stages:
         mode: symlink
 
       # Reads transcripts straight from the sibling .txt/.docx, so this no longer
-      # blocks on the four missing normalized_*.json files (HANDOFF Gap 1). Drop
-      # those JSONs into {ws}/Layla/ and list them under normalized_json to layer
-      # the LLM-normalized text on top.
+      # blocks on the four missing normalized_*.json files (HANDOFF Gap 1). The
+      # full 218/218 hand-normalization pass is merged into normalized_all.json
+      # (scripts/merge_layla_normalized_json.py) and layered on top here.
       - name: layla
         adapter: audio_text_pairs
         input: "{ws}/Layla/Layla Witheeb Jordanian Arabic Acoustic Dataset"
         output: "{work}/ingested/layla"
         dataset: layla
         rows_per_shard: 250
-        normalized_json: []
+        normalized_json:
+          - "{ws}/Layla/normalized_json/normalized_all.json"
 
       - name: masc_c
         enabled: false                 # raw MASC-Arabic2/ was deleted post-merge

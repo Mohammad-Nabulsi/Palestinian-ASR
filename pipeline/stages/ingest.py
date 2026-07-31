@@ -234,6 +234,40 @@ def load_normalized_overrides(paths: list[Path]) -> dict[str, str]:
     return overrides
 
 
+def _find_transcript_sibling(base: Path, marker: str) -> tuple[Path | None, str | None]:
+    """Find ``<base><marker>.txt``/``.docx`` next to ``base``, matching the
+    marker case-insensitively — one Layla speaker (AH25M) uses a lowercase
+    ``_arabic_transcription`` suffix instead of ``_Arabic_transcription``, and a
+    literal-case match would silently drop those two rows. Falls back to a bare
+    ``<base>.txt``/``.docx`` with no marker at all.
+    """
+    marker_lower = marker.lower()
+    prefix = base.name
+    txt_hit = docx_hit = None
+    if base.parent.is_dir():
+        for candidate in base.parent.iterdir():
+            if not candidate.is_file() or not candidate.stem.startswith(prefix):
+                continue
+            rest = candidate.stem[len(prefix) :]
+            if rest.lower() != marker_lower:
+                continue
+            if candidate.suffix == ".txt":
+                txt_hit = candidate
+            elif candidate.suffix == ".docx":
+                docx_hit = candidate
+    if txt_hit is not None:
+        return txt_hit, "txt"
+    if docx_hit is not None:
+        return docx_hit, "docx"
+    bare_txt = base.with_suffix(".txt")
+    if bare_txt.is_file():
+        return bare_txt, "txt"
+    bare_docx = base.with_suffix(".docx")
+    if bare_docx.is_file():
+        return bare_docx, "docx"
+    return None, None
+
+
 @adapter("audio_text_pairs")
 def ingest_audio_text_pairs(ctx: RunContext, spec: dict[str, Any], output: Path) -> dict[str, Any]:
     """Pair audio files with sibling transcripts and write parquet training shards.
@@ -272,30 +306,20 @@ def ingest_audio_text_pairs(ctx: RunContext, spec: dict[str, Any], output: Path)
 
     for audio_path in audio_paths:
         base = audio_path.with_suffix("")
-        rel_txt = f"{base.relative_to(source)}{marker}.txt"
-        text = overrides.get(rel_txt)
-        if text is not None:
-            counts["from_override"] += 1
-        else:
-            txt_candidates = [
-                base.with_name(base.name + marker).with_suffix(".txt"),
-                base.with_suffix(".txt"),
-            ]
-            docx_candidates = [
-                base.with_name(base.name + marker).with_suffix(".docx"),
-                base.with_suffix(".docx"),
-            ]
-            for candidate in txt_candidates:
-                if candidate.is_file():
-                    text = candidate.read_text(encoding="utf-8", errors="replace").strip()
-                    counts["from_txt"] += 1
-                    break
-            if text is None:
-                for candidate in docx_candidates:
-                    if candidate.is_file():
-                        text = extract_docx_text(candidate)
-                        counts["from_docx"] += 1
-                        break
+        transcript_path, transcript_kind = _find_transcript_sibling(base, marker)
+
+        text: str | None = None
+        if transcript_path is not None:
+            rel_txt = f"{transcript_path.relative_to(source).with_suffix('.txt')}"
+            text = overrides.get(rel_txt)
+            if text is not None:
+                counts["from_override"] += 1
+            elif transcript_kind == "txt":
+                text = transcript_path.read_text(encoding="utf-8", errors="replace").strip()
+                counts["from_txt"] += 1
+            else:
+                text = extract_docx_text(transcript_path)
+                counts["from_docx"] += 1
 
         if not text:
             counts["missing_transcript"] += 1

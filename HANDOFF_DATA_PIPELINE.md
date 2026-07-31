@@ -109,7 +109,7 @@ Verified with `du -sh` against the real `/workspace` paths, not just the local s
 | 7 | Omnilingual reclean v2 (`scripts/reclean_omnilingual_v2.py`) | ✅ done 07-30 | `data_cleaned_text_omnilingual_v2/` — 517 total, 406 kept, 111 dropped English |
 | 8 | Omnilingual recovery v3 (`scripts/recover_omnilingual_token_span_rows_v3.py`) | ✅ done 07-30 | `data_cleaned_text_omnilingual_v3_recovered_from_v2/` — 10 recovered, 101 still English |
 | 9 | Rebuild `data/` with final Omnilingual rows (`scripts/create_data_with_final_omnilingual.py`) | ✅ done 07-30 | `data/clean/` = 837 symlinked shards + 6 real Omnilingual shards (416 rows). **Script patched to symlink instead of hardlink** — MooseFS charges hardlinks against the ~800GB quota like full copies (first attempt died on `Errno 122`; partial tree was removed). Repo symlink `data` → `/workspace/asr/Palestinian-ASR/data` added. |
-| 10-11 | Layla normalize/shard + flatten `data/clean/` | ❌ blocked | Gap 1 — raw Layla source is gone |
+| 10-11 | Layla normalize/shard + flatten into `data/` | ✅ done 07-31 | 218/218 rows, 218/218 using the completed 6-batch normalization (`normalized_all.json`), 0 dropped by the `clean` stage. 4 shards hardlinked to top-level `data/layla__*.parquet`. See `DATA_CURATION.md` "Layla Prompt Merge and Sharding". |
 | 12 | Text dialect ID, MarBERTv2 | 🟡 MASC done 07-30 | MASC-only run (GPU box): 318,078/373,464 rows → `Runs/text_dialect_scan_marbertv2_written_clean_masc_c/row_probabilities.jsonl`; 42,092 rows with LEV≥0.80. ~55k rows skipped by `make_uid` video_id collisions (same as original run). **QASR (1.5M rows) still to do.** |
 | 13 | Audio dialect ID, badrex mms300m | 🟡 MASC done 07-30 | On the 42,092 text candidates: 39,162 classified (2,930 <2s, 2 errors) → `Runs/dialect_scan_badrex_mms300m_lev08_text_candidates_masc_c/row_probabilities.jsonl`; **6,949 rows pass text≥0.80 AND audio Levantine≥0.80**. Crashed 2x at ~58% from 31GB cgroup page-cache pressure; `--resume` recovered. **QASR still to do.** |
 | 14 | Build Levant/non-Levant binary split | ⏳ not started | → `data_curated_levant_binary_v1/` |
@@ -126,12 +126,15 @@ Verified with `du -sh` against the real `/workspace` paths, not just the local s
 
 ## Known gaps (data genuinely missing/short on this network storage copy)
 
-1. **Layla — total loss.** `Layla/` is completely empty (no files at all, verified via `find`).
+1. **Layla — resolved 07-31.** Was total loss as of the note below; raw audio/transcripts came
+   back (874 files) and a full 6-batch hand-normalization pass (218/218 sources) landed in
+   `Layla/normalized_json/`. Shards are now built, cleaned, and hardlinked into `data/` — see
+   `DATA_CURATION.md` "Layla Prompt Merge and Sharding" and pipeline status row 10-11 above. Original
+   note, kept for history: `Layla/` was completely empty (no files at all, verified via `find`).
    `.intermediate_data/Layla/` (where `DATA_CURATION.md` says the raw source was archived after
    sharding) also doesn't exist anywhere under `/workspace`. The four merged/normalized JSON files
-   (`normalized_output_appended.json` etc.) that fed the Layla sharding step are also nowhere on
-   this box. **This dataset needs to be re-sourced from wherever it was originally downloaded** (a
-   local machine, per `data.md`) — it cannot be reconstructed from anything present here.
+   (`normalized_output_appended.json` etc.) that fed the Layla sharding step were also nowhere on
+   this box, and the dataset looked like it needed re-sourcing from scratch.
 
 2. **QASR — partial, possibly fixable.** Only 961 of 3,545 xml transcript files have a matching
    wav in `QASR/alt/arabic-speech-web/mgb2.1/wav/` (that's the *only* wav directory found anywhere

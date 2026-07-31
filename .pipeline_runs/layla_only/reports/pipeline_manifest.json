@@ -1,0 +1,66 @@
+{
+  "pipeline": "layla_only",
+  "config": "/root/Palestinian-ASR/configs/layla_only.yaml",
+  "run_root": "/root/Palestinian-ASR/.pipeline_runs/layla_only",
+  "vars": {
+    "repo_root": "/root/Palestinian-ASR",
+    "ws": "/workspace/asr/Palestinian-ASR"
+  },
+  "stages": [
+    {
+      "stage_id": "clean",
+      "stage": "clean",
+      "status": "ok",
+      "duration_sec": 28.715,
+      "counts": {
+        "layla": {
+          "total": 218,
+          "contains_english": 0,
+          "contains_number": 0,
+          "contains_bracket_token": 0,
+          "audio_too_short": 0,
+          "missing_duration": 0,
+          "precheck_changed_text": 0,
+          "kept": 218
+        },
+        "__totals__": {
+          "total": 218,
+          "contains_english": 0,
+          "contains_number": 0,
+          "contains_bracket_token": 0,
+          "audio_too_short": 0,
+          "missing_duration": 0,
+          "precheck_changed_text": 0,
+          "kept": 218
+        }
+      },
+      "outputs": {
+        "clean": "/workspace/asr/Palestinian-ASR/.pipeline_layla/cleaned/clean",
+        "dropped": "/workspace/asr/Palestinian-ASR/.pipeline_layla/cleaned/dropped"
+      },
+      "notes": []
+    },
+    {
+      "stage_id": "assemble",
+      "stage": "assemble",
+      "status": "ok",
+      "duration_sec": 0.436,
+      "counts": {
+        "layla": {
+          "files": 4,
+          "rows": 218,
+          "mode": "hardlink"
+        },
+        "__totals__": {
+          "files": 4,
+          "rows": 218
+        }
+      },
+      "outputs": {
+        "root": "/workspace/asr/Palestinian-ASR/.pipeline_layla/curated"
+      },
+      "notes": []
+    }
+  ],
+  "generated_at": "2026-07-31T12:54:19"
+}

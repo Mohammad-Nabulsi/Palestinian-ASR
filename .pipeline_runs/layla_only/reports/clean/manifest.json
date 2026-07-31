@@ -1,0 +1,30 @@
+[
+  {
+    "dataset": "layla",
+    "input_file": "/workspace/asr/Palestinian-ASR/processed_layla_shards_v1/layla/layla__data-00000-of-00004.parquet",
+    "file_id": "layla__layla__data-00000-of-00004.parquet__b22390b869",
+    "rows": 55,
+    "precheck": []
+  },
+  {
+    "dataset": "layla",
+    "input_file": "/workspace/asr/Palestinian-ASR/processed_layla_shards_v1/layla/layla__data-00001-of-00004.parquet",
+    "file_id": "layla__layla__data-00001-of-00004.parquet__511d86b91d",
+    "rows": 55,
+    "precheck": []
+  },
+  {
+    "dataset": "layla",
+    "input_file": "/workspace/asr/Palestinian-ASR/processed_layla_shards_v1/layla/layla__data-00002-of-00004.parquet",
+    "file_id": "layla__layla__data-00002-of-00004.parquet__eb54c50e07",
+    "rows": 54,
+    "precheck": []
+  },
+  {
+    "dataset": "layla",
+    "input_file": "/workspace/asr/Palestinian-ASR/processed_layla_shards_v1/layla/layla__data-00003-of-00004.parquet",
+    "file_id": "layla__layla__data-00003-of-00004.parquet__3aa60d9c2a",
+    "rows": 54,
+    "precheck": []
+  }
+]

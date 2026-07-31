@@ -1,0 +1,22 @@
+2026-07-31 13:16:05,525 | INFO | [casablanca_jordanian] resume: 0 rows already done
+2026-07-31 13:18:05,700 | INFO | [casablanca_jordanian] progress: 168 new / 168 seen (+0 resumed) | 1.40 rows/s | elapsed=120s | gpu=3.10GB alloc / 14.35GB reserved
+2026-07-31 13:20:09,131 | INFO | [casablanca_jordanian] progress: 400 new / 400 seen (+0 resumed) | 1.64 rows/s | elapsed=244s | gpu=3.10GB alloc / 14.66GB reserved
+2026-07-31 13:22:13,225 | INFO | [casablanca_jordanian] progress: 616 new / 616 seen (+0 resumed) | 1.68 rows/s | elapsed=368s | gpu=3.10GB alloc / 14.81GB reserved
+2026-07-31 13:24:18,220 | INFO | [casablanca_jordanian] progress: 808 new / 808 seen (+0 resumed) | 1.64 rows/s | elapsed=493s | gpu=3.10GB alloc / 14.81GB reserved
+2026-07-31 13:24:45,679 | INFO | [casablanca_jordanian] prediction pass done: 848 new rows written (848 total incl. resumed) in 520s
+2026-07-31 13:24:45,886 | INFO | [casablanca_jordanian] metrics: {'n_total': 848, 'n_scored': 848, 'n_dropped_empty_ref': 0, 'wer': 0.40275250227479525, 'cer': 0.13702448753995145}
+2026-07-31 13:24:45,923 | INFO | [casablanca_palestinian] resume: 0 rows already done
+2026-07-31 13:26:51,116 | INFO | [casablanca_palestinian] progress: 112 new / 112 seen (+0 resumed) | 0.89 rows/s | elapsed=125s | gpu=3.10GB alloc / 15.12GB reserved
+2026-07-31 13:28:54,155 | INFO | [casablanca_palestinian] progress: 216 new / 216 seen (+0 resumed) | 0.87 rows/s | elapsed=248s | gpu=3.10GB alloc / 15.12GB reserved
+2026-07-31 13:30:55,127 | INFO | [casablanca_palestinian] progress: 328 new / 335 seen (+0 resumed) | 0.89 rows/s | elapsed=369s | gpu=3.10GB alloc / 15.12GB reserved
+2026-07-31 13:32:59,440 | INFO | [casablanca_palestinian] progress: 448 new / 448 seen (+0 resumed) | 0.91 rows/s | elapsed=494s | gpu=3.10GB alloc / 15.12GB reserved
+2026-07-31 13:35:03,847 | INFO | [casablanca_palestinian] progress: 552 new / 552 seen (+0 resumed) | 0.89 rows/s | elapsed=618s | gpu=3.10GB alloc / 15.28GB reserved
+2026-07-31 13:36:56,468 | INFO | [casablanca_palestinian] prediction pass done: 664 new rows written (664 total incl. resumed) in 731s
+2026-07-31 13:36:56,609 | INFO | [casablanca_palestinian] metrics: {'n_total': 664, 'n_scored': 664, 'n_dropped_empty_ref': 0, 'wer': 0.5052943185699647, 'cer': 0.18021841766417093}
+2026-07-31 13:36:56,631 | INFO | [masc_c_only] resume: 0 rows already done
+2026-07-31 13:38:59,104 | INFO | [masc_c_only] progress: 152 new / 152 seen (+0 resumed) | 1.24 rows/s | elapsed=122s | gpu=3.10GB alloc / 15.28GB reserved
+2026-07-31 13:41:01,813 | INFO | [masc_c_only] progress: 296 new / 296 seen (+0 resumed) | 1.21 rows/s | elapsed=245s | gpu=3.10GB alloc / 15.28GB reserved
+2026-07-31 13:43:04,601 | INFO | [masc_c_only] progress: 440 new / 440 seen (+0 resumed) | 1.20 rows/s | elapsed=368s | gpu=3.10GB alloc / 15.44GB reserved
+2026-07-31 13:45:08,204 | INFO | [masc_c_only] progress: 616 new / 616 seen (+0 resumed) | 1.25 rows/s | elapsed=492s | gpu=3.10GB alloc / 15.44GB reserved
+2026-07-31 13:47:13,610 | INFO | [masc_c_only] progress: 752 new / 752 seen (+0 resumed) | 1.22 rows/s | elapsed=617s | gpu=3.10GB alloc / 15.44GB reserved
+2026-07-31 13:49:15,085 | INFO | [masc_c_only] progress: 904 new / 904 seen (+0 resumed) | 1.22 rows/s | elapsed=738s | gpu=3.10GB alloc / 15.44GB reserved

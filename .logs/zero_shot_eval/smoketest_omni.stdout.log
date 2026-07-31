@@ -1,0 +1,5 @@
+Device set to use cuda:0
+2026-07-31 13:12:10,439 | INFO | [omnilingual_apc_full] resume: 0 rows already done
+2026-07-31 13:13:05,614 | INFO | [omnilingual_apc_full] prediction pass done: 4 new rows written (4 total incl. resumed) in 55s
+2026-07-31 13:13:05,666 | INFO | [omnilingual_apc_full] metrics: {'n_total': 4, 'n_scored': 4, 'n_dropped_empty_ref': 0, 'wer': 0.44680851063829785, 'cer': 0.14824304538799415}
+2026-07-31 13:13:05,667 | INFO | Summary written to /root/Palestinian-ASR/outputs/whisper_large_v3_zero_shot_smoketest/summary.json: {'omnilingual_apc_full': {'n_total': 4, 'n_scored': 4, 'n_dropped_empty_ref': 0, 'wer': 0.44680851063829785, 'cer': 0.14824304538799415}}

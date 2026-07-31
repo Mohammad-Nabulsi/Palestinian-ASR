@@ -1,0 +1,16 @@
+[2026-07-31 12:53:50] pipeline=layla_only config=/root/Palestinian-ASR/configs/layla_only.yaml
+[2026-07-31 12:53:50] run_root=/root/Palestinian-ASR/.pipeline_runs/layla_only dry_run=False
+[2026-07-31 12:53:50] stages: ['clean', 'assemble']
+[2026-07-31 12:53:50] [clean] --- start clean (clean) ---
+[2026-07-31 12:53:50] [clean] dataset layla: 4 file(s) matched ['layla/*.parquet']
+[2026-07-31 12:53:58] [clean]   layla__data-00000-of-00004.parquet: total=55 kept=55
+[2026-07-31 12:54:05] [clean]   layla__data-00001-of-00004.parquet: total=110 kept=110
+[2026-07-31 12:54:12] [clean]   layla__data-00002-of-00004.parquet: total=164 kept=164
+[2026-07-31 12:54:19] [clean]   layla__data-00003-of-00004.parquet: total=218 kept=218
+[2026-07-31 12:54:19] [clean] mode: clean | total rows: 218 | kept rows: 218
+[2026-07-31 12:54:19] [clean] --- done clean in 28.7s ---
+[2026-07-31 12:54:19] [assemble] --- start assemble (assemble) ---
+[2026-07-31 12:54:19] [assemble] contribution layla: 4 file(s), 218 row(s) via hardlink
+[2026-07-31 12:54:19] [assemble] assembled 4 file(s), 218 row(s) -> /workspace/asr/Palestinian-ASR/.pipeline_layla/curated
+[2026-07-31 12:54:19] [assemble] --- done assemble in 0.4s ---
+[2026-07-31 12:54:19] manifest: /root/Palestinian-ASR/.pipeline_runs/layla_only/reports/pipeline_manifest.json

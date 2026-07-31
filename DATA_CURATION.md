@@ -678,35 +678,87 @@ Important note:
 
 ## Layla Prompt Merge and Sharding
 
-For the Layla normalization pass, the prompted outputs were manually uploaded and merged into these four JSON files:
+**Superseded 2026-07-31** — the original four-JSON, direct-into-`data/` flow described
+below never actually ran end-to-end on this box: the raw `Layla/` source was lost and
+re-sourced (see `HANDOFF_DATA_PIPELINE.md` Gap 1), and the normalization pass grew to
+six batches, closing a 42-row gap the first four left uncovered. Re-run instructions:
 
-- `normalized_output_appended.json`
-- `normalized_layla_batch_130_appended_131.json`
-- `normalized_pasted_132_133_appended.json`
-- `normalized_pasted_text_134_135_136_appended.json`
+**Raw source, as it actually exists on network storage:**
 
-These JSON files contain the normalized text under `normalized`, and that text was written into the training column named `transcription`.
+- `Layla/Layla Witheeb Jordanian Arabic Acoustic Dataset/` — nested `region/speaker-code/`
+  (e.g. `Amman/LA8F/`), not flat: 874 files total (218 `.txt` + 218 `.docx` +
+  218 `.TextGrid` + 218 `.wav`/`.WAV`).
+- `Layla/Layla Witheeb Jordanian Arabic Acoustic Dataset.zip` — the original archive.
+  Deleted 2026-07-31 after verifying it held exactly the same 874 files as the
+  extraction (`zipfile.testzip()` clean, member count matched) — a byte-for-byte
+  redundant copy, same reasoning as the deleted QASR split archives above.
+- `Layla/normalized_json/` — the hand-normalized phonetic-artifact-correction pass,
+  now complete at 218/218 sources across six batch files (see that directory's own
+  `README.md` for full provenance and a documented gotcha: speaker `AH25M` uses a
+  lowercase `_arabic_transcription` suffix where every other speaker uses
+  `_Arabic_transcription`).
 
-The Layla sharding step then:
+**Step 1 — merge the six normalized batches into one file:**
 
-1. Read the four merged JSON files.
-2. Matched each JSON `source` entry to the corresponding Layla audio file by removing `_Arabic_transcription` from the transcript filename and resolving the paired `.WAV` or `.wav`.
-3. Built Parquet training shards with:
-   - `audio`
-   - `seg_id`
-   - `transcription`
-   - `duration`
-   - `source_file`
-4. Wrote the Layla shards directly into `data/`.
-5. Moved the original `Layla/` source directory into:
-   - `.intermediate_data/Layla/`
+```bash
+python3 scripts/merge_layla_normalized_json.py
+```
 
-Layla shards written into `data/`:
+Reads the six `normalized_*.json` files, fails if the merged set isn't exactly 218
+unique `source` keys, and writes `Layla/normalized_json/normalized_all.json`.
 
-- `layla__data-00000-of-00004.parquet`
-- `layla__data-00001-of-00004.parquet`
-- `layla__data-00002-of-00004.parquet`
-- `layla__data-00003-of-00004.parquet`
+**Step 2 — build shards from the raw dataset, with the normalized text layered on:**
+
+```bash
+python3 scripts/build_layla_shards.py \
+    --normalized-json Layla/normalized_json/normalized_all.json
+```
+
+This is the re-runnable replacement for the shard-writing half of
+`finalize_data_with_layla.py` (see the script's own docstring). It matches each
+`*_Arabic_transcription.docx` to its paired `.WAV`/`.wav` case-insensitively (so
+`AH25M` isn't silently dropped), prefers the normalized text over the raw `.docx`
+text per-row, and fills `gender` from the speaker-directory code. Output:
+`processed_layla_shards_v1/layla/*.parquet` (nested under a `layla/` dir so the
+`clean` stage's `dataset_from_file()` fallback labels every row `layla`), 218 rows,
+6.70 hours audio, columns `audio`, `seg_id`, `transcription`, `gender`, `duration`,
+`source_file`, `transcript_source` (`normalized_json` vs `raw_docx`, for traceability).
+Verified 218/218 rows used the normalized text.
+
+**Step 3 — run the actual `clean` + `assemble` stages (same code every other dataset
+goes through — see `PIPELINE.md`), scoped to just Layla:**
+
+```bash
+python3 -m pipeline run --config configs/layla_only.yaml
+```
+
+`configs/layla_only.yaml` points `clean` at `processed_layla_shards_v1/` (which is
+already ingest-stage-shaped) and `assemble` at an isolated scratch root — deliberately
+*not* `data/` directly, since `assemble`'s stage runner `rmtree`s a pre-existing,
+non-symlinked `output_root`, and `data/` holds 843 other datasets' shards that must
+not be touched. Result: 218/218 rows kept (0 dropped — no English, no digits, no
+sub-0.5s clips), with the standard `flag_contains_english` / `flag_contains_number` /
+`flag_contains_bracket_token` / `flag_audio_too_short` / `flag_missing_duration` /
+`manual_normalized_transcript` columns every other `data/` dataset carries.
+
+**Step 4 — hardlink the assembled shards into `data/` by hand** (not via the config's
+`assemble` stage, for the `rmtree`-safety reason above), stripping the redundant
+`layla__layla__` prefix that falls out of `build_layla_shards.py` already naming its
+own files `layla__data-*.parquet` inside a directory already called `layla/`:
+
+Layla shards now living at the top level of `data/` (matching the historical
+convention, alongside `data/clean/`, `data/dropped/`, `data/reports/`):
+
+- `layla__data-00000-of-00004.parquet__b22390b869__clean.parquet`
+- `layla__data-00001-of-00004.parquet__511d86b91d__clean.parquet`
+- `layla__data-00002-of-00004.parquet__eb54c50e07__clean.parquet`
+- `layla__data-00003-of-00004.parquet__3aa60d9c2a__clean.parquet`
+
+Note the other 843 shards under `data/clean/` (QASR, MASC, Casablanca, Omnilingual)
+have **not** been flattened to the top level on this box — that's the same
+"Flattening `data/clean` into `data/`" operation described later in this file, just
+not yet re-run here. Layla is flat because the steps above put it there directly;
+it does not imply the rest of `data/clean/` has been migrated.
 
 ## Flattening `data/clean` Into `data/`
 

@@ -315,8 +315,9 @@ def predict_one(
     )
     inputs = {k: v.to(device) for k, v in inputs.items()}
 
-    logits = model(**inputs).logits[0]
-    probs = torch.softmax(logits, dim=-1).detach().cpu().numpy()
+    with torch.autocast(device_type="cuda", dtype=torch.float16, enabled=(device == "cuda")):
+        logits = model(**inputs).logits[0]
+    probs = torch.softmax(logits.float(), dim=-1).detach().cpu().numpy()
 
     preds = [{"label": id2label[i], "score": float(probs[i])} for i in range(len(probs))]
     preds.sort(key=lambda x: x["score"], reverse=True)
@@ -533,6 +534,17 @@ def run(args: argparse.Namespace) -> None:
     device = args.device
     if device == "auto":
         device = "cuda" if torch.cuda.is_available() else "cpu"
+
+    if device == "cuda":
+        torch.backends.cudnn.benchmark = True
+        torch.backends.cuda.matmul.allow_tf32 = True
+        torch.backends.cudnn.allow_tf32 = True
+        if args.memory_fraction and args.memory_fraction > 0:
+            torch.cuda.set_per_process_memory_fraction(args.memory_fraction, device=0)
+            print(
+                f"Capped CUDA memory fraction to {args.memory_fraction} "
+                "to leave headroom for other concurrent GPU jobs (e.g. Whisper inference)."
+            )
 
     print(f"Loading model: {args.model_id}")
     print(f"Device: {device}")
@@ -757,6 +769,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--log-every", type=int, default=1)
     parser.add_argument("--parquet-batch-size", type=int, default=64)
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument(
+        "--memory-fraction",
+        type=float,
+        default=0.35,
+        help="Cap this process's CUDA memory to this fraction of total device memory "
+        "(default 0.35) so it coexists safely with other concurrent GPU jobs, e.g. Whisper inference.",
+    )
 
     return parser.parse_args()
 

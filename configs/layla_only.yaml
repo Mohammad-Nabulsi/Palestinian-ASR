@@ -1,0 +1,35 @@
+# Scoped run: takes processed_layla_shards_v1/ (scripts/build_layla_shards.py's
+# output, already ingest-stage-shaped — nested under `layla/` so `dataset_from_file()`
+# labels every row "layla") through the same clean+assemble stages every other
+# dataset goes through, without touching QASR/Omnilingual/MASC/Casablanca.
+#
+# Output lands in .pipeline_layla/curated/ as layla__*__clean.parquet, matching the
+# naming the full pipeline's assemble stage would produce. From there the files are
+# hardlinked into data/ by hand (not via this config's assemble stage pointed at
+# data/ directly — assemble rmtree's a pre-existing, non-symlinked output_root, and
+# data/ holds hundreds of other datasets' shards that must not be touched).
+
+name: layla_only
+
+vars:
+  ws: /workspace/asr/Palestinian-ASR
+
+stages:
+  - id: clean
+    stage: clean
+    input_root: "{ws}/processed_layla_shards_v1"
+    output_root: "{ws}/.pipeline_layla/cleaned"
+    datasets:
+      - name: layla
+        globs: ["layla/*.parquet"]
+
+  - id: assemble
+    stage: assemble
+    output_root: "{ws}/.pipeline_layla/curated"
+    layout: flat
+    mode: hardlink
+    contributions:
+      - name: layla
+        input: "{ws}/.pipeline_layla/cleaned/clean"
+        include: ["layla__*__clean.parquet"]
+        prefix: layla
