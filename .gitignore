@@ -6,6 +6,11 @@ QASR/
 .venv*/
 venv*/
 
+# Hugging Face datasets cache
+.cache_hf_datasets/
+
+# Logs
+*.log
 # Model directories (downloaded weights/checkpoints) - never track these, any depth/name
 models/
 **/models/
