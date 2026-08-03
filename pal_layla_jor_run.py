@@ -22,11 +22,6 @@ import sys, datetime
 # checkpoint belonging to a different run. Read from the env here (Cell 1 runs before the
 # config cell) and re-read identically in Cell 2.
 PAL_RUN = os.environ.get("PAL_RUN", "run1_pal_only")
-# How many epochs the STAGE-1 pretraining corpus gets. >1 continues an already-trained
-# stage-1 run rather than starting over: since CKPT_DIR/stage1 checkpoints are keyed on
-# PAL_RUN alone, resume finds the existing epoch-1 checkpoint and trains only the
-# incremental additional epoch(s). Ignored by run1_pal_only (no stage-1 corpus).
-PAL_STAGE1_EPOCHS = int(os.environ.get("PAL_STAGE1_EPOCHS", "1"))
 # How many epochs the FINAL fine-tuning stage gets (stage 2 of runs 2-4; the single stage of
 # run1_pal_only_1ep). >1 continues an already-trained run rather than starting over: TrainAPI
 # resumes from that stage's last epoch checkpoint, restoring the adapter, the AdamW-8bit
@@ -34,22 +29,17 @@ PAL_STAGE1_EPOCHS = int(os.environ.get("PAL_STAGE1_EPOCHS", "1"))
 # is unaffected and stays at 1 epoch -- on a resumed run it is skipped entirely (its epoch-1
 # checkpoint already satisfies its budget), so the merged base is rebuilt without retraining.
 PAL_STAGE2_EPOCHS = int(os.environ.get("PAL_STAGE2_EPOCHS", "1"))
-# When set, stage 2 ignores PAL_STAGE2_EPOCHS and instead uses the shared TrainConfigSpec
-# defaults (<=50 epochs, early stopping on palVal WER with patience 3) -- same shape as
-# run1_pal_only's own early-stopping path, just applied to stage 2 of a two-stage run.
-# TrainAPI.run's epoch loop already handles the stop-on-patience logic internally, so this
-# is a single process invocation that trains epoch-by-epoch until it converges, not a
-# resume-from-a-previous-invocation loop.
+# Stage 2 with the shared early-stopping default (<=50 epochs, patience 3 on palVal WER)
+# instead of a fixed budget -- mirrors run1_pal_only's SINGLE_STAGE_EPOCHS=None behavior, but
+# for stage 2 of a two-stage run. PAL_STAGE2_EPOCHS is ignored when this is set.
 PAL_STAGE2_EARLYSTOP = os.environ.get("PAL_STAGE2_EARLYSTOP", "0") == "1"
 # Checkpoints stay keyed on PAL_RUN alone (that is what makes the resume find them); only the
 # RESULTS are namespaced by epoch budget, so each epoch's numbers are stored separately.
-_s1_suffix = "" if PAL_STAGE1_EPOCHS == 1 else f"_s1ep{PAL_STAGE1_EPOCHS}"
+RUN_TAG = PAL_RUN
 if PAL_STAGE2_EARLYSTOP:
-    RUN_TAG = f"{PAL_RUN}{_s1_suffix}_earlystop"
-elif PAL_STAGE2_EPOCHS == 1:
-    RUN_TAG = f"{PAL_RUN}{_s1_suffix}"
-else:
-    RUN_TAG = f"{PAL_RUN}{_s1_suffix}_s2ep{PAL_STAGE2_EPOCHS}"
+    RUN_TAG = f"{PAL_RUN}_earlystop"
+elif PAL_STAGE2_EPOCHS != 1:
+    RUN_TAG = f"{PAL_RUN}_s2ep{PAL_STAGE2_EPOCHS}"
 _LOG_DIR = Path(f"/root/Palestinian-ASR/Runs/whisper_medium_pal/{RUN_TAG}/logs")
 _LOG_DIR.mkdir(parents=True, exist_ok=True)
 _LOG_PATH = _LOG_DIR / f"train_{datetime.datetime.now():%Y%m%d_%H%M%S}.log"
@@ -105,37 +95,18 @@ STAGE1_BY_RUN = {
     "run2_jor_s1e1of2":      "/root/Palestinian-ASR/data_stage1_v1/jor",
     "run3_omni_s1e1of2":     "/root/Palestinian-ASR/data_stage1_v1/omni",
     "run4_omni_jor_s1e1of2": "/root/Palestinian-ASR/data_stage1_v1/omni_jor",
-    # The real ask: merge the epoch-2 (full 2-epoch) stage-1 checkpoint, same as *_s1ep2, but
-    # under a dedicated PAL_RUN/CKPT_DIR (not shared with run2_jor/run3_omni/run4_omni_jor,
-    # whose stage2/ checkpoints belong to the 1-epoch-pretrain lineage) so that continuing
-    # stage 2 to early-stop can never accidentally resume from a checkpoint trained on top of
-    # a differently-merged base.
-    "run2_jor_stage1ep2":      "/root/Palestinian-ASR/data_stage1_v1/jor",
-    "run3_omni_stage1ep2":     "/root/Palestinian-ASR/data_stage1_v1/omni",
-    "run4_omni_jor_stage1ep2": "/root/Palestinian-ASR/data_stage1_v1/omni_jor",
-    # New stage-1 corpus: 10h seeded sample of QASR Levantine (see
-    # scripts/build_stage1_qasr_lev_10h.py). Fresh 1-epoch stage-1 training (same shape as
-    # run2_jor/run3_omni/run4_omni_jor), merge, then stage-2 to early stopping on palTrain.
-    "run6_qasr_lev_10h": "/root/Palestinian-ASR/data_stage1_v1/qasr_lev_10h",
-    # New stage-1 corpus: 50h seeded sample of QASR non-Levantine (see
-    # scripts/build_stage1_qasr_nonlev_50h.py). Fresh 1-epoch stage-1 training, merge, then
-    # stage-2 to early stopping on palTrain -- same shape as run6_qasr_lev_10h.
-    "run7_qasr_non_lev_50h": "/root/Palestinian-ASR/data_stage1_v1/qasr_non_lev_50h",
-    # New stage-1 corpora (see scripts/build_stage1_qasr_lev_masc_lev.py). Fresh 1-epoch
-    # stage-1 training, merge, then stage-2 to early stopping -- same shape as run6/run7.
-    "run8_qasr_lev_masc_lev": "/root/Palestinian-ASR/data_stage1_v1/qasr_lev_masc_lev",
-    "run9_qasr_lev_masc_lev_nonlev50h":
-        "/root/Palestinian-ASR/data_stage1_v1/qasr_lev_masc_lev_plus_nonlev50h",
-    "run10_all_combined": "/root/Palestinian-ASR/data_stage1_v1/run10_all_combined",
-    # Epoch-2 continuations of run6/7/8/9's stage-1, under fresh dedicated PAL_RUN names
-    # (not the originals) so stage-2's checkpoint resume can never pick up leftover
-    # checkpoints from the original 1-epoch-pretrain lineage's *different* merged base --
-    # trades ~3h of redundant epoch-1 retraining for that correctness guarantee.
-    "run6_qasr_lev_10h_ep2": "/root/Palestinian-ASR/data_stage1_v1/qasr_lev_10h",
-    "run7_qasr_non_lev_50h_ep2": "/root/Palestinian-ASR/data_stage1_v1/qasr_non_lev_50h",
-    "run8_qasr_lev_masc_lev_ep2": "/root/Palestinian-ASR/data_stage1_v1/qasr_lev_masc_lev",
-    "run9_qasr_lev_masc_lev_nonlev50h_ep2":
-        "/root/Palestinian-ASR/data_stage1_v1/qasr_lev_masc_lev_plus_nonlev50h",
+    # layla+jor study (no omni): stage 1 = ALL of layla + ALL of Jordanian Casablanca
+    # (train+val+test), built by scripts/build_stage1_layla_jor.py.
+    #   run5_layla_jor           : stage 1 = 1 epoch, merge, stage 2 = early-stopping default
+    #                               (PAL_STAGE2_EARLYSTOP=1).
+    #   run5_layla_jor_s1ep2     : stage 1 = 2 epochs, merge the LAST epoch, stage 2 = 1 fixed
+    #                               epoch (PAL_STAGE1_EPOCHS=2).
+    #   run5_layla_jor_s1ep2_s2ep2 : same 2-epoch stage-1 merge, reused via PAL_STAGE1_CKPT
+    #                               from run5_layla_jor_s1ep2's saved stage-1 checkpoint
+    #                               (no retraining), stage 2 = 2 fixed epochs.
+    "run5_layla_jor":            "/root/Palestinian-ASR/data_stage1_v1/layla_jor",
+    "run5_layla_jor_s1ep2":      "/root/Palestinian-ASR/data_stage1_v1/layla_jor",
+    "run5_layla_jor_s1ep2_s2ep2": "/root/Palestinian-ASR/data_stage1_v1/layla_jor",
 }
 if PAL_RUN not in STAGE1_BY_RUN:
     raise SystemExit(f"PAL_RUN={PAL_RUN!r} not one of {list(STAGE1_BY_RUN)}")
@@ -145,11 +116,12 @@ STAGE1_DIR = STAGE1_BY_RUN[PAL_RUN]
 # after epoch 1 of a 2-epoch stage-1 schedule, instead of epoch 2?" using the epoch001/
 # checkpoint already saved by the corresponding *_s1ep2 run, without retraining stage 1.
 PAL_STAGE1_CKPT = os.environ.get("PAL_STAGE1_CKPT")
-# Both stages of runs 2-4 are 1 epoch by explicit spec (no early stopping -- with a single
-# epoch there is nothing to stop early or select between). run1 uses the shared TrainConfigSpec
-# defaults (up to 50 epochs, early stopping on val WER with patience 3) like every other model
-# family's run in this project.
-STAGE_EPOCHS = PAL_STAGE1_EPOCHS  # set near top of Cell 1, see PAL_RUN
+# Stage-1 epoch budget. Historically 1 for runs 2-4 (no early stopping -- with a single epoch
+# there is nothing to stop early or select between); the layla_jor study's *_s1ep2 runs set
+# this to 2 via PAL_STAGE1_EPOCHS to train a full 2-epoch stage 1 before merging. run1 uses
+# the shared TrainConfigSpec defaults (up to 50 epochs, early stopping on val WER with
+# patience 3) like every other model family's run in this project.
+STAGE_EPOCHS = int(os.environ.get("PAL_STAGE1_EPOCHS", "1"))
 # Single-stage runs only: None -> the shared TrainConfigSpec default (<=50 epochs, early
 # stopping on palVal WER with patience 3); an int -> exactly that many epochs, no early
 # stopping. Ignored by the two-stage runs, which are always STAGE_EPOCHS per stage.
@@ -232,9 +204,10 @@ set_seed()
 print(f"MODEL_NAME={MODEL_NAME}")
 print(f"kernel should be: {KERNEL_BY_MODEL.get(MODEL_NAME, '?? not in KERNEL_BY_MODEL')}")
 print(f"DEVICE={DEVICE} | dtype={COMPUTE_DTYPE} | ROOT={ROOT} | DATASET_DIR={DATASET_DIR}")
-print(f"PAL_RUN={PAL_RUN} | STAGE1_DIR={STAGE1_DIR} | CKPT_DIR={CKPT_DIR}")
+print(f"PAL_RUN={PAL_RUN} | STAGE1_DIR={STAGE1_DIR} | STAGE_EPOCHS={STAGE_EPOCHS} | CKPT_DIR={CKPT_DIR}")
 print(f"SINGLE_STAGE_EPOCHS={SINGLE_STAGE_EPOCHS} (None = early-stopping default) | "
-      f"STAGE2_EPOCHS={STAGE2_EPOCHS} | RUN_TAG={RUN_TAG}")
+      f"STAGE2_EPOCHS={STAGE2_EPOCHS} | PAL_STAGE2_EARLYSTOP={PAL_STAGE2_EARLYSTOP} | "
+      f"PAL_STAGE1_CKPT={PAL_STAGE1_CKPT} | RUN_TAG={RUN_TAG}")
 
 import re, unicodedata, jiwer
 
@@ -1650,12 +1623,16 @@ else:
         TRAIN_OUTS["stage1"] = TrainAPI.run(adapter, STAGE1_SPLITS, s1_spec, lora_spec, tag="stage1")
         mlflow.end_run()
 
-        # Restore the 1-epoch checkpoint explicitly rather than trusting the in-memory weights:
-        # with num_epochs=1 they are the same object, but this makes the merge provably operate on
-        # the same weights that were written to disk (and that a re-run would reload).
+        # Restore the checkpoint explicitly rather than trusting the in-memory weights: for
+        # STAGE_EPOCHS==1 this is the same object either way, but it makes the merge provably
+        # operate on the same weights that were written to disk. For STAGE_EPOCHS>1, "merge
+        # after N epochs" means the LAST epoch's adapter, not best_dir -- best_dir would pick
+        # an earlier epoch whenever a later one didn't improve palVal WER (same reasoning as
+        # _final_adapter_dir, used identically for the single-stage and stage-2 budgets below).
+        _s1_ckpt = _final_adapter_dir(TRAIN_OUTS["stage1"], STAGE_EPOCHS)
         try:
-            adapter.load_checkpoint(Path(TRAIN_OUTS["stage1"]["best_dir"]))
-            print(f"[ckpt] stage1 adapter <- {TRAIN_OUTS['stage1']['best_dir']}")
+            adapter.load_checkpoint(_s1_ckpt)
+            print(f"[ckpt] stage1 adapter <- {_s1_ckpt}")
         except Exception as e:
             print(f"[ckpt] stage1 restore failed ({e})")
 
@@ -1673,27 +1650,26 @@ else:
     gc.collect(); torch.cuda.empty_cache() if DEVICE == "cuda" else None
     MERGED_DIR = CKPT_DIR / "stage1_merged_adapter"
     MERGED_DIR.mkdir(parents=True, exist_ok=True)
-    shutil.copytree(TRAIN_OUTS["stage1"]["best_dir"], MERGED_DIR, dirs_exist_ok=True)
+    shutil.copytree(_final_adapter_dir(TRAIN_OUTS["stage1"], STAGE_EPOCHS), MERGED_DIR, dirs_exist_ok=True)
     print(f"[merge] stage-1 adapter (the thing needed to rebuild these merged weights) "
           f"kept at {MERGED_DIR}")
 
     # On a resumed run (STAGE2_EPOCHS > 1) stage 1 was skipped, so these merged weights are
     # identical to the ones already scored -- force=False lets the prediction cache serve them.
-    eval_both("stage1_merged", force=(STAGE2_EPOCHS == 1 or PAL_STAGE2_EARLYSTOP))
+    eval_both("stage1_merged", force=(STAGE2_EPOCHS == 1))
 
     # ---- STAGE 2: fresh LoRA on the merged model ----
+    # PAL_STAGE2_EARLYSTOP=1: shared TrainConfigSpec default (<=50 epochs, early stopping on
+    # palVal WER, patience 3), same as run1_pal_only's single-stage default. Otherwise: a fixed
+    # STAGE2_EPOCHS budget with patience set past it so early stopping can never fire.
+    _s2_n_epochs = train_spec.num_epochs if PAL_STAGE2_EARLYSTOP else STAGE2_EPOCHS
+    print(f"\n=== STAGE 2: palTrain | {len(SPLITS['train'])} rows | "
+          f"{'early-stopping default' if PAL_STAGE2_EARLYSTOP else f'{STAGE2_EPOCHS} epoch(s) fixed'} ===")
     set_seed()
     adapter.apply_lora(lora_spec)
     if PAL_STAGE2_EARLYSTOP:
-        # Same shape as run1_pal_only's early-stopping path: shared TrainConfigSpec defaults
-        # (<=50 epochs, patience 3 on val WER). TrainAPI.run's own epoch loop trains epoch by
-        # epoch and stops itself once patience is exhausted -- one process call, no external
-        # resume-and-rerun loop needed.
-        print(f"\n=== STAGE 2: palTrain | {len(SPLITS['train'])} rows | "
-              f"<=50 epoch(s), early stopping patience 3 ===")
         s2_spec = train_spec
     else:
-        print(f"\n=== STAGE 2: palTrain | {len(SPLITS['train'])} rows | {STAGE2_EPOCHS} epoch(s) ===")
         s2_spec = replace(train_spec, num_epochs=STAGE2_EPOCHS,
                           early_stopping_patience=STAGE2_EPOCHS + 1)
     TRAIN_OUTS["stage2"] = TrainAPI.run(adapter, SPLITS, s2_spec, lora_spec, tag="stage2")
@@ -1733,6 +1709,7 @@ summary = {
     # train_spec above is the shared baseline; these two record the budget this run actually
     # got, and "train".<tag>.epochs_run below records what it actually used.
     "single_stage_epochs": SINGLE_STAGE_EPOCHS, "stage_epochs": STAGE_EPOCHS,
+    "stage2_epochs_requested": STAGE2_EPOCHS, "stage2_earlystop": PAL_STAGE2_EARLYSTOP,
 }
 sp = METRIC_DIR / f"{MODEL_NAME.replace('/','__')}__{RUN_TAG}__SUMMARY.json"
 sp.write_text(json.dumps(summary, indent=2, ensure_ascii=False))

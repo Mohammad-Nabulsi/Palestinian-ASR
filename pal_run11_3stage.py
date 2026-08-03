@@ -121,20 +121,15 @@ STAGE1_BY_RUN = {
     # scripts/build_stage1_qasr_nonlev_50h.py). Fresh 1-epoch stage-1 training, merge, then
     # stage-2 to early stopping on palTrain -- same shape as run6_qasr_lev_10h.
     "run7_qasr_non_lev_50h": "/root/Palestinian-ASR/data_stage1_v1/qasr_non_lev_50h",
+    # Run 11: 3-stage variant of run9's corpus. Stage 1 here is qasr_non_lev_50h alone;
+    # stage 2 (masc+qasr_lev) is loaded separately below via STAGE2_PRETRAIN_DIR, hardcoded
+    # to this script since it's a one-off 3-stage pipeline, not part of the general
+    # STAGE1_BY_RUN 2-stage machinery.
+    "run11_qasr_nonlev_then_masc_qasr_lev": "/root/Palestinian-ASR/data_stage1_v1/qasr_non_lev_50h",
     # New stage-1 corpora (see scripts/build_stage1_qasr_lev_masc_lev.py). Fresh 1-epoch
     # stage-1 training, merge, then stage-2 to early stopping -- same shape as run6/run7.
     "run8_qasr_lev_masc_lev": "/root/Palestinian-ASR/data_stage1_v1/qasr_lev_masc_lev",
     "run9_qasr_lev_masc_lev_nonlev50h":
-        "/root/Palestinian-ASR/data_stage1_v1/qasr_lev_masc_lev_plus_nonlev50h",
-    "run10_all_combined": "/root/Palestinian-ASR/data_stage1_v1/run10_all_combined",
-    # Epoch-2 continuations of run6/7/8/9's stage-1, under fresh dedicated PAL_RUN names
-    # (not the originals) so stage-2's checkpoint resume can never pick up leftover
-    # checkpoints from the original 1-epoch-pretrain lineage's *different* merged base --
-    # trades ~3h of redundant epoch-1 retraining for that correctness guarantee.
-    "run6_qasr_lev_10h_ep2": "/root/Palestinian-ASR/data_stage1_v1/qasr_lev_10h",
-    "run7_qasr_non_lev_50h_ep2": "/root/Palestinian-ASR/data_stage1_v1/qasr_non_lev_50h",
-    "run8_qasr_lev_masc_lev_ep2": "/root/Palestinian-ASR/data_stage1_v1/qasr_lev_masc_lev",
-    "run9_qasr_lev_masc_lev_nonlev50h_ep2":
         "/root/Palestinian-ASR/data_stage1_v1/qasr_lev_masc_lev_plus_nonlev50h",
 }
 if PAL_RUN not in STAGE1_BY_RUN:
@@ -1160,6 +1155,16 @@ if STAGE1_DIR:
     print(f"[stage1] {STAGE1_DIR}: {len(_s1)} rows, "
           f"{sum(_s1['duration']) / 3600.0:.3f}h")
 
+# Run 11 only: the SECOND pretraining corpus (masc_lev + qasr_lev combined, reusing run8's
+# already-built view), trained after stage-1 merges, before the Palestinian finetune.
+STAGE2_PRETRAIN_DIR = "/root/Palestinian-ASR/data_stage1_v1/qasr_lev_masc_lev"
+STAGE2_PRETRAIN_SPLITS = None
+if STAGE1_DIR:
+    _s2p = _load_split_dataset("train", Path(STAGE2_PRETRAIN_DIR)).shuffle(seed=SEED)
+    STAGE2_PRETRAIN_SPLITS = {"train": _s2p, "validation": SPLITS["validation"]}
+    print(f"[stage2_pretrain] {STAGE2_PRETRAIN_DIR}: {len(_s2p)} rows, "
+          f"{sum(_s2p['duration']) / 3600.0:.3f}h")
+
 
 def _fingerprint(ds) -> str:
     try: h = ds._fingerprint
@@ -1681,30 +1686,50 @@ else:
     # identical to the ones already scored -- force=False lets the prediction cache serve them.
     eval_both("stage1_merged", force=(STAGE2_EPOCHS == 1 or PAL_STAGE2_EARLYSTOP))
 
-    # ---- STAGE 2: fresh LoRA on the merged model ----
+    # ---- STAGE 2 (PRETRAIN): fresh LoRA on the stage-1-merged model, masc_lev+qasr_lev corpus ----
     set_seed()
     adapter.apply_lora(lora_spec)
-    if PAL_STAGE2_EARLYSTOP:
-        # Same shape as run1_pal_only's early-stopping path: shared TrainConfigSpec defaults
-        # (<=50 epochs, patience 3 on val WER). TrainAPI.run's own epoch loop trains epoch by
-        # epoch and stops itself once patience is exhausted -- one process call, no external
-        # resume-and-rerun loop needed.
-        print(f"\n=== STAGE 2: palTrain | {len(SPLITS['train'])} rows | "
-              f"<=50 epoch(s), early stopping patience 3 ===")
-        s2_spec = train_spec
-    else:
-        print(f"\n=== STAGE 2: palTrain | {len(SPLITS['train'])} rows | {STAGE2_EPOCHS} epoch(s) ===")
-        s2_spec = replace(train_spec, num_epochs=STAGE2_EPOCHS,
-                          early_stopping_patience=STAGE2_EPOCHS + 1)
-    TRAIN_OUTS["stage2"] = TrainAPI.run(adapter, SPLITS, s2_spec, lora_spec, tag="stage2")
+    print(f"\n=== STAGE 2 (pretrain): {STAGE2_PRETRAIN_DIR} | "
+          f"{len(STAGE2_PRETRAIN_SPLITS['train'])} rows | 1 epoch(s) ===")
+    s2p_spec = replace(train_spec, num_epochs=1, early_stopping_patience=2)
+    TRAIN_OUTS["stage2_pretrain"] = TrainAPI.run(adapter, STAGE2_PRETRAIN_SPLITS, s2p_spec,
+                                                  lora_spec, tag="stage2_pretrain")
     mlflow.end_run()
-    s2_final = _final_adapter_dir(TRAIN_OUTS["stage2"], None if PAL_STAGE2_EARLYSTOP else STAGE2_EPOCHS)
     try:
-        adapter.load_checkpoint(s2_final)
-        print(f"[ckpt] evaluating stage2 adapter <- {s2_final}")
+        adapter.load_checkpoint(Path(TRAIN_OUTS["stage2_pretrain"]["best_dir"]))
+        print(f"[ckpt] stage2_pretrain adapter <- {TRAIN_OUTS['stage2_pretrain']['best_dir']}")
     except Exception as e:
-        print(f"[ckpt] stage2 restore failed ({e})")
-    eval_both("stage2", label=f"{RUN_TAG}__stage2")
+        print(f"[ckpt] stage2_pretrain restore failed ({e})")
+
+    # ---- MERGE #2: fold the stage-2-pretrain LoRA into the already-stage-1-merged base ----
+    assert isinstance(adapter.model, PeftModel), type(adapter.model)
+    adapter.model = adapter.model.merge_and_unload()
+    adapter.model.config.use_cache = False
+    print(f"[merge] stage-2-pretrain LoRA merged -> {type(adapter.model).__name__}, "
+          f"{sum(p.numel() for p in adapter.model.parameters())/1e6:.1f}M params")
+    gc.collect(); torch.cuda.empty_cache() if DEVICE == "cuda" else None
+    MERGED_DIR2 = CKPT_DIR / "stage2_merged_adapter"
+    MERGED_DIR2.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(TRAIN_OUTS["stage2_pretrain"]["best_dir"], MERGED_DIR2, dirs_exist_ok=True)
+    print(f"[merge] stage-2-pretrain adapter kept at {MERGED_DIR2}")
+    eval_both("stage2_merged", force=True)
+
+    # ---- STAGE 3: fresh LoRA on the twice-merged model, palTrain, early stopping (always --
+    # this script's whole point is the staged-pretrain-then-early-stop comparison) ----
+    set_seed()
+    adapter.apply_lora(lora_spec)
+    print(f"\n=== STAGE 3: palTrain | {len(SPLITS['train'])} rows | "
+          f"<=50 epoch(s), early stopping patience 3 ===")
+    s3_spec = train_spec
+    TRAIN_OUTS["stage3"] = TrainAPI.run(adapter, SPLITS, s3_spec, lora_spec, tag="stage3")
+    mlflow.end_run()
+    s3_final = _final_adapter_dir(TRAIN_OUTS["stage3"], None)
+    try:
+        adapter.load_checkpoint(s3_final)
+        print(f"[ckpt] evaluating stage3 adapter <- {s3_final}")
+    except Exception as e:
+        print(f"[ckpt] stage3 restore failed ({e})")
+    eval_both("stage3", label=f"{RUN_TAG}__stage3")
 
 
 dataset_hours  = {k: sum(v["duration"]) / 3600.0 for k, v in SPLITS.items()}
@@ -1714,6 +1739,7 @@ summary = {
     "pal_run": PAL_RUN, "run_tag": RUN_TAG,
     "model": MODEL_NAME, "lang": LANG, "smoke_test": SMOKE_TEST,
     "dataset_dir": str(REAL_DATA_DIR), "stage1_dir": STAGE1_DIR,
+    "stage2_pretrain_dir": STAGE2_PRETRAIN_DIR,
     "stages": {s: {"val":  {"wer": m["val"]["wer"],  "cer": m["val"]["cer"],  "n": m["val"]["n"]},
                    "test": {"wer": m["test"]["wer"], "cer": m["test"]["cer"], "n": m["test"]["n"]}}
                for s, m in STAGE_METRICS.items()},

@@ -1,0 +1,712 @@
+{
+  "omni": [
+    {
+      "file": "omni_00.wav",
+      "duration_sec": 27.3,
+      "transcript": "تماما مع محيطا بي قاع البحر تكتيك التمويه هو التلوين التخريبي ممكن اخفاء هوية وموقع النوع من خلال نمط التلوين بيتسبب هيدا الشكل من تشويش البصري بانو يخطئ الحيوانات المفترسة بي تحديد شو الي عم يطلعو عليه بتتميز كتير من الفراشات بي انماط دائرية كبيرة",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 25
+    },
+    {
+      "file": "omni_01.wav",
+      "duration_sec": 27.8,
+      "transcript": "او الحشيش العالي او بين الاغصان لا درجة انو ممكن نستغرب اد ما في عش كتير مهجور بي فصل الخريف بعد ما يسقط ورق الشجر حتى يحدد الطير وين بدو يبني العش هو شي كتير مهم وهيدي المهمة هي من دور الطير الذكر وكل فصيلة من الطيور بي فضل مكان محدد ما بيختارو فصيلة تانية من الطيور طيور الذكر",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 30
+    },
+    {
+      "file": "omni_02.wav",
+      "duration_sec": 7.05,
+      "transcript": "لا كل الطيور انو هالمكان هو الو وبس واغلب الاحيان تحترم طيور تانية هاشي",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 32
+    },
+    {
+      "file": "omni_03.wav",
+      "duration_sec": 26.45,
+      "transcript": "فا عنا عنا حساسية الدرة في ناس كتير كتير علين عن حساسية الح حساسية القمح حساسية القمح مش حساسية الدرة في ناس كثير عندا حساسية على القمح اللي بيدخل بي كتير منتجات فا بتازيون في الاطفال الصغار اذا بطعميهن بيض اكتر من مرة مسلا كل يومين تلاته ممكن تعمل حساسية على جسم",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 89
+    },
+    {
+      "file": "omni_04.wav",
+      "duration_sec": 25.45,
+      "transcript": "هلا هون في عنا سؤال كيف بدنا نسلق البيض في ناس بيفتكروا انو شغلة سلق البيض هو شي عادي وانو بسيط لا مش صحيح اول شي بدا تبدء من اختيار البيض البيض الاحمر يفضل للسلق عشان اشرتو مفروض بتكون اسمك شوي بتتحمل سلق منرجع بدنا نحط",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 95
+    },
+    {
+      "file": "omni_05.wav",
+      "duration_sec": 25.05,
+      "transcript": "منئطعن كلياتن ومنحط منئليهن بي شوية زيت او شوية زبدة او شوية سمنة ومنئلي هيدي الخضار كلياتا ومنضيف عليها مي لحتى تستوي ومنحطلا ملح وبهار فينا ندخلها هيدي الشوربا لحمة فينا ندخلها دجاج فينا نتركها على ما هي على الخضرا بس",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 104
+    },
+    {
+      "file": "omni_06.wav",
+      "duration_sec": 5.0,
+      "transcript": "الحياة مهمة بالحب ومهمة بالاحترام",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 142
+    },
+    {
+      "file": "omni_07.wav",
+      "duration_sec": 27.5,
+      "transcript": "و في لون اسود صراحة اليعني ما يغرك الالوان العيون ياي ملون وهيك بس لون الاسود هو اكتر لون جذاب وهيك ولون عربي بيعطي الجمال العربي في عنا لون اسود في عنا لون رمادي في عنا اللون بيجي على لون النعنع هيدا الاخضر الغامق في عنا لون الزيتي زيتي كمان كتير حلو خصوصي اذا حدا اسمر",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 223
+    },
+    {
+      "file": "omni_08.wav",
+      "duration_sec": 17.7,
+      "transcript": "اناي بدنا نروح بي طريق الخير او الشر يمكن الله كاتبلي بالئدر انو انا اختار اعمل مسلا ما بعرف اسرء او لا روح اشتغل وطلع مصاري بالحلال فا لا انا بختار الطريق الصح الي هو اني انا روح طلع مصاري بالحلال",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 228
+    },
+    {
+      "file": "omni_09.wav",
+      "duration_sec": 23.0,
+      "transcript": "فا بلشو يحكو الخبريات لبعض بعد ما خلصو زيارة البيوت وتجمعو كلن يحكو الخبريات لبعض عرفو اديه هني كمان عندن نعم يعني كل الجنيات ادرين يجيبو اللي بدن ياه ويعملو البدن ياه و ما حدا بيمنعن وكل جنية عندا الي بدا ياه وبنحئئ احلاما فا الو انو عنجد الانسان في اصص نائصتو",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 238
+    },
+    {
+      "file": "omni_10.wav",
+      "duration_sec": 18.93,
+      "transcript": "وما بحبو كتير على الطابئ الاول او التاني بحبو عالي يعني رابع خامس هيك مشان انا كتير بحب العالي مشان المناظر كمان بتطلع من فوء احلى احلى بي كتير من تحت اي بس هيدي هي يعني بي نفس الوئت بيت حلو وكبير ومتواضع و ومش مفخفخ كتير ومرتب",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 250
+    },
+    {
+      "file": "omni_11.wav",
+      "duration_sec": 15.34,
+      "transcript": "طبعا كل واحد هو وزوقه فين ياكلو مكسرات مع بعضن وفين ين ياكلو نوع واحد نوعين حسب بيتاكل مع عسل بيتاكل مع فواكه حسب بيجي كتير كتير انواع وبيستخدم لا كزا طريئة",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 281
+    },
+    {
+      "file": "omni_12.wav",
+      "duration_sec": 26.6,
+      "transcript": "اذا في عالدكانة هيك محل زغير محل اريب منروح عالموتسيك السيارة منستعملا اذا رايحين من منطئة لا منطئة من مكان لا مكان ممكن نتنئل في بالسيارة البسكلات انا شخصيا ما بحسو وسيلة نئل بحسو وسيلة ترفيهية تسلية للولاد لاعمار معينة في يلعب هيك في للبسكليت حوالين البناية",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 432
+    },
+    {
+      "file": "omni_13.wav",
+      "duration_sec": 26.25,
+      "transcript": "اما فريق العمال هو يلي بيتولى مهمة جمع الطعام طبعا جمع الطعام بي كون في ال ال الغابات في المناطق الحرجية متل سنابل القمح متل اي شي الو علاقة بال بالسكريات الو علاقة بالسكر ايا شي بي شوفوا ادامن",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 558
+    },
+    {
+      "file": "omni_14.wav",
+      "duration_sec": 26.55,
+      "transcript": "وما بملك الخبرة الزراعية ولكن بي سبب الهواية زرع زرع زرعناه وصار في عندي انا خبره شوي شوي شوي من ورا ال الشغيلة يلي كانوا هني يجو لعندي كرمال يزرعولي فا كانت خبرتي هي من هون من هيدا من هيدا المنطلق طبعا صرت حب ال الورود والزهور",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 604
+    },
+    {
+      "file": "omni_15.wav",
+      "duration_sec": 27.7,
+      "transcript": "المملكة المتحدة تاريخيا هي معروفة عنا انو توسعت بي شكل كبير كتير بي حيث صار التوسع تبع المملكة المتحدة هو بي بيتسمى بالوئت اللي كانت في المملكة المتحدة بي ضخامتا البلد الما بتغيب عنا الشمس فا كان فيا توسع كبير كتير المملكة المتحدة",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 692
+    },
+    {
+      "file": "omni_16.wav",
+      "duration_sec": 25.85,
+      "transcript": "كرمال تضلا الوجبة صحية وزيادة انو انا بئدم بئدم طبخ صحن بشكل مرتب وجذاب لا يهو عيلتي اكلو بنفس الوقت طعام صحي ومنظر حلو وببتعد اكيد عن الزبدة المش صحية ابدا ابدا و وقصة مكعبات الماجي ابدا ابدا كمان ما بجيبا عالبيت و بعتمد على سلئ دجاج",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 754
+    },
+    {
+      "file": "omni_17.wav",
+      "duration_sec": 27.25,
+      "transcript": "او كمشة مكسران نية والغدا بيكون مكون كمان من اليل من النشويات يعني تلات ملائع رز و بحط كبايتين من اليخنة او دجاج مشوي بالفرن اسكالوب ستايك اهم شي بي كون الزيت ما كتير بي البو ومنستخدم انا عادتا الزيت الزيتون",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 758
+    },
+    {
+      "file": "omni_18.wav",
+      "duration_sec": 26.75,
+      "transcript": "واكيد عنا الصحن الفتوش مع الغدا كتير مهم و بعد الغدا بساعتين باكل سناك خفيف حبتين شوكولا بلا سكر او العشى حبتين شوكولا بلا سكر او كمشة كمان لوز والعشا عندي ياه بي كون خفيف متل",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 759
+    },
+    {
+      "file": "omni_19.wav",
+      "duration_sec": 27.35,
+      "transcript": "ال ال ال الفتوش الي عا اصوله الي بي البو بي كل انواع الخضرا والورق عنب بزيت المشهورين في بي بلدنا والكوسا المحشي اكيد لازم يكون كمان بي طبقي اليومي والورق عنب بلحمة الي بيكونوه مع بعض الملفوف ولا ممكن انسا الملفوف مع حامضه والملوخية الحامضة",
+      "source_shard": "data-00000.parquet",
+      "row_index_in_shard": 913
+    }
+  ],
+  "qasr_lev": [
+    {
+      "file": "qasr_lev_00.wav",
+      "duration_sec": 10.0,
+      "transcript": "هذه المؤشرات صارت عند المصورين دليل انه هناك في مستعربين رح يدخلوا",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 13
+    },
+    {
+      "file": "qasr_lev_01.wav",
+      "duration_sec": 4.55,
+      "transcript": "في الجنوب سنناقش كل ذلك بعد الفاصل ابقوا معنا",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 54
+    },
+    {
+      "file": "qasr_lev_02.wav",
+      "duration_sec": 6.0,
+      "transcript": "يعني الف فلسطينية غيري يعيشوا يعني",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 318
+    },
+    {
+      "file": "qasr_lev_03.wav",
+      "duration_sec": 5.88,
+      "transcript": "وبدات تتشكل الفصائل على الارض تاخرنا نحن في الدعم حقيقة",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 326
+    },
+    {
+      "file": "qasr_lev_04.wav",
+      "duration_sec": 3.05,
+      "transcript": "وحماة ودير الزور جبلة وبانياس وطرطوس",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 407
+    },
+    {
+      "file": "qasr_lev_05.wav",
+      "duration_sec": 2.41,
+      "transcript": "فهي الكلمة اللي بدهم حرية هي الكلمة اللي خلتني انسى",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 440
+    },
+    {
+      "file": "qasr_lev_06.wav",
+      "duration_sec": 2.25,
+      "transcript": "ريف حلب هو الان في افضل حالاته",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 451
+    },
+    {
+      "file": "qasr_lev_07.wav",
+      "duration_sec": 2.5,
+      "transcript": "تعقيبا على كلامها لما قالوا الشعب السوري ما بينذل",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 569
+    },
+    {
+      "file": "qasr_lev_08.wav",
+      "duration_sec": 4.35,
+      "transcript": "بس الشعب الاميركي شعب حر بعرف شو معنى الحرية",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 689
+    },
+    {
+      "file": "qasr_lev_09.wav",
+      "duration_sec": 4.83,
+      "transcript": "الشغلة الثانية لما بيجي هنري ليفي",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 696
+    },
+    {
+      "file": "qasr_lev_10.wav",
+      "duration_sec": 7.2,
+      "transcript": "كان كل وزراء العالم موجودين في قطر عم يحكوا بحلول المنطقة",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 859
+    },
+    {
+      "file": "qasr_lev_11.wav",
+      "duration_sec": 2.59,
+      "transcript": "بدي جاوب بس انت بدك تسمعني لاجاوب",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 865
+    },
+    {
+      "file": "qasr_lev_12.wav",
+      "duration_sec": 5.17,
+      "transcript": "لحد الان لم يثبت استخدام اسلحة كيماوية",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 919
+    },
+    {
+      "file": "qasr_lev_13.wav",
+      "duration_sec": 3.66,
+      "transcript": "كيف قدرت تشتري ارض بالخضيرة عادة بيبعوش العرب هم",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 1116
+    },
+    {
+      "file": "qasr_lev_14.wav",
+      "duration_sec": 3.06,
+      "transcript": "معارضة دمشق صنيعة النظام",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 1149
+    },
+    {
+      "file": "qasr_lev_15.wav",
+      "duration_sec": 2.53,
+      "transcript": "في موضوع ادلب حتى هذه اللحظة",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 1206
+    },
+    {
+      "file": "qasr_lev_16.wav",
+      "duration_sec": 5.03,
+      "transcript": "سيد هادي البحرا الا تدفعون الثمن بوصول محادثات جنيف",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 1232
+    },
+    {
+      "file": "qasr_lev_17.wav",
+      "duration_sec": 3.42,
+      "transcript": "الف شهيد مقابل اسقاط هذا النظام ومجرميه",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 1330
+    },
+    {
+      "file": "qasr_lev_18.wav",
+      "duration_sec": 3.56,
+      "transcript": "وفي كل بلد هذا موقف المسيحيين",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 1429
+    },
+    {
+      "file": "qasr_lev_19.wav",
+      "duration_sec": 8.5,
+      "transcript": "عاد اللبنانيون لان الثقافة اللبنانية ثقافة العيش معا طغت على كل البرامج التفتيتية",
+      "source_shard": "data-00016.parquet",
+      "row_index_in_shard": 1436
+    }
+  ],
+  "qasr_non_lev": [
+    {
+      "file": "qasr_non_lev_00.wav",
+      "duration_sec": 3.51,
+      "transcript": "اعتقد انه المعارضة السورية هي عفوية",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 2847
+    },
+    {
+      "file": "qasr_non_lev_01.wav",
+      "duration_sec": 2.47,
+      "transcript": "لا يمكن فصل ما حدث في النيجر عن تهديدات",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 5164
+    },
+    {
+      "file": "qasr_non_lev_02.wav",
+      "duration_sec": 7.43,
+      "transcript": "ولكن هنالك نوع من التسرع ربما كان من الاجدر ان يحصل اتفاق اولا",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 6078
+    },
+    {
+      "file": "qasr_non_lev_03.wav",
+      "duration_sec": 2.83,
+      "transcript": "ارجو ان تسمعني ايضا ارجو ان تسمعني واسالك ما الذي تغير",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 6338
+    },
+    {
+      "file": "qasr_non_lev_04.wav",
+      "duration_sec": 3.9,
+      "transcript": "في لحكومات في انجلترا وفي فرنسا وفي المانيا وغيرها من البلدان",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 8180
+    },
+    {
+      "file": "qasr_non_lev_05.wav",
+      "duration_sec": 2.94,
+      "transcript": "نحن نقول مثلما اشرنا لدينا اعداد كبيرة تعود لدينا",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 17335
+    },
+    {
+      "file": "qasr_non_lev_06.wav",
+      "duration_sec": 4.19,
+      "transcript": "مسلحون ورفعوا السلاح وكذا هذا الحديث لا يستقيم على الاطلاق",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 19213
+    },
+    {
+      "file": "qasr_non_lev_07.wav",
+      "duration_sec": 4.2,
+      "transcript": "لا تنفي تهم التنظيم الطليعي انه كان تنظيم عمله",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 22541
+    },
+    {
+      "file": "qasr_non_lev_08.wav",
+      "duration_sec": 8.26,
+      "transcript": "عقلية هذه الستة اشهر عشان تلخصها السلطة التشريعية كانت موجهة لاحداث خدمات نوعية",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 23526
+    },
+    {
+      "file": "qasr_non_lev_09.wav",
+      "duration_sec": 4.33,
+      "transcript": "نحن من البداية حرصنا على ذلك عندما خرجنا",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 23700
+    },
+    {
+      "file": "qasr_non_lev_10.wav",
+      "duration_sec": 4.94,
+      "transcript": "مشاركة حزب الله في سوريا وانتم تقاتلون هناك فلنحيد لبنان عن القتل والقتال",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 24807
+    },
+    {
+      "file": "qasr_non_lev_11.wav",
+      "duration_sec": 3.77,
+      "transcript": "منذ خروج الرجلين من صنعاء الى عدن",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 24898
+    },
+    {
+      "file": "qasr_non_lev_12.wav",
+      "duration_sec": 3.99,
+      "transcript": "فبسبب تاخر وزيرين عن الموعد المحدد للصورة التذكارية",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 30108
+    },
+    {
+      "file": "qasr_non_lev_13.wav",
+      "duration_sec": 1.88,
+      "transcript": "لاني كان مصلحتي اني اخلص",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 35142
+    },
+    {
+      "file": "qasr_non_lev_14.wav",
+      "duration_sec": 4.05,
+      "transcript": "كل يوم كان يقتل شاب فلسطيني لماذا لا تعلم",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 36178
+    },
+    {
+      "file": "qasr_non_lev_15.wav",
+      "duration_sec": 5.92,
+      "transcript": "خذ من اموالهم صدقة تطهرهم وتزكيهم بها",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 37837
+    },
+    {
+      "file": "qasr_non_lev_16.wav",
+      "duration_sec": 5.61,
+      "transcript": "اي دولة في اي منطقة في العالم تسعى لتحصين وزيادة قدرتها",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 39565
+    },
+    {
+      "file": "qasr_non_lev_17.wav",
+      "duration_sec": 4.09,
+      "transcript": "احب مصر واكمل دراسته العليا في جامعة القاهرة بين عامين",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 40535
+    },
+    {
+      "file": "qasr_non_lev_18.wav",
+      "duration_sec": 3.15,
+      "transcript": "اللي هو فيه وكل اللي عمله بعد كدا",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 41198
+    },
+    {
+      "file": "qasr_non_lev_19.wav",
+      "duration_sec": 5.73,
+      "transcript": "اني ارفع قضية على هذا او ذاك اللي يسب او يقذف بالتاكيد لا يعني",
+      "source_shard": "data-00003.parquet",
+      "row_index_in_shard": 47823
+    }
+  ],
+  "masc_lev": [
+    {
+      "file": "masc_lev_00.wav",
+      "duration_sec": 2.78,
+      "transcript": "شكرا للمتابعه للمزيد من التفاصيل والاخبار",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 23
+    },
+    {
+      "file": "masc_lev_01.wav",
+      "duration_sec": 4.68,
+      "transcript": "انتشرت مؤخرا اشاعه ان باسيل موجود على جزيره وبنى اوتيل هناك",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 35
+    },
+    {
+      "file": "masc_lev_02.wav",
+      "duration_sec": 4.28,
+      "transcript": "عشان هيك يعقوب يشجع ويقول ان الكلمه مثل المرايه",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 36
+    },
+    {
+      "file": "masc_lev_03.wav",
+      "duration_sec": 5.0,
+      "transcript": "واروح لدوله تانيه مع يحيى",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 40
+    },
+    {
+      "file": "masc_lev_04.wav",
+      "duration_sec": 2.58,
+      "transcript": "ان الجزء الاهم من حب الذات",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 51
+    },
+    {
+      "file": "masc_lev_05.wav",
+      "duration_sec": 5.4,
+      "transcript": "ولما منحكي عن الراحه ما عم نحكي راحه بمعنى ان نكون لا مباليين",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 83
+    },
+    {
+      "file": "masc_lev_06.wav",
+      "duration_sec": 4.03,
+      "transcript": "يعني الطاعه مع الصبر",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 107
+    },
+    {
+      "file": "masc_lev_07.wav",
+      "duration_sec": 2.02,
+      "transcript": "قصص اطفال ممتعه ومفيده",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 116
+    },
+    {
+      "file": "masc_lev_08.wav",
+      "duration_sec": 6.0,
+      "transcript": "لماذا الحروب لماذا الاجتياح",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 119
+    },
+    {
+      "file": "masc_lev_09.wav",
+      "duration_sec": 2.5,
+      "transcript": "من الذهب مطليه بالذهب",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 136
+    },
+    {
+      "file": "masc_lev_10.wav",
+      "duration_sec": 4.0,
+      "transcript": "حسن الظن بالنفس سذاجه وغباء",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 142
+    },
+    {
+      "file": "masc_lev_11.wav",
+      "duration_sec": 8.91,
+      "transcript": "صلاه الجمعه حينما يصعد الخطيب المنبر تجلس الملائكه بعد هذه الساعه كانما قرب دجاجه",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 148
+    },
+    {
+      "file": "masc_lev_12.wav",
+      "duration_sec": 2.0,
+      "transcript": "اصل الدين معرفه الله",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 181
+    },
+    {
+      "file": "masc_lev_13.wav",
+      "duration_sec": 2.76,
+      "transcript": "احل لك العشاق سفك دمائهم",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 186
+    },
+    {
+      "file": "masc_lev_14.wav",
+      "duration_sec": 4.92,
+      "transcript": "ورح يولد المخلص من ام بشريه بس مش رح يكون عندو بي بشري",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 189
+    },
+    {
+      "file": "masc_lev_15.wav",
+      "duration_sec": 5.63,
+      "transcript": "لذلك كميه الاكسجين تصبح غير كافيه للانسجه",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 194
+    },
+    {
+      "file": "masc_lev_16.wav",
+      "duration_sec": 2.86,
+      "transcript": "مساله مهاره حل المشاكل هي مرتبطه",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 232
+    },
+    {
+      "file": "masc_lev_17.wav",
+      "duration_sec": 2.23,
+      "transcript": "بكل ما تعنيه الكلمه من معنى",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 325
+    },
+    {
+      "file": "masc_lev_18.wav",
+      "duration_sec": 4.0,
+      "transcript": "كمال هذه الصفه عند الواحد الديان",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 331
+    },
+    {
+      "file": "masc_lev_19.wav",
+      "duration_sec": 7.0,
+      "transcript": "تتنقل برامج التتبع هذه من صفحه الى اخرى باتباع روابط الى صفحات اخرى",
+      "source_shard": "data-00006.parquet",
+      "row_index_in_shard": 338
+    }
+  ],
+  "masc_non_lev": [
+    {
+      "file": "masc_non_lev_00.wav",
+      "duration_sec": 6.0,
+      "transcript": "ان رحمت الله مقتربه منك من احسانك",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 916
+    },
+    {
+      "file": "masc_non_lev_01.wav",
+      "duration_sec": 5.67,
+      "transcript": "حتى في ثوابت الكون الفيزيائيه المضبوطه لابعد حد بشكل يثير عجبهم",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 2677
+    },
+    {
+      "file": "masc_non_lev_02.wav",
+      "duration_sec": 2.94,
+      "transcript": "الداخليه وفي الازدهار الاقتصادي",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 2803
+    },
+    {
+      "file": "masc_non_lev_03.wav",
+      "duration_sec": 1.86,
+      "transcript": "ايها الاخوه الكرام",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 3598
+    },
+    {
+      "file": "masc_non_lev_04.wav",
+      "duration_sec": 3.56,
+      "transcript": "شجره مباركه وثمار كريمه",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 3752
+    },
+    {
+      "file": "masc_non_lev_05.wav",
+      "duration_sec": 3.5,
+      "transcript": "من علمك من خبرتك",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 4010
+    },
+    {
+      "file": "masc_non_lev_06.wav",
+      "duration_sec": 3.0,
+      "transcript": "انا اشهد الله انني سمعت مئات القصص",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 4422
+    },
+    {
+      "file": "masc_non_lev_07.wav",
+      "duration_sec": 5.44,
+      "transcript": "يعتبر طريق المحيط الاطلسي من الطرق الاكثر خطوره في العالم",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 5313
+    },
+    {
+      "file": "masc_non_lev_08.wav",
+      "duration_sec": 2.4,
+      "transcript": "مركبته احلى ركبه وبعد ذلك",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 6216
+    },
+    {
+      "file": "masc_non_lev_09.wav",
+      "duration_sec": 8.7,
+      "transcript": "فقال الاعرابي اراك اتريدني ان اصلي ركعتين بين اللقمه واختها",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 7573
+    },
+    {
+      "file": "masc_non_lev_10.wav",
+      "duration_sec": 6.59,
+      "transcript": "الموارد وانشطه الانتاج في الشركات والمشاريع التجاريه تتطلب المال هناك طريقتان للتعامل مع ذلك",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 8751
+    },
+    {
+      "file": "masc_non_lev_11.wav",
+      "duration_sec": 10.89,
+      "transcript": "الرجل الغائب ثم يخافون منه الا ان تذبح للشيخ فلان سيصيبك كذا وكذا وهكذا",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 9125
+    },
+    {
+      "file": "masc_non_lev_12.wav",
+      "duration_sec": 5.37,
+      "transcript": "ثم تبدا بالتكون ولكنها لا تكون مفتوحه على النحو الصحيح المطلوب",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 10403
+    },
+    {
+      "file": "masc_non_lev_13.wav",
+      "duration_sec": 7.0,
+      "transcript": "ونزهه عن الاسماء التي لم يسم نفسه بها",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 10485
+    },
+    {
+      "file": "masc_non_lev_14.wav",
+      "duration_sec": 5.0,
+      "transcript": "والحمد لله رب العالمين",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 11216
+    },
+    {
+      "file": "masc_non_lev_15.wav",
+      "duration_sec": 3.4,
+      "transcript": "ربنا اغفر لنا ولوالدينا ووالديهم وذرياتهم",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 11274
+    },
+    {
+      "file": "masc_non_lev_16.wav",
+      "duration_sec": 3.0,
+      "transcript": "الاول واصبر على ما اصابك ان",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 11946
+    },
+    {
+      "file": "masc_non_lev_17.wav",
+      "duration_sec": 6.08,
+      "transcript": "اذا كنت تعاني من الم في الظهر او كسر في الساق فستحتاج الى المساعده لمعالجه الامر",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 12588
+    },
+    {
+      "file": "masc_non_lev_18.wav",
+      "duration_sec": 8.28,
+      "transcript": "في كل حاله تم بيعك انجيل مزيف لقد اظهرت لك ما يسوع الحقيقي يسوع التاريخ",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 12713
+    },
+    {
+      "file": "masc_non_lev_19.wav",
+      "duration_sec": 3.28,
+      "transcript": "فقال له رسول الله لا غفر الله لك",
+      "source_shard": "data-00019.parquet",
+      "row_index_in_shard": 13464
+    }
+  ]
+}
