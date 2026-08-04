@@ -521,5 +521,26 @@
       "casa_jor_test",
       "masc_non_lev_2h"
     ]
+  },
+  {
+    "name": "whisper_base_zeroshot_a",
+    "merge_adapters": [],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "qasr_lev_2h"
+    ]
+  },
+  {
+    "name": "whisper_base_zeroshot_b",
+    "merge_adapters": [],
+    "final_adapter": null,
+    "domains": [
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
   }
 ]
