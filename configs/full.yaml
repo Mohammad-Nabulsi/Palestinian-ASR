@@ -181,9 +181,29 @@ stages:
       - name: qasr
         include: ["qasr__*.parquet"]
 
+  # --------------------------------------------- speaker score aggregation
+  # Averages each row's text LEV score across its speaker before the audio
+  # model ever runs, so lev/non_lev candidacy is decided per speaker instead
+  # of per utterance. qasr has a real `speaker_id`; masc_c has none, so
+  # `video_id` is used as the closest available speaker proxy (see
+  # speaker_key_columns below -- swap in a channel id there if one is ever
+  # resolved for masc_c, since video_id alone still lets the same speaker
+  # leak across two different videos on the same channel).
+  - id: speaker_aggregate_text
+    stage: speaker_aggregate
+    text_row_probs: "{run_root}/runs/text_dialect_scan_marbertv2/row_probabilities.jsonl"
+    output_dir: "{run_root}/runs/speaker_aggregate_text"
+    label: LEV
+    speaker_key_columns:
+      qasr: speaker_id
+      masc_c: video_id
+
   # ------------------------------------------------------ dialect (audio)
-  # Only text-stage LEV >= 0.80 rows are decoded, keeping the audio pass ~10x
-  # smaller. Carries the raw-PCM decode fix that the pre-repair run lacked.
+  # Only speaker-averaged LEV >= 0.80 rows are decoded, keeping the audio pass
+  # ~10x smaller. Carries the raw-PCM decode fix that the pre-repair run
+  # lacked. candidates_from now reads speaker_aggregate_text's output, not
+  # dialect_text's raw per-row scores directly -- the audio model itself is
+  # unchanged, it just runs after this stage on the re-aggregated candidates.
   - id: dialect_audio
     stage: dialect
     modality: audio
@@ -198,7 +218,7 @@ stages:
     min_seconds: 2.0
     resume: true
     candidates_from:
-      path: "{run_root}/runs/text_dialect_scan_marbertv2/row_probabilities.jsonl"
+      path: "{run_root}/runs/speaker_aggregate_text/row_probabilities.jsonl"
       label: LEV
       threshold: 0.80
     sources:
