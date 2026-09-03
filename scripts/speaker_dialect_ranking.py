@@ -110,18 +110,26 @@ def new_pool_acc() -> dict[str, Any]:
     return {
         "n": 0, "hours": 0.0, "hours_audio_lev": 0.0,
         "text_sum": 0.0, "text_votes": 0,
-        "audio_sum": 0.0, "audio_votes": 0,
+        "audio_sum": 0.0, "audio_votes": 0, "audio_sq": 0.0,
+        "both_agree": 0, "hours_both_agree": 0.0,
         "skipped_short": 0,
         "audio_label_counts": defaultdict(int),
     }
 
 
-def load_audio_scans(paths: Iterable[Path]) -> tuple[dict[tuple[str, str], dict], dict]:
+def load_audio_scans(
+    paths: Iterable[Path], align_threshold: float = 0.80
+) -> tuple[dict[tuple[str, str], dict], dict]:
     """Dual-scored rows (step 1), accumulated per speaker (step 2).
 
     Deduplicates on (source, source_file, row_idx): the four candidate-band runs
     are meant to be complementary, and a row counted twice would silently
     double-weight that speaker.
+
+    `align_threshold` defines a row where the two models *agree on that sample*:
+    both p(LEV) and p(Levantine) clear it. Counting those per speaker is what
+    separates "the averages happen to be high" from "the two models keep landing
+    on Levantine together, utterance after utterance".
     """
     pool: dict[tuple[str, str], dict] = defaultdict(new_pool_acc)
     seen: set[tuple[str, str, int]] = set()
@@ -163,11 +171,17 @@ def load_audio_scans(paths: Iterable[Path]) -> tuple[dict[tuple[str, str], dict]
 
             audio_top = record.get("top_label")
             duration = float(record.get("duration_sec") or 0.0)
+            t_prob = text_prob(record, prefix="text_")
+            a_prob = audio_prob(record)
             acc["n"] += 1
             acc["hours"] += duration / 3600.0
-            acc["text_sum"] += text_prob(record, prefix="text_")
-            acc["audio_sum"] += audio_prob(record)
+            acc["text_sum"] += t_prob
+            acc["audio_sum"] += a_prob
+            acc["audio_sq"] += a_prob * a_prob
             acc["audio_label_counts"][audio_top] += 1
+            if t_prob >= align_threshold and a_prob >= align_threshold:
+                acc["both_agree"] += 1
+                acc["hours_both_agree"] += duration / 3600.0
             if record.get("text_top_label") == TEXT_LEV:
                 acc["text_votes"] += 1
                 stats["text_argmax_lev_rows"] += 1
@@ -241,6 +255,11 @@ def build_speakers(
         text_frac = acc["text_votes"] / n
         audio_frac = acc["audio_votes"] / n
 
+        align_frac = acc["both_agree"] / n
+        align_lb = wilson_lower_bound(acc["both_agree"], n)
+        variance = max(0.0, acc["audio_sq"] / n - audio_mean * audio_mean)
+        mean_of_means = (text_mean + audio_mean) / 2.0
+
         row = {
             "source": source,
             "speaker_key": key,
@@ -248,6 +267,7 @@ def build_speakers(
             "rows_skipped_short": acc["skipped_short"],
             "hours": acc["hours"],
             "hours_audio_lev": acc["hours_audio_lev"],
+            "hours_both_agree": acc["hours_both_agree"],
             # step 3 -- text, over the dual-scored pool
             "text_mean_prob": text_mean,
             "text_soft_lev": text_mean >= threshold,
@@ -265,6 +285,21 @@ def build_speakers(
             # evidence-aware alternative: same product, but on vote fractions
             # discounted by group size (see wilson_lower_bound)
             "audio_vote_lb": wilson_lower_bound(acc["audio_votes"], n),
+
+            # --- per-sample agreement between the two models -----------------
+            # rows_both_agree: utterances where BOTH models clear the threshold.
+            # align_lb discounts that rate by how many rows back it, so a
+            # speaker is only "sure" when the agreement repeats across samples.
+            "rows_both_agree": acc["both_agree"],
+            "align_frac": align_frac,
+            "align_lb": align_lb,
+            "audio_prob_sd": math.sqrt(variance),
+
+            # --- selectable composite scores ---------------------------------
+            "score_sum": mean_of_means,
+            "score_product": text_mean * audio_mean,
+            "score_sum_align": mean_of_means * align_lb,
+            "score_product_align": text_mean * audio_mean * align_lb,
         }
 
         ft = full_text.get((source, key))
@@ -427,9 +462,11 @@ def cumulative_curve(ranked: list[dict[str, Any]], marks: list[float], hours_fie
 
 
 SELECTION_COLUMNS = (
-    "block", "source", "speaker_key", "rows_dual_scored", "rows_text_total", "hours",
-    "hours_audio_lev", "text_mean_prob", "text_full_vote_frac", "text_full_vote_lb",
-    "audio_mean_prob", "audio_vote_frac", "audio_vote_lb", "combined_prob", "combined_vote_lb",
+    "block", "source", "speaker_key", "rows_dual_scored", "rows_both_agree", "rows_text_total",
+    "hours", "hours_audio_lev", "hours_both_agree", "text_mean_prob", "text_full_vote_frac",
+    "text_full_vote_lb", "audio_mean_prob", "audio_vote_frac", "audio_vote_lb", "audio_prob_sd",
+    "align_frac", "align_lb", "score_sum", "score_product", "score_sum_align",
+    "score_product_align", "combined_vote_lb",
 )
 
 
@@ -448,6 +485,72 @@ def write_selection_csv(path: Path, assignments: list[dict[str, Any]]) -> int:
     return len(selected)
 
 
+def emit_samples(
+    paths: Iterable[Path],
+    assignments: list[dict[str, Any]],
+    per_block: int,
+    align_threshold: float,
+    seed: int = 42,
+    max_per_speaker: int = 3,
+) -> list[dict[str, Any]]:
+    """Pull real rows out of the selected speakers, for eyeball inspection.
+
+    A second pass over the scans, because aggregation keeps no row detail. The
+    sample is uniform-random within a block (seeded), capped per speaker so it
+    spans many speakers rather than a handful of long recordings -- an inspector
+    needs to see typical rows, including the bad ones, not a curated best-of.
+    """
+    import random
+
+    wanted: dict[tuple[str, str], str] = {
+        (s["source"], s["speaker_key"]): s["block"] for s in assignments if s.get("block")
+    }
+    by_block: dict[str, list[dict[str, Any]]] = defaultdict(list)
+
+    for path in paths:
+        for record in iter_jsonl(path):
+            if record.get("status") != "ok":
+                continue
+            group_key = extract_group_key(record["source"], record["uid"])
+            block = wanted.get((record["source"], group_key)) if group_key else None
+            if block is None:
+                continue
+            t_prob = text_prob(record, prefix="text_")
+            a_prob = audio_prob(record)
+            by_block[block].append({
+                "block": block,
+                "source": record["source"],
+                "speaker_key": group_key,
+                "uid": record["uid"],
+                "duration_sec": record.get("duration_sec"),
+                "text": record.get("text", ""),
+                "text_top_label": record.get("text_top_label"),
+                "text_lev": round(t_prob, 4),
+                "audio_top_label": record.get("top_label"),
+                "audio_lev": round(a_prob, 4),
+                "both_agree": t_prob >= align_threshold and a_prob >= align_threshold,
+            })
+
+    out: list[dict[str, Any]] = []
+    for block, rows in by_block.items():
+        rng = random.Random(f"{seed}:{block}")
+        rng.shuffle(rows)
+        taken_per_speaker: dict[str, int] = defaultdict(int)
+        picked = []
+        for row in rows:
+            if len(picked) >= per_block:
+                break
+            key = f"{row['source']}:{row['speaker_key']}"
+            if taken_per_speaker[key] >= max_per_speaker:
+                continue
+            taken_per_speaker[key] += 1
+            picked.append(row)
+        out.extend(picked)
+        print(f"samples[{block}]: {len(picked)} of {len(rows)} rows, "
+              f"{len(taken_per_speaker)} speakers", file=sys.stderr)
+    return out
+
+
 def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as handle:
@@ -456,9 +559,9 @@ def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
 
 
 def slim(speaker: dict[str, Any]) -> dict[str, Any]:
-    keys = ("source", "speaker_key", "rows_dual_scored", "rows_text_total", "hours",
-            "text_mean_prob", "text_full_vote_frac", "text_full_vote_lb", "audio_mean_prob",
-            "audio_vote_frac", "audio_vote_lb", "combined_prob", "combined_vote_lb")
+    keys = ("source", "speaker_key", "rows_dual_scored", "rows_both_agree", "hours",
+            "text_mean_prob", "audio_mean_prob", "align_frac", "align_lb",
+            "score_sum", "score_product", "score_sum_align", "score_product_align")
     return {k: speaker[k] for k in keys if k in speaker}
 
 
@@ -471,22 +574,29 @@ def main() -> None:
     parser.add_argument("--threshold", type=float, default=0.80, help="soft (mean-prob) lev threshold")
     parser.add_argument("--min-rows-per-speaker", type=int, default=1)
     parser.add_argument("--min-hours-per-speaker", type=float, default=0.0)
+    parser.add_argument("--align-threshold", type=float, default=0.80,
+                        help="a row counts as agreed when BOTH models clear this")
     parser.add_argument("--rank-by", default="combined_prob",
-                        choices=["combined_prob", "combined_vote_lb", "combined_prob_full_text"],
+                        choices=["combined_prob", "combined_vote_lb", "combined_prob_full_text",
+                                 "score_sum", "score_product",
+                                 "score_sum_align", "score_product_align"],
                         help="score the blocks are carved on (step 7)")
-    parser.add_argument("--hours-field", default="hours", choices=["hours", "hours_audio_lev"],
+    parser.add_argument("--hours-field", default="hours",
+                        choices=["hours", "hours_audio_lev", "hours_both_agree"],
                         help="hours counted per speaker when filling blocks")
     parser.add_argument("--block-hours", nargs="+", type=float, default=[8.0, 8.0])
     parser.add_argument("--block-names", nargs="+", default=["train", "val"])
     parser.add_argument("--curve-marks", nargs="*", type=float,
                         default=[1, 2, 4, 8, 16, 24, 32, 50, 100, 200])
+    parser.add_argument("--emit-samples", type=int, default=0,
+                        help="rows per block to dump for inspection (0 = off)")
     parser.add_argument("--out-dir", type=Path, default=Path("outputs/speaker_ranking"))
     args = parser.parse_args()
 
     if len(args.block_hours) != len(args.block_names):
         parser.error("--block-hours and --block-names must have the same length")
 
-    pool, audio_stats = load_audio_scans(args.audio_scan)
+    pool, audio_stats = load_audio_scans(args.audio_scan, args.align_threshold)
     full_text, text_stats = load_text_scans(args.text_scan) if args.text_scan else ({}, {})
 
     speakers = build_speakers(
@@ -535,6 +645,7 @@ def main() -> None:
         "settings": {
             "soft_threshold": args.threshold,
             "hard_vote": "per-row argmax label (top_label)",
+            "align_threshold": args.align_threshold,
             "hours_field": args.hours_field,
             "rank_by": args.rank_by,
             "min_rows_per_speaker": args.min_rows_per_speaker,
@@ -576,6 +687,17 @@ def main() -> None:
         json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     write_jsonl(args.out_dir / "speakers_by_combined.jsonl", assignments)
     write_selection_csv(args.out_dir / "selection.csv", assignments)
+    if args.emit_samples:
+        samples = emit_samples(
+            args.audio_scan, assignments, args.emit_samples, args.align_threshold)
+        write_jsonl(args.out_dir / "samples.jsonl", samples)
+        summary["samples"] = {
+            "per_block_requested": args.emit_samples,
+            "written": len(samples),
+            "path": str(args.out_dir / "samples.jsonl"),
+        }
+        (args.out_dir / "summary.json").write_text(
+            json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     write_jsonl(args.out_dir / "speakers_by_text_vote.jsonl", by_text)
     write_jsonl(args.out_dir / "speakers_by_audio_vote.jsonl", by_audio)
 
