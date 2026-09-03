@@ -5,7 +5,7 @@ from typing import Callable
 
 from ..config import StageSpec
 from ..context import RunContext, StageResult
-from . import assemble, clean, dialect, ingest, speaker_aggregate, split
+from . import assemble, clean, dialect, ingest, speaker_select, split
 
 StageFn = Callable[[RunContext, StageSpec], StageResult]
 
@@ -14,7 +14,7 @@ STAGES: dict[str, StageFn] = {
     "clean": clean.run,
     "assemble": assemble.run,
     "dialect": dialect.run,
-    "speaker_aggregate": speaker_aggregate.run,
+    "speaker_select": speaker_select.run,
     "split": split.run,
 }
 

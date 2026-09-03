@@ -189,21 +189,11 @@ stages:
   # speaker_key_columns below -- swap in a channel id there if one is ever
   # resolved for masc_c, since video_id alone still lets the same speaker
   # leak across two different videos on the same channel).
-  - id: speaker_aggregate_text
-    stage: speaker_aggregate
-    text_row_probs: "{run_root}/runs/text_dialect_scan_marbertv2/row_probabilities.jsonl"
-    output_dir: "{run_root}/runs/speaker_aggregate_text"
-    label: LEV
-    speaker_key_columns:
-      qasr: speaker_id
-      masc_c: video_id
-
   # ------------------------------------------------------ dialect (audio)
-  # Only speaker-averaged LEV >= 0.80 rows are decoded, keeping the audio pass
-  # ~10x smaller. Carries the raw-PCM decode fix that the pre-repair run
-  # lacked. candidates_from now reads speaker_aggregate_text's output, not
-  # dialect_text's raw per-row scores directly -- the audio model itself is
-  # unchanged, it just runs after this stage on the re-aggregated candidates.
+  # Only text-stage LEV >= 0.80 rows are decoded, keeping the audio pass ~10x
+  # smaller. Carries the raw-PCM decode fix that the pre-repair run lacked.
+  # Speaker grouping deliberately does NOT happen here: it needs both models'
+  # verdicts, so it runs after this stage (see speaker_select).
   - id: dialect_audio
     stage: dialect
     modality: audio
@@ -218,7 +208,7 @@ stages:
     min_seconds: 2.0
     resume: true
     candidates_from:
-      path: "{run_root}/runs/speaker_aggregate_text/row_probabilities.jsonl"
+      path: "{run_root}/runs/text_dialect_scan_marbertv2/row_probabilities.jsonl"
       label: LEV
       threshold: 0.80
     sources:
@@ -227,15 +217,43 @@ stages:
       - name: qasr
         include: ["qasr__*.parquet"]
 
+  # -------------------------------------------------- speaker selection
+  # Runs after BOTH dialect passes, because deciding which speakers we are most
+  # confident about needs both verdicts on the same utterance. Groups the audio
+  # stage's rows (which carry the text scores forward) per speaker, scores each
+  # by mean p(LEV) x mean p(Levantine) x WilsonLB(rows where both models agree),
+  # and cuts the ranking into blocks. Blocks fill top-down, so val and test take
+  # the most confident speakers and train takes the rest; the 20-row floor keeps
+  # a two-utterance speaker out of the eval sets without excluding it from train.
+  - id: speaker_select
+    stage: speaker_select
+    audio_row_probs: "{run_root}/runs/audio_dialect_scan_badrex/row_probabilities.jsonl"
+    output_dir: "{run_root}/runs/speaker_select"
+    threshold: 0.80
+    align_threshold: 0.80
+    rank_by: score_product_align
+    hours_field: hours
+    blocks:
+      - {name: val, hours: 8, min_rows: 20}
+      - {name: test, hours: 8, min_rows: 20}
+      - {name: train, hours: 200}
+
   # ----------------------------------------------------------------- split
   - id: split
     stage: split
     input_root: "{work}/curated"
     output_root: "{ws}/data_curated_levant_binary_v3"
     audio_row_probs: "{run_root}/runs/audio_dialect_scan_badrex/row_probabilities.jsonl"
+    # Speaker-disjoint routing: every utterance of a speaker follows the split
+    # speaker_select gave that speaker. Rows whose speaker was ranked below the
+    # last block are dropped rather than silently landing in a set; set to a
+    # split name to keep them, or `hash` for the pre-speaker_select behaviour.
+    speaker_assignments: "{run_root}/runs/speaker_select/speaker_assignments.json"
+    unassigned_split: drop
     threshold: 0.80
     text_label: LEV
     audio_label: Levantine
+    # Ratios only apply to leaves with no speaker key (omni, layla, casa/*).
     seed: 42
     train_ratio: 0.70
     val_ratio: 0.15
@@ -246,9 +264,13 @@ stages:
       - name: masc
         binary: true
         include: ["masc_c__*.parquet"]
+        speaker_source: masc_c
+        speaker_key_column: video_id
       - name: qasr
         binary: true
         include: ["qasr__*.parquet"]
+        speaker_source: qasr
+        speaker_key_column: recording_id
       - name: omni
         include: ["omnilingual_apc__*.parquet"]
       - name: layla

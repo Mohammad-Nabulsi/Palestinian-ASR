@@ -103,4 +103,4 @@ __pycache__/
 .logs/
 
 # Speaker-ranking per-speaker dumps (regenerate with scripts/speaker_dialect_ranking.py)
-outputs/speaker_rank_*/speakers_by_*.jsonl
+outputs/speaker_*/speakers_by_*.jsonl
