@@ -1,47 +1,37 @@
 {
+  "masc_qasr_custom_test": {
+    "n_total": 5733,
+    "n_scored": 5733,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.4467101411237407,
+    "cer": 0.26945785540760786
+  },
+  "casablanca_palestinian": {
+    "n_total": 667,
+    "n_scored": 667,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.5057301713377964,
+    "cer": 0.18248591599515082
+  },
   "casablanca_jordanian": {
-    "dataset": "casablanca_jordanian",
     "n_total": 848,
     "n_scored": 848,
     "n_dropped_empty_ref": 0,
-    "WER_%": 40.28,
-    "CER_%": 13.7,
-    "partial": false
-  },
-  "casablanca_palestinian": {
-    "dataset": "casablanca_palestinian",
-    "n_total": 664,
-    "n_scored": 664,
-    "n_dropped_empty_ref": 0,
-    "WER_%": 50.53,
-    "CER_%": 18.02,
-    "partial": false
-  },
-  "masc_c_only": {
-    "dataset": "masc_c_only",
-    "n_total": 1064,
-    "n_scored": 1064,
-    "n_dropped_empty_ref": 0,
-    "WER_%": 24.55,
-    "CER_%": 7.14,
-    "partial": true
-  },
-  "omnilingual_apc_full": {
-    "dataset": "omnilingual_apc_full",
-    "n_total": 112,
-    "n_scored": 112,
-    "n_dropped_empty_ref": 0,
-    "WER_%": 53.39,
-    "CER_%": 27.83,
-    "partial": true
+    "wer": 0.4030937215650591,
+    "cer": 0.13695239468435344
   },
   "layla": {
-    "dataset": "layla",
-    "n_total": 24,
-    "n_scored": 24,
+    "n_total": 154,
+    "n_scored": 154,
     "n_dropped_empty_ref": 0,
-    "WER_%": 58.82,
-    "CER_%": 44.79,
-    "partial": true
+    "wer": 0.35002729257641924,
+    "cer": 0.12273476112026359
+  },
+  "omnilingual_apc": {
+    "n_total": 198,
+    "n_scored": 198,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.4942376473705127,
+    "cer": 0.16126335588703988
   }
 }

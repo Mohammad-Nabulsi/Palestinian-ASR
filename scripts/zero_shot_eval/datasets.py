@@ -13,6 +13,28 @@ LAYLA_DIR = REPO_ROOT / "processed_layla_shards_v1" / "layla"
 
 
 def discover_eval_targets() -> dict[str, list[Path]]:
+    """Legacy `data/clean` layout, falling back to `eval_sets.py`.
+
+    The original GPU box had every eval shard under `data/clean` /
+    `processed_layla_shards_v1`. Where that tree does not exist -- this box, where
+    the eval material was fetched from HuggingFace and R2 into its own root --
+    `eval_sets.py` names the files directly. Every runner goes through this
+    function, so the fallback covers all of them without touching each one.
+
+    `eval_sets` is loaded by file path: this module's own name shadows the HF
+    `datasets` package for anything importing by bare name, and the runners work
+    around that with private module names, so it must not rely on this directory
+    being importable.
+    """
+    if not DATA_CLEAN_DIR.exists() and not LAYLA_DIR.exists():
+        import importlib.util
+
+        spec = importlib.util.spec_from_file_location(
+            "_zero_shot_eval_sets", str(Path(__file__).resolve().parent / "eval_sets.py"))
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module.discover_eval_targets()
+
     groups: dict[str, list[Path]] = {}
     for f in sorted(DATA_CLEAN_DIR.glob("*clean.parquet")):
         name = f.name
