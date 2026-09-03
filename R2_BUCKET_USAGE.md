@@ -19,6 +19,8 @@ transfer/
 │   └── reports/                   # duration_stats.json, summary.json, per-source progress/checkpoints
 ├── data/
 │   └── data_lev_custom_split_v1/  # standalone qasr+masc_c experiment (train/val/test/mix200h/flat12h.parquet)
+│                                  # NOTE: its train/val/test are NOT speaker-disjoint --
+│                                  # see SPEAKER_DISJOINT_SELECTION.md
 └── adapters/                      # LoRA / Whisper fine-tuning checkpoints (training runs, not data)
     ├── FINAL_200h/
     └── whisper/

@@ -1,6 +1,20 @@
 # HANDOFF — Data prep pipeline run (this session)
 
-_Last updated: 2026-07-31. Read this first if picking this up cold._
+_Last updated: 2026-09-03. Read this first if picking this up cold._
+
+## UPDATE 2026-09-03 — the split is now speaker-disjoint, new stage `speaker_select`
+
+Step 14's train/val/test assignment was a per-row hash, which put ~100% of val's and ~99%
+of test's QASR recordings in train as well (measured with
+`scripts/r2_speaker_group_disjointness.py`). A new `speaker_select` stage now runs **after
+both dialect passes**, groups rows per speaker (QASR `recording_id` / MASC-C `video_id`),
+scores each speaker on both models' agreement, and assigns whole speakers to val / test /
+train; `split` follows that assignment instead of hashing. Disjointness is verified in the
+stage and is a hard failure. Full method, numbers and caveats:
+[SPEAKER_DISJOINT_SELECTION.md](SPEAKER_DISJOINT_SELECTION.md).
+
+The short-lived `speaker_aggregate` stage (which sat *between* the two dialect passes) is
+removed — it only saw text scores, so it could not judge a speaker on both models.
 
 ## UPDATE 2026-07-31 — long-audio (>30s) segmentation done, new step 16
 
@@ -130,7 +144,7 @@ Verified with `du -sh` against the real `/workspace` paths, not just the local s
 | 10-11 | Layla normalize/shard + flatten into `data/` | ✅ done 07-31 | 218/218 rows, 218/218 using the completed 6-batch normalization (`normalized_all.json`), 0 dropped by the `clean` stage. 4 shards hardlinked to top-level `data/layla__*.parquet`. See `DATA_CURATION.md` "Layla Prompt Merge and Sharding". |
 | 12 | Text dialect ID, MarBERTv2 | 🟡 MASC done 07-30 | MASC-only run (GPU box): 318,078/373,464 rows → `Runs/text_dialect_scan_marbertv2_written_clean_masc_c/row_probabilities.jsonl`; 42,092 rows with LEV≥0.80. ~55k rows skipped by `make_uid` video_id collisions (same as original run). **QASR (1.5M rows) still to do.** |
 | 13 | Audio dialect ID, badrex mms300m | 🟡 MASC done 07-30 | On the 42,092 text candidates: 39,162 classified (2,930 <2s, 2 errors) → `Runs/dialect_scan_badrex_mms300m_lev08_text_candidates_masc_c/row_probabilities.jsonl`; **6,949 rows pass text≥0.80 AND audio Levantine≥0.80**. Crashed 2x at ~58% from 31GB cgroup page-cache pressure; `--resume` recovered. **QASR still to do.** |
-| 14 | Build Levant/non-Levant binary split | ⏳ not started | → `data_curated_levant_binary_v1/` |
+| 14 | Build Levant/non-Levant binary split | ⏳ not started | → `data_curated_levant_binary_v1/`. **Now runs through `speaker_select` first** (2026-09-03) so splits are speaker-disjoint; `split` reads `speaker_assignments.json` rather than hashing rows. |
 | 15 | QASR audio-decode repair + rebuild | ⏳ not started | → `data_curated_levant_binary_v2_qasr_audio_fix/` |
 | 16 | Long-audio (>30s) segmentation: flag → VAD+forced-align segment → splice into `data/` (`scripts/segmentation/segment_whisperx.py` + `scripts/segmentation/replace_long_audio_in_data.py`) | ✅ done 07-31 | 608 rows flagged (218 `layla`, 375 `omnilingual_apc`, 15 `masc_c_only`) → 2,322 segments, spliced into `data/` in place; see `DATA_CURATION.md`. **Ran after step 11 (Layla), before steps 14-15 — see ordering note above re: stale `masc_c_only` dialect-ID rows.** |
 

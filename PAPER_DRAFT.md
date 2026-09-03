@@ -58,7 +58,7 @@ Five raw sources were combined:
 
 Casablanca, Omnilingual, and Layla were treated as inherently Levantine by construction (source-selected for Jordanian/Palestinian/North-Levantine dialect) and were not run through this classifier.
 
-**Final labeled corpus.** The resulting corpus (`data_curated_levant_binary_v1`) totals **1,887,366 rows, 2,209.91 hours**, split 70/15/15 into train/val/test, with MASC and Casablanca preserving each source's own native test-shard membership rather than a random re-split. Per-source hour totals:
+**Final labeled corpus.** The resulting corpus (`data_curated_levant_binary_v1`) totals **1,887,366 rows, 2,209.91 hours**, split 70/15/15 into train/val/test, with MASC and Casablanca preserving each source's own native test-shard membership rather than a random re-split. That 70/15/15 assignment is per row and therefore **not speaker-disjoint** (see Limitations); the pipeline has since been changed to assign whole speakers. Per-source hour totals:
 
 | source | hours | lev hours | non-lev hours |
 |---|---|---|---|
@@ -173,6 +173,7 @@ Whether continued training surpasses the zero-shot baseline — and by how much 
 - **Fine-tuning completeness:** the one active run is 2/50 budgeted epochs in, paused for compute reasons rather than convergence or early-stopping — the reported fine-tuned numbers should be read as a snapshot, not a final result.
 - **Train/eval domain mismatch:** as described in Section 3.2, train data (MASC/QASR, classifier-identified as Levantine) and val/test data (Casablanca/Omnilingual/Layla, naturalistic dialectal recordings) come from different recording domains and registers by construction. This is a deliberate test of cross-domain generalization, but it also means the reported WER conflates "how hard is Palestinian/Levantine ASR" with "how well does broadcast-domain fine-tuning transfer to conversational dialectal speech" — an ablation with matched-domain splits would help separate these two effects.
 - **Single-split evaluation:** results are reported on one fixed train/val/test partition (seed=42); no cross-validation or multiple-seed variance estimate is currently available.
+- **Speaker leakage in the source corpus split:** `data_curated_levant_binary_v1`'s 70/15/15 partition hashes each *row* independently, so a QASR recording or MASC video is scattered across all three splits. Measured on `data_lev_custom_split_v1`: ~100% of val's and ~99% of test's QASR recordings, and ~99% of both splits' MASC videos, also have rows in train. The headline results in this draft are not affected — their train set is MASC/QASR only while val/test are Casablanca/Omnilingual/Layla only, so the two sides share no recording — but any experiment evaluating on a MASC/QASR val or test split (including the 200 h mixes) is reporting on partially seen speakers. The pipeline now selects whole speakers per split and verifies disjointness; see [SPEAKER_DISJOINT_SELECTION.md](SPEAKER_DISJOINT_SELECTION.md).
 
 ---
 

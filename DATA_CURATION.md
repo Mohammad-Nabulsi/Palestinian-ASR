@@ -785,6 +785,14 @@ Moved shard files from `data/clean/` into `data/`:
 
 ## Binary Levantine Split Curation
 
+> **Superseded for train/val/test assignment (2026-09-03).** Everything below about the
+> *lev / non_lev* labelling still stands, but the `0.70 / 0.15 / 0.15` partition in step 4
+> is assigned per row and is **not speaker-disjoint**: ~100% of val's and ~99% of test's
+> QASR recordings also have rows in train, and ~99% of both's MASC videos do. The pipeline
+> now assigns whole speakers instead, via the `speaker_select` stage — see
+> [SPEAKER_DISJOINT_SELECTION.md](SPEAKER_DISJOINT_SELECTION.md). Re-generated trees should
+> come from that path; `data_curated_levant_binary_v1` predates it.
+
 To prepare the binary Levantine-vs-non-Levantine training layout, dialect identification was applied in two stages on the cleaned `masc_c` and `qasr` shards:
 
 1. Text dialect identification was run on the full cleaned MASC-C and QASR shards with:
