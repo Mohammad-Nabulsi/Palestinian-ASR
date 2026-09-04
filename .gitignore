@@ -104,3 +104,14 @@ __pycache__/
 
 # Speaker-ranking per-speaker dumps (regenerate with scripts/speaker_dialect_ranking.py)
 outputs/speaker_*/speakers_by_*.jsonl
+
+# Experiment-pipeline runtime state: PID files and phase-done markers are
+# meaningful only on the box that's actually running the queue, not as repo
+# history -- resuming elsewhere is driven by all_results.json / summary.json
+# (which chunk/stage is done), not by these.
+outputs/experiment_pipeline/*.pid
+outputs/experiment_pipeline/*.done
+
+# In-flight resume state for a training run (adapter weights + optimizer/RNG) --
+# transient by definition, superseded by the next checkpoint under checkpoints/.
+**/resume_state/

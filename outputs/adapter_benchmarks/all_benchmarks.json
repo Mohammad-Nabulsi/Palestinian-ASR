@@ -1,0 +1,298 @@
+{
+  "ep1_h100": {
+    "tag": "ep1_h100",
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep1_h100/adapter",
+    "base_model": "openai/whisper-medium",
+    "elapsed_s": 511.127943277359,
+    "datasets": {
+      "casablanca_palestinian": {
+        "n_total": 667,
+        "n_scored": 667,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5402246681039373,
+        "cer": 0.19955311512039745
+      },
+      "casablanca_jordanian": {
+        "n_total": 848,
+        "n_scored": 848,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.4356232939035487,
+        "cer": 0.14831903491697307
+      },
+      "layla": {
+        "n_total": 154,
+        "n_scored": 154,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.4465065502183406,
+        "cer": 0.21054365733113672
+      },
+      "omnilingual_apc": {
+        "n_total": 198,
+        "n_scored": 198,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5527884488011657,
+        "cer": 0.1959298832257896
+      }
+    }
+  },
+  "ep1_h150": {
+    "tag": "ep1_h150",
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep1_h150/adapter",
+    "base_model": "openai/whisper-medium",
+    "elapsed_s": 515.0210299491882,
+    "datasets": {
+      "casablanca_palestinian": {
+        "n_total": 667,
+        "n_scored": 667,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5350051060932713,
+        "cer": 0.19370557892985332
+      },
+      "casablanca_jordanian": {
+        "n_total": 848,
+        "n_scored": 848,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.42754777070063693,
+        "cer": 0.14485857784826858
+      },
+      "layla": {
+        "n_total": 154,
+        "n_scored": 154,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.37486353711790393,
+        "cer": 0.128500823723229
+      },
+      "omnilingual_apc": {
+        "n_total": 198,
+        "n_scored": 198,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5476222016161081,
+        "cer": 0.1747955798218344
+      }
+    }
+  },
+  "ep1_h200": {
+    "tag": "ep1_h200",
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep1_h200/adapter",
+    "base_model": "openai/whisper-medium",
+    "elapsed_s": 509.078040599823,
+    "datasets": {
+      "casablanca_palestinian": {
+        "n_total": 667,
+        "n_scored": 667,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5451038238965165,
+        "cer": 0.20808671468302076
+      },
+      "casablanca_jordanian": {
+        "n_total": 848,
+        "n_scored": 848,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.4427888989990901,
+        "cer": 0.15478336096892797
+      },
+      "layla": {
+        "n_total": 154,
+        "n_scored": 154,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.3857805676855895,
+        "cer": 0.14785831960461285
+      },
+      "omnilingual_apc": {
+        "n_total": 198,
+        "n_scored": 198,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5541131275665651,
+        "cer": 0.18571540531361844
+      }
+    }
+  },
+  "ep1_h50": {
+    "tag": "ep1_h50",
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep1_h50/adapter",
+    "base_model": "openai/whisper-medium",
+    "elapsed_s": 513.5102491378784,
+    "datasets": {
+      "casablanca_palestinian": {
+        "n_total": 667,
+        "n_scored": 667,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5396573244071259,
+        "cer": 0.19194656397822624
+      },
+      "casablanca_jordanian": {
+        "n_total": 848,
+        "n_scored": 848,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.433803457688808,
+        "cer": 0.1458198159229087
+      },
+      "layla": {
+        "n_total": 154,
+        "n_scored": 154,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.39001091703056767,
+        "cer": 0.13671059857221307
+      },
+      "omnilingual_apc": {
+        "n_total": 198,
+        "n_scored": 198,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5248377268512385,
+        "cer": 0.1681339637921576
+      }
+    }
+  },
+  "ep2_h100": {
+    "tag": "ep2_h100",
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep2_h100/adapter",
+    "base_model": "openai/whisper-medium",
+    "elapsed_s": 503.99881625175476,
+    "datasets": {
+      "casablanca_palestinian": {
+        "n_total": 667,
+        "n_scored": 667,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5182117326676501,
+        "cer": 0.19807934583660178
+      },
+      "casablanca_jordanian": {
+        "n_total": 848,
+        "n_scored": 848,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.41628753412192904,
+        "cer": 0.14382524691803042
+      },
+      "layla": {
+        "n_total": 154,
+        "n_scored": 154,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.4097980349344978,
+        "cer": 0.22959912136188906
+      },
+      "omnilingual_apc": {
+        "n_total": 198,
+        "n_scored": 198,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5563650814677441,
+        "cer": 0.21536612764178792
+      }
+    }
+  },
+  "ep2_h150": {
+    "tag": "ep2_h150",
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep2_h150/adapter",
+    "base_model": "openai/whisper-medium",
+    "elapsed_s": 507.49918603897095,
+    "datasets": {
+      "casablanca_palestinian": {
+        "n_total": 667,
+        "n_scored": 667,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5245659820719392,
+        "cer": 0.20297606313437447
+      },
+      "casablanca_jordanian": {
+        "n_total": 848,
+        "n_scored": 848,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.41606005459508644,
+        "cer": 0.14459423737774255
+      },
+      "layla": {
+        "n_total": 154,
+        "n_scored": 154,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.3956058951965066,
+        "cer": 0.1942339373970346
+      },
+      "omnilingual_apc": {
+        "n_total": 198,
+        "n_scored": 198,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5553053384554245,
+        "cer": 0.19720995846286477
+      }
+    }
+  },
+  "ep2_h200": {
+    "tag": "ep2_h200",
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep2_h200/adapter",
+    "base_model": "openai/whisper-medium",
+    "elapsed_s": 508.37604093551636,
+    "datasets": {
+      "casablanca_palestinian": {
+        "n_total": 667,
+        "n_scored": 667,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5289912629070691,
+        "cer": 0.2029522926620552
+      },
+      "casablanca_jordanian": {
+        "n_total": 848,
+        "n_scored": 848,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.4138989990900819,
+        "cer": 0.14259966837286425
+      },
+      "layla": {
+        "n_total": 154,
+        "n_scored": 154,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.386735807860262,
+        "cer": 0.1812191103789127
+      },
+      "omnilingual_apc": {
+        "n_total": 198,
+        "n_scored": 198,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5478871373691879,
+        "cer": 0.18879803547637086
+      }
+    }
+  },
+  "ep2_h50": {
+    "tag": "ep2_h50",
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep2_h50/adapter",
+    "base_model": "openai/whisper-medium",
+    "elapsed_s": 511.15361857414246,
+    "datasets": {
+      "casablanca_palestinian": {
+        "n_total": 667,
+        "n_scored": 667,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5188925451038239,
+        "cer": 0.20338016116380234
+      },
+      "casablanca_jordanian": {
+        "n_total": 848,
+        "n_scored": 848,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.4107142857142857,
+        "cer": 0.14135005887583207
+      },
+      "layla": {
+        "n_total": 154,
+        "n_scored": 154,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.3841430131004367,
+        "cer": 0.17778693025809994
+      },
+      "omnilingual_apc": {
+        "n_total": 198,
+        "n_scored": 198,
+        "n_dropped_empty_ref": 0,
+        "wer": 0.5398065969002517,
+        "cer": 0.18634238093994096
+      }
+    }
+  }
+}
