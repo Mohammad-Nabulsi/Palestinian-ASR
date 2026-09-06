@@ -16,12 +16,20 @@ transfer/
 ├── DIALECT_ID_SCANS.md            # which dialect-ID runs were kept/excluded and why
 ├── dialect_id_scans.tar.zst       # raw per-row dialect-ID scans (text + early audio bands)
 ├── bundle_docs_results_scripts.tar.zst  # archived docs/results/scripts snapshot
+├── HANDOFF.md                     # copy of the repo's start-point doc
+├── acoustic_scan_report.md/.json  # full-corpus acoustic dialect scan: 1.35M rows, 98.3% classified
+├── dialect_id_scans_full_v2.tar.zst  # raw per-row output of that scan (128 MB)
 ├── curated_corpus/                # THE corpus (see DATA_CURATION.md, PIPELINE.md) — source of truth
 │   ├── train/{casa,layla,masc,omni,qasr}/[lev|non_lev]/*.parquet.zst
 │   ├── val/...
 │   ├── test/...
 │   └── reports/                   # duration_stats.json, summary.json, per-source progress/checkpoints
 ├── data/
+│   ├── full_acoustic_split_v2/    # ← THE CURRENT DATASET. speaker_assignments.json +
+│   │                              # train_full_rank.json + train/val/test.parquet.
+│   │                              # Speaker-disjoint, ranked 0.3*text + 0.7*acoustic over the
+│   │                              # whole corpus: 8.37h test / 8.01h val / 200.00h train.
+│   │                              # See HANDOFF.md §3.
 │   ├── data_lev_custom_split_v1/  # standalone qasr+masc_c experiment (train/val/test/mix200h/
 │   │                              # train_nonlev200h/flat12h.parquet). NOT speaker-disjoint --
 │   │                              # see SPEAKER_DISJOINT_SELECTION.md. Retained because it is the

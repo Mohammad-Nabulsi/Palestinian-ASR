@@ -1,9 +1,20 @@
 #!/usr/bin/env python3
 """Create full-corpus speaker-disjoint test/val/train blocks from two scores."""
 from __future__ import annotations
-import argparse, json
+import argparse, json, re
 from collections import defaultdict
 from pathlib import Path
+
+# The audio scan writes a `speaker_key` field and short uids; the text scan predates
+# both and writes only a LONG uid that embeds the id, e.g.
+#   "...__clean.parquet:uid=qasr:0010E262-0FE5-...:..._utt_1_align"
+#   "...__clean.parquet:video_id=OGqz9G-JO0E"
+# Matching only the short form silently dropped every QASR text row and turned every
+# MASC text row into a filename-keyed speaker that joined to nothing -- zeroing the
+# text half of the score with no error. Same patterns as pipeline/speaker_scoring.py.
+QASR_LONG = re.compile(r"uid=qasr:([0-9A-Fa-f-]+):")
+QASR_SHORT = re.compile(r"^qasr:([0-9A-Fa-f-]+):")
+MASC_LONG = re.compile(r"video_id=([^:]+)$")
 
 def rows(paths):
     for path in paths:
@@ -16,20 +27,50 @@ def key(r):
     if source == "masc": source = "masc_c"
     if r.get("speaker_key"): return source, str(r["speaker_key"])
     uid = str(r.get("uid", ""))
-    if source == "qasr" and uid.startswith("qasr:"): return source, uid.split(":")[1]
-    if source == "masc_c": return source, uid.removeprefix("masc_c:").split(":")[0]
+    if source == "qasr":
+        m = QASR_LONG.search(uid) or QASR_SHORT.match(uid)
+        return (source, m.group(1)) if m else None
+    if source == "masc_c":
+        m = MASC_LONG.search(uid)
+        if m: return source, m.group(1)
+        return source, uid.removeprefix("masc_c:").split(":")[0]
     return None
+
+def lev(r, label):
+    """Levantine probability, from either scan's format.
+
+    The audio scan writes {"label_scores": {"Levantine": p, ...}}; the text scan
+    writes {"predictions": [{"label": "LEV", "score": p}, ...]} and carries no
+    label_scores at all, so reading only label_scores scored every text row 0.0.
+    """
+    scores = r.get("label_scores")
+    if isinstance(scores, dict): return scores.get(label, 0.)
+    for p in r.get("predictions") or []:
+        if p.get("label") == label: return float(p.get("score") or 0.)
+    return 0.
 
 def main():
     p=argparse.ArgumentParser(); p.add_argument("--text-scan", type=Path, nargs="+", required=True); p.add_argument("--audio-root", type=Path, required=True); p.add_argument("--out-dir", type=Path, required=True); a=p.parse_args()
     text=defaultdict(lambda:[0.,0]); audio=defaultdict(lambda:[0.,0,0.])
     for r in rows(a.text_scan):
         k=key(r)
-        if k and r.get("status", "ok") == "ok": text[k][0]+=(r.get("label_scores") or {}).get("LEV", 0.); text[k][1]+=1
+        if k and r.get("status", "ok") == "ok": text[k][0]+=lev(r, "LEV"); text[k][1]+=1
     for fp in sorted(a.audio_root.glob("*/row_probabilities.jsonl")):
         for r in rows([fp]):
             k=key(r)
-            if k and r.get("status") == "ok": audio[k][0]+=(r.get("label_scores") or {}).get("Levantine", 0.); audio[k][1]+=1; audio[k][2]+=float(r.get("duration_sec") or 0)/3600
+            if k and r.get("status") == "ok": audio[k][0]+=lev(r, "Levantine"); audio[k][1]+=1; audio[k][2]+=float(r.get("duration_sec") or 0)/3600
+    # A join failure here is invisible in the output -- the score just silently
+    # collapses to 0.7*audio and still produces a plausible-looking ranking. That
+    # shipped once. Fail loudly instead: the two scans cover the same corpus, so
+    # nearly every audio speaker must carry a text score too.
+    overlap = len(set(text) & set(audio))
+    if overlap < 0.5 * len(audio):
+        raise SystemExit(
+            f"text/audio speaker join failed: only {overlap} of {len(audio)} audio speakers "
+            f"matched a text speaker ({len(text)} text speakers seen). Check uid formats "
+            f"in --text-scan against key()."
+        )
+    print(f"joined {overlap} of {len(audio)} audio speakers to text scores", flush=True)
     speakers=[]
     for k in set(text)|set(audio):
         t, au=text[k], audio[k]
