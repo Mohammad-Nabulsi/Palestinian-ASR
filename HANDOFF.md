@@ -16,8 +16,28 @@ and their data is **not reproducible** (§8). `reverse_all` was cancelled for th
 |---|---|---|
 | scan | `scripts/full_acoustic_scan.py` | **done** — 1,347,856 rows, published to R2 |
 | score | `scripts/build_full_acoustic_speaker_split.py` | **done** — corrected formula (§3) |
-| extract | `scripts/extract_full_acoustic_speaker_split.py` | in progress at time of writing |
-| train | `scripts/train_whisper_medium_lora_sequence.py` | queued, starts automatically |
+| extract | `scripts/extract_full_acoustic_speaker_split.py` | **done** — dataset published to R2 |
+| train | `scripts/train_whisper_medium_lora_sequence.py` | **stopped deliberately, not crashed** — see below |
+
+**The dataset is finished and stored; training is the only thing outstanding.** The
+8-stage forward run was started and then halted on purpose about 70% through stage 1
+(`ep1/h50`, step ~4700/5706, loss ~1.2), so there are **no v2 WER numbers yet** and nothing
+under `adapters/lora_full_acoustic_v2/` on R2. `whisper_medium_lora_forward_v2/` holds a
+403 MB `resume_state/` and no completed checkpoints; `train_v2.done` was never written, and
+there is no `.stuck` marker because nothing failed.
+
+To pick it back up, restart the supervisor — it skips every completed phase via the `.done`
+markers and re-enters training, resuming from `resume_state/` at the LR the schedule had
+reached rather than restarting the cycle:
+
+```bash
+cd /root/Palestinian-ASR && setsid bash /workspace/asr_env/full_acoustic_v2/master_orchestrator_v2.sh \
+  < /dev/null > /dev/null 2>&1 &
+setsid bash /workspace/asr_env/full_acoustic_v2/publish_to_r2.sh < /dev/null > /dev/null 2>&1 &
+```
+
+Budget ~10 h on one RTX 4090 (1.22 steps/s, 5,706 steps per stage, 8 stages, plus val+test
+eval after each). The number to beat is v1's best: **44.67% val / 38.52% test** (§5).
 
 Supervisor: `/workspace/asr_env/full_acoustic_v2/master_orchestrator_v2.sh` (a copy of
 `scripts/run_full_acoustic_pipeline.sh` with credentials). Progress in `master.log`; each
