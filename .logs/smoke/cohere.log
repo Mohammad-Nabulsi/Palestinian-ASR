@@ -1,4 +1,0 @@
-[16:55:18] START asr_cohere_transcribe_finetune.ipynb (17 code cells) kernel=/workspace/venv_qwen_gpu/bin/python
-[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
-[16:59:12] DONE ALL CELLS in 233.6s
-[16:59:12] saved -> asr_cohere_transcribe_finetune.ipynb

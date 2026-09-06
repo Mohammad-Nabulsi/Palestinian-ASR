@@ -12,22 +12,38 @@ Bucket name: `backup`
 
 ```
 transfer/
-├── curated_corpus/                # final multi-source ASR corpus (see DATA_CURATION.md, PIPELINE.md)
+├── MANIFEST.md                    # what is in the bucket and why
+├── DIALECT_ID_SCANS.md            # which dialect-ID runs were kept/excluded and why
+├── dialect_id_scans.tar.zst       # raw per-row dialect-ID scans (text + early audio bands)
+├── bundle_docs_results_scripts.tar.zst  # archived docs/results/scripts snapshot
+├── curated_corpus/                # THE corpus (see DATA_CURATION.md, PIPELINE.md) — source of truth
 │   ├── train/{casa,layla,masc,omni,qasr}/[lev|non_lev]/*.parquet.zst
 │   ├── val/...
 │   ├── test/...
 │   └── reports/                   # duration_stats.json, summary.json, per-source progress/checkpoints
 ├── data/
-│   ├── data_lev_custom_split_v1/  # standalone qasr+masc_c experiment (train/val/test/mix200h/flat12h.parquet)
-│   │                              # NOTE: its train/val/test are NOT speaker-disjoint --
-│   │                              # see SPEAKER_DISJOINT_SELECTION.md
-│   └── speaker_disjoint_split_v1/ # the split *definition* that replaces it: speaker_assignments.json
+│   ├── data_lev_custom_split_v1/  # standalone qasr+masc_c experiment (train/val/test/mix200h/
+│   │                              # train_nonlev200h/flat12h.parquet). NOT speaker-disjoint --
+│   │                              # see SPEAKER_DISJOINT_SELECTION.md. Retained because it is the
+│   │                              # closest surviving copy of what the v1 runs trained on.
+│   └── speaker_disjoint_split_v1/ # the v1 split *definition*: speaker_assignments.json
 │                                  # (speaker -> split), selection.csv, the full ranking, and 150
 │                                  # inspection samples. Uploaded 2026-09-03; see its README.md
-└── adapters/                      # LoRA / Whisper fine-tuning checkpoints (training runs, not data)
-    ├── FINAL_200h/
-    └── whisper/
+└── adapters/
+    ├── lora_speaker_disjoint_2026-09-04/  # the v1 chunk-order runs: forward + reverse2 adapters,
+    │                                      # benchmarks and pipeline_results. KEPT IN FULL.
+    ├── FINAL_200h/                # ⚠ weights pruned 2026-09-06 — metrics/configs/READMEs only
+    └── whisper/                   # ⚠ weights pruned 2026-09-06 — metrics/configs/READMEs only
 ```
+
+**On the pruned adapter trees.** `adapters/whisper` (68 `whisper_medium_pal__*` runs from the
+earlier generalization/pretraining study) and `adapters/FINAL_200h` held 535 `.safetensors`/`.pt`
+files, 35.7 GB. Those weights were deleted on 2026-09-06 to get the bucket down to a minimal
+viable stack. **Every non-weight file was left exactly where it was** — 1,654 `.json`/`.md` files
+(per-epoch metrics, `best.json`, `results.json`, configs, READMEs), 3.3 MB — so each run's numbers
+and provenance are still readable in place. The same metrics are also mirrored in the repo under
+`generalization_results/`, `outputs/`, and `PRETRAINING_STUDY_REPORT.md`. The weights themselves
+are gone and those runs cannot be re-evaluated without retraining.
 
 `curated_corpus` shards are zstd-wrapped parquet (`*.parquet.zst`) — decompress the
 whole file before reading (`unzstd`), since it's a single compressed stream, not

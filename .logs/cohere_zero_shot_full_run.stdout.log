@@ -1,40 +1,0 @@
-Loading weights:   0%|          | 0/2150 [00:00<?, ?it/s]Loading weights:  24%|██▎       | 510/2150 [00:00<00:00, 5030.29it/s]Loading weights:  47%|████▋     | 1014/2150 [00:00<00:00, 3421.12it/s]Loading weights:  64%|██████▍   | 1386/2150 [00:00<00:00, 3122.84it/s]Loading weights:  80%|████████  | 1728/2150 [00:00<00:00, 3212.82it/s]Loading weights:  96%|█████████▋| 2072/2150 [00:00<00:00, 3282.06it/s]Loading weights: 100%|██████████| 2150/2150 [00:00<00:00, 3351.35it/s]
-2026-07-31 17:23:46,690 | INFO | [casablanca_jordanian] resume: 0 rows already done
-2026-07-31 17:23:46,691 | INFO | [casablanca_jordanian] loading 1 shard(s) into memory
-2026-07-31 17:23:50,152 | INFO | [casablanca_jordanian] 848 total rows, 0 already done, 848 pending (limit=None)
-2026-07-31 17:23:50,153 | INFO | [casablanca_jordanian] length-grouped into 14 batches (max_rows=64, max_batch_audio_s=400)
-2026-07-31 17:24:20,902 | INFO | [casablanca_jordanian] progress: batch 14/14 | 848 new / 848 pending (+0 resumed) | 27.58 rows/s | elapsed=31s | gpu=4.14GB alloc / 20.19GB reserved
-2026-07-31 17:24:20,902 | INFO | [casablanca_jordanian] prediction pass done: 848 new rows written (848 total incl. resumed) in 31s
-2026-07-31 17:24:21,031 | INFO | [casablanca_jordanian] metrics: {'n_total': 848, 'n_scored': 848, 'n_dropped_empty_ref': 0, 'wer': 0.2994767970882621, 'cer': 0.09919976930286209}
-2026-07-31 17:24:21,061 | INFO | [casablanca_palestinian] resume: 0 rows already done
-2026-07-31 17:24:21,061 | INFO | [casablanca_palestinian] loading 2 shard(s) into memory
-2026-07-31 17:24:26,298 | INFO | [casablanca_palestinian] 664 total rows, 0 already done, 664 pending (limit=None)
-2026-07-31 17:24:26,298 | INFO | [casablanca_palestinian] length-grouped into 13 batches (max_rows=64, max_batch_audio_s=400)
-2026-07-31 17:24:52,714 | INFO | [casablanca_palestinian] progress: batch 13/13 | 664 new / 664 pending (+0 resumed) | 25.14 rows/s | elapsed=26s | gpu=4.14GB alloc / 21.99GB reserved
-2026-07-31 17:24:52,714 | INFO | [casablanca_palestinian] prediction pass done: 664 new rows written (664 total incl. resumed) in 26s
-2026-07-31 17:24:52,836 | INFO | [casablanca_palestinian] metrics: {'n_total': 664, 'n_scored': 664, 'n_dropped_empty_ref': 0, 'wer': 0.380052373904133, 'cer': 0.1306452382087844}
-2026-07-31 17:24:52,855 | INFO | [masc_c_only] resume: 0 rows already done
-2026-07-31 17:24:52,855 | INFO | [masc_c_only] loading 9 shard(s) into memory
-2026-07-31 17:25:13,114 | INFO | [masc_c_only] 8623 total rows, 0 already done, 8623 pending (limit=None)
-2026-07-31 17:25:13,117 | INFO | [masc_c_only] length-grouped into 148 batches (max_rows=64, max_batch_audio_s=400)
-2026-07-31 17:27:14,521 | INFO | [masc_c_only] progress: batch 120/148 | 7646 new / 8623 pending (+0 resumed) | 62.98 rows/s | elapsed=121s | gpu=4.14GB alloc / 21.99GB reserved
-2026-07-31 17:28:08,455 | INFO | [masc_c_only] progress: batch 148/148 | 8623 new / 8623 pending (+0 resumed) | 49.18 rows/s | elapsed=175s | gpu=4.14GB alloc / 21.99GB reserved
-2026-07-31 17:28:08,455 | INFO | [masc_c_only] prediction pass done: 8623 new rows written (8623 total incl. resumed) in 175s
-2026-07-31 17:28:09,688 | INFO | [masc_c_only] metrics: {'n_total': 8623, 'n_scored': 8623, 'n_dropped_empty_ref': 0, 'wer': 0.19099471561876755, 'cer': 0.05811962966353984}
-2026-07-31 17:28:09,836 | INFO | [omnilingual_apc_full] resume: 0 rows already done
-2026-07-31 17:28:09,836 | INFO | [omnilingual_apc_full] loading 6 shard(s) into memory
-2026-07-31 17:28:17,659 | INFO | [omnilingual_apc_full] 1311 total rows, 0 already done, 1311 pending (limit=None)
-2026-07-31 17:28:17,660 | INFO | [omnilingual_apc_full] length-grouped into 74 batches (max_rows=64, max_batch_audio_s=400)
-2026-07-31 17:30:19,458 | INFO | [omnilingual_apc_full] progress: batch 53/74 | 1023 new / 1311 pending (+0 resumed) | 8.40 rows/s | elapsed=122s | gpu=4.14GB alloc / 21.99GB reserved
-2026-07-31 17:31:11,054 | INFO | [omnilingual_apc_full] progress: batch 74/74 | 1311 new / 1311 pending (+0 resumed) | 7.56 rows/s | elapsed=173s | gpu=4.14GB alloc / 21.99GB reserved
-2026-07-31 17:31:11,055 | INFO | [omnilingual_apc_full] prediction pass done: 1311 new rows written (1311 total incl. resumed) in 173s
-2026-07-31 17:31:11,708 | INFO | [omnilingual_apc_full] metrics: {'n_total': 1311, 'n_scored': 1311, 'n_dropped_empty_ref': 0, 'wer': 0.3545711854007086, 'cer': 0.10323730647383456}
-2026-07-31 17:31:11,769 | INFO | [layla] resume: 0 rows already done
-2026-07-31 17:31:11,769 | INFO | [layla] loading 4 shard(s) into memory
-2026-07-31 17:31:28,192 | INFO | [layla] 218 total rows, 0 already done, 218 pending (limit=None)
-2026-07-31 17:31:28,192 | INFO | [layla] length-grouped into 72 batches (max_rows=64, max_batch_audio_s=400)
-2026-07-31 17:33:30,188 | INFO | [layla] progress: batch 37/72 | 134 new / 218 pending (+0 resumed) | 1.10 rows/s | elapsed=122s | gpu=4.14GB alloc / 21.99GB reserved
-2026-07-31 17:35:14,634 | INFO | [layla] progress: batch 72/72 | 218 new / 218 pending (+0 resumed) | 0.96 rows/s | elapsed=226s | gpu=4.14GB alloc / 21.99GB reserved
-2026-07-31 17:35:14,634 | INFO | [layla] prediction pass done: 218 new rows written (218 total incl. resumed) in 226s
-2026-07-31 17:35:15,128 | INFO | [layla] metrics: {'n_total': 218, 'n_scored': 218, 'n_dropped_empty_ref': 0, 'wer': 0.22488529340738952, 'cer': 0.09716708842338445}
-2026-07-31 17:35:15,231 | INFO | Summary written to /root/Palestinian-ASR/outputs/cohere_transcribe_zero_shot/summary.json: {'casablanca_jordanian': {'n_total': 848, 'n_scored': 848, 'n_dropped_empty_ref': 0, 'wer': 0.2994767970882621, 'cer': 0.09919976930286209}, 'casablanca_palestinian': {'n_total': 664, 'n_scored': 664, 'n_dropped_empty_ref': 0, 'wer': 0.380052373904133, 'cer': 0.1306452382087844}, 'masc_c_only': {'n_total': 8623, 'n_scored': 8623, 'n_dropped_empty_ref': 0, 'wer': 0.19099471561876755, 'cer': 0.05811962966353984}, 'omnilingual_apc_full': {'n_total': 1311, 'n_scored': 1311, 'n_dropped_empty_ref': 0, 'wer': 0.3545711854007086, 'cer': 0.10323730647383456}, 'layla': {'n_total': 218, 'n_scored': 218, 'n_dropped_empty_ref': 0, 'wer': 0.22488529340738952, 'cer': 0.09716708842338445}}

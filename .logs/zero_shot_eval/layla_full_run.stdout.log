@@ -1,4 +1,0 @@
-Device set to use cuda:0
-2026-07-31 14:29:56,075 | INFO | [layla] resume: 0 rows already done
-2026-07-31 14:32:21,609 | INFO | [layla] progress: 8 new / 8 seen (+0 resumed) | 0.05 rows/s | elapsed=146s | gpu=3.10GB alloc / 15.75GB reserved
-2026-07-31 14:36:30,960 | INFO | [layla] progress: 24 new / 24 seen (+0 resumed) | 0.06 rows/s | elapsed=395s | gpu=3.10GB alloc / 15.75GB reserved

@@ -1,4 +1,0 @@
-[17:58:40] START asr_conformer_ctc_finetune.ipynb (17 code cells) kernel=/workspace/venv_nemo_gpu/bin/python
-[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
-[18:02:31] DONE ALL CELLS in 230.7s
-[18:02:31] saved -> asr_conformer_ctc_finetune.ipynb

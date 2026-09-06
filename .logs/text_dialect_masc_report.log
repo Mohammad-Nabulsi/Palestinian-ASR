@@ -1,6 +1,0 @@
-[2026-07-31T16:48:43.786045Z] text_dialect_masc progress=4.0266% completed=15038/373464 rows_per_sec=551.32 eta=10m50s errors=0 current_uid=masc_c_only__data__train-00006-of-00400.parquet__47af5fb410__clean.parquet:video_id=Ihe2QCt5Boc
-[2026-07-31T16:50:43.835739Z] text_dialect_masc progress=24.1239% completed=90094/373464 rows_per_sec=632.24 eta=7m28s errors=0 current_uid=masc_c_only__data__train-00090-of-00400.parquet__3aea8dd421__clean.parquet:video_id=uTBBuK__9ek
-[2026-07-31T16:52:43.884381Z] text_dialect_masc progress=44.2683% completed=165326/373464 rows_per_sec=615.35 eta=5m38s errors=0 current_uid=masc_c_only__data__train-00175-of-00400.parquet__871af8c060__clean.parquet:video_id=uTBBuK__9ek
-[2026-07-31T16:54:43.949328Z] text_dialect_masc progress=63.0347% completed=235412/373464 rows_per_sec=611.04 eta=3m45s errors=0 current_uid=masc_c_only__data__train-00253-of-00400.parquet__7edc1844fb__clean.parquet:video_id=t2FfK-RJbi4
-[2026-07-31T16:56:43.996248Z] text_dialect_masc progress=83.0375% completed=310115/373464 rows_per_sec=610.93 eta=1m43s errors=0 current_uid=masc_c_only__data__train-00337-of-00400.parquet__7517370abc__clean.parquet:video_id=2ieKxs5M8R0
-[2026-07-31T16:58:44.054998Z] text_dialect_masc progress=100.0% completed=373464/373464 rows_per_sec=608.9 eta=0s errors=0 current_uid=DONE
