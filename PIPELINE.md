@@ -26,6 +26,13 @@ The audit that motivated this found the same code copied with only paths changed
 A `diff` of the three cleaning scripts returns only `INPUT_ROOT`, `OUTPUT_ROOT` and the
 discovery globs. Those are now config values.
 
+> **Where the superseded scripts went.** The `.logs/clean_*.py` cleaners and the
+> `preprocess/fast_asr_*.ipynb` notebooks named in this table and in "Replaces" below
+> were removed from the working tree in the 2026-09-06 cleanup, since this pipeline is
+> the maintained implementation of all of them. They are still in git history — e.g.
+> `git show HEAD~1:.logs/clean_broad_v1.py` — and are listed here as a record of what
+> this design absorbed, not as files you should expect to find.
+
 ## Stages
 
 Six stage types, composed in any order by a config. A config entry has an `id` (unique,
@@ -139,7 +146,7 @@ Last verified run (all 7 stage instances `ok`, 15/15 assertions passed):
 
 ## Gotchas this design closes
 
-From `HANDOFF_DATA_PIPELINE.md`:
+Each of these bit the earlier ad-hoc scripts this pipeline replaced:
 
 - **Hardcoded `/home/MohammadNabulsi/whisper/` paths.** Gone — all paths come from config `vars`.
 - **`shutil.rmtree` on a symlinked output root.** Every stage that overwrites now raises a

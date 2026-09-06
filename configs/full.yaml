@@ -5,9 +5,9 @@
 #
 # Paths point at the real /workspace mount rather than the repo symlinks. That is
 # deliberate: several stages delete their output root before writing, and Python's
-# shutil.rmtree refuses to operate on a symlink (see HANDOFF_DATA_PIPELINE.md's
-# gotchas). The stages now raise a clear error instead of crashing, but pointing at
-# the real path avoids the situation entirely.
+# shutil.rmtree refuses to operate on a symlink (see PIPELINE.md's gotchas). The
+# stages now raise a clear error instead of crashing, but pointing at the real path
+# avoids the situation entirely.
 #
 # Availability of raw sources on this box, per DATA_CURATION.md's post-merge cleanup:
 #   QASR        available -- wav_all/ is the COMPLETE 3,545-recording set

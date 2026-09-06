@@ -683,7 +683,7 @@ Important note:
 
 **Superseded 2026-07-31** — the original four-JSON, direct-into-`data/` flow described
 below never actually ran end-to-end on this box: the raw `Layla/` source was lost and
-re-sourced (see `HANDOFF_DATA_PIPELINE.md` Gap 1), and the normalization pass grew to
+had to be re-sourced, and the normalization pass grew to
 six batches, closing a 42-row gap the first four left uncovered. Re-run instructions:
 
 **Raw source, as it actually exists on network storage:**
@@ -1043,7 +1043,7 @@ sub-segments have new `{video_id}__segNN` IDs that were never dialect-scored), s
 - The 30 new segment rows have no dialect-ID score at all.
 
 This is a **15-row / 373,464-row (~0.004%) gap** in a stage (14, the Levant binary
-split) that had not started as of this writing — see `HANDOFF_DATA_PIPELINE.md`. `layla`
+split) that had not started as of this writing. `layla`
 and `omnilingual_apc` were never part of the dialect-ID scan (only `masc_c` and `qasr`
 are), so they're unaffected. If step 14 is built before this gap is closed, either
 re-score just these 30 new rows or accept the negligible loss — do not assume the
