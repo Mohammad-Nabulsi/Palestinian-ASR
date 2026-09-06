@@ -1,0 +1,37 @@
+{
+  "masc_qasr_custom_test": {
+    "n_total": 5733,
+    "n_scored": 5733,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.4909652540833014,
+    "cer": 0.3286424859313017
+  },
+  "casablanca_palestinian": {
+    "n_total": 667,
+    "n_scored": 667,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.3811414955179848,
+    "cer": 0.1314031709810074
+  },
+  "casablanca_jordanian": {
+    "n_total": 848,
+    "n_scored": 848,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.29777070063694266,
+    "cer": 0.09845480979501597
+  },
+  "layla": {
+    "n_total": 154,
+    "n_scored": 154,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.22652838427947597,
+    "cer": 0.09008786381109281
+  },
+  "omnilingual_apc": {
+    "n_total": 198,
+    "n_scored": 198,
+    "n_dropped_empty_ref": 0,
+    "wer": 0.35474897337395683,
+    "cer": 0.09825230544162596
+  }
+}

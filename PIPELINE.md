@@ -26,9 +26,16 @@ The audit that motivated this found the same code copied with only paths changed
 A `diff` of the three cleaning scripts returns only `INPUT_ROOT`, `OUTPUT_ROOT` and the
 discovery globs. Those are now config values.
 
+> **Where the superseded scripts went.** The `.logs/clean_*.py` cleaners and the
+> `preprocess/fast_asr_*.ipynb` notebooks named in this table and in "Replaces" below
+> were removed from the working tree in the 2026-09-06 cleanup, since this pipeline is
+> the maintained implementation of all of them. They are still in git history — e.g.
+> `git show HEAD~1:.logs/clean_broad_v1.py` — and are listed here as a record of what
+> this design absorbed, not as files you should expect to find.
+
 ## Stages
 
-Five stage types, composed in any order by a config. A config entry has an `id` (unique,
+Six stage types, composed in any order by a config. A config entry has an `id` (unique,
 used for `--only`/`--skip` and report paths) and a `stage` (the type below).
 
 | Stage | Does | Replaces |
@@ -37,7 +44,8 @@ used for `--only`/`--skip` and report paths) and a `stage` (the type below).
 | `clean` | drop rules + Arabic normalization, per-dataset globs | `.logs/clean_broad_v1.py`, `.logs/clean_targeted_*.py`, `.logs/clean_qasr_part2.py`, the 3 notebooks, `build_qasr_casablanca_omnilingual_cleaning_notebook.py`, `reclean_omnilingual_v2.py`, `reclean_omnilingual_v3.py`, `recover_omnilingual_token_span_rows_v3.py` |
 | `assemble` | many cleaned trees → one curated root, with replacement | `merge_cleaned_outputs_and_report.py`, `replace_merged_omnilingual_with_recovered.py`, `create_data_with_final_omnilingual.py`, the manual "flatten `clean/`" step |
 | `dialect` | per-row dialect ID → `row_probabilities.jsonl` | `arabic_text_dialect_scan_marbertv2_written.py`, `arabic_dialect_scan_badrex_mms300m.py` |
-| `split` | binary Levantine routing + train/val/test | `create_levant_non_levant_splits.py`, `rebuild_qasr_only_levant_binary.py`, `repair_qasr_audio_and_rebuild_levant_binary.py` |
+| `speaker_select` | group both dialect passes per speaker, rank, cut val/test/train blocks → `speaker_assignments.json` | (new; supersedes the short-lived `speaker_aggregate`) |
+| `split` | binary Levantine routing + speaker-disjoint train/val/test | `create_levant_non_levant_splits.py`, `rebuild_qasr_only_levant_binary.py`, `repair_qasr_audio_and_rebuild_levant_binary.py` |
 
 Shared code lives in [pipeline/textnorm.py](pipeline/textnorm.py) (normalization,
 detectors, pre-check strategies) and [pipeline/shards.py](pipeline/shards.py)
@@ -79,6 +87,9 @@ raw sources ──ingest──▶ {work}/ingested ──clean──▶ {work}/cl
                  │                     │
                  └──────────┬──────────┘
                             ▼
+                    speaker_select ──▶ speaker_assignments.json
+                            │           (needs BOTH verdicts, so it runs
+                            ▼            after the audio pass, not between)
                           split ──▶ {split}/{leaf}/{lev|non_lev}/
 ```
 
@@ -135,7 +146,7 @@ Last verified run (all 7 stage instances `ok`, 15/15 assertions passed):
 
 ## Gotchas this design closes
 
-From `HANDOFF_DATA_PIPELINE.md`:
+Each of these bit the earlier ad-hoc scripts this pipeline replaced:
 
 - **Hardcoded `/home/MohammadNabulsi/whisper/` paths.** Gone — all paths come from config `vars`.
 - **`shutil.rmtree` on a symlinked output root.** Every stage that overwrites now raises a
@@ -144,9 +155,12 @@ From `HANDOFF_DATA_PIPELINE.md`:
   `--only`/`--skip` restart at any stage boundary.
 - **Buffered stdout hiding progress.** The runner flushes every log line and mirrors it to
   `{run_root}/reports/run.log`.
-- **Non-reproducible splits.** Split assignment is a hash of
-  `(seed, leaf, source_file, row_idx)` — stable per row, no counting pass, so partial
-  reruns land rows in the same split.
+- **Speaker leakage across splits.** Split assignment used to be a hash of
+  `(seed, leaf, source_file, row_idx)`: stable and reproducible per row, but blind to who
+  was speaking, so ~99–100% of val's and test's qasr recordings also had rows in train.
+  `speaker_select` now assigns whole speakers and `split` follows that assignment; the
+  hash path survives only for leaves with no speaker key (omni, layla, casa/*). See
+  [SPEAKER_DISJOINT_SELECTION.md](SPEAKER_DISJOINT_SELECTION.md).
 
 ## A bug this consolidation surfaced
 

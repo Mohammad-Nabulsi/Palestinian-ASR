@@ -1,215 +1,0 @@
-Imports ready.
-INPUT_ROOT: /workspace/asr/Palestinian-ASR
-OUTPUT_ROOT: /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_part2_v1
-DISCOVERY_GLOBS:
- - processed_qasr_segments_part2/train/*.arrow
-RAW : أكلتُ التفاحةَ، وقال: آهـــ!
-NORM: اكلت التفاحة وقال اه
-english: False number: False bracket: False
-
-RAW : مرحبا [laugh] كيفك؟
-NORM: مرحبا laugh كيفك
-english: True number: False bracket: True
-
-RAW : test عربي
-NORM: test عربي
-english: True number: False bracket: False
-
-RAW : عندي ٣ كتب
-NORM: عندي ٣ كتب
-english: False number: True bracket: False
-
-Discovery summary:
-- processed_qasr_segments_part2/train/*.arrow: 304 file(s)
-Found parquet files: 0
-Found arrow files  : 304
-Found jsonl files  : 0
-Will process files : 304
-- /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000000.arrow
-- /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000001.arrow
-- /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000002.arrow
-- /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000003.arrow
-- /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000004.arrow
-- /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000005.arrow
-- /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000006.arrow
-- /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000007.arrow
-- /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000008.arrow
-- /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000009.arrow
-RESUME: reprocessing shard_000046.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000209.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000210.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000211.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000212.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000213.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000214.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000215.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000216.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000217.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000218.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000219.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000220.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000221.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000222.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000223.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000224.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000225.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000226.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000227.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000228.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000229.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000230.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000231.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000232.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000233.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000234.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000235.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000236.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000237.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000238.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000239.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000240.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000241.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000242.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000243.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000244.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000245.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000246.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000247.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000248.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000249.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000250.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000251.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000252.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000253.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000254.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000255.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000256.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000257.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000258.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000259.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000260.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000261.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000262.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000263.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: reprocessing shard_000270.arrow, existing clean shard unreadable: ArrowInvalid('Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.')
-RESUME: 226 shards already complete, 78 to process
-[2026-07-30 15:20:41] START cleaning
-[2026-07-30 15:20:41] Input files: 78
-[2026-07-30 15:20:41] Output root: /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_part2_v1
-Files:   0%|          | 0/78 [00:00<?, ?it/s][2026-07-30 15:20:41] FILE 1/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000046.arrow
-Files:   1%|▏         | 1/78 [00:04<06:20,  4.94s/it][2026-07-30 15:20:46] FILE 2/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000209.arrow
-Files:   3%|▎         | 2/78 [00:10<06:39,  5.25s/it][2026-07-30 15:20:51] FILE 3/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000210.arrow
-Files:   4%|▍         | 3/78 [00:14<06:08,  4.91s/it][2026-07-30 15:20:56] FILE 4/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000211.arrow
-Files:   5%|▌         | 4/78 [00:19<05:46,  4.69s/it][2026-07-30 15:21:00] FILE 5/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000212.arrow
-Files:   6%|▋         | 5/78 [00:23<05:35,  4.60s/it][2026-07-30 15:21:05] FILE 6/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000213.arrow
-Files:   8%|▊         | 6/78 [00:28<05:30,  4.59s/it][2026-07-30 15:21:09] FILE 7/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000214.arrow
-Files:   9%|▉         | 7/78 [00:32<05:18,  4.49s/it][2026-07-30 15:21:13] FILE 8/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000215.arrow
-Files:  10%|█         | 8/78 [00:37<05:32,  4.75s/it][2026-07-30 15:21:19] FILE 9/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000216.arrow
-Files:  12%|█▏        | 9/78 [00:42<05:23,  4.69s/it][2026-07-30 15:21:23] FILE 10/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000217.arrow
-Files:  13%|█▎        | 10/78 [00:47<05:23,  4.76s/it][2026-07-30 15:21:28] FILE 11/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000218.arrow
-Files:  14%|█▍        | 11/78 [00:53<05:45,  5.16s/it][2026-07-30 15:21:34] FILE 12/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000219.arrow
-Files:  15%|█▌        | 12/78 [00:59<05:58,  5.44s/it][2026-07-30 15:21:40] FILE 13/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000220.arrow
-[2026-07-30 15:21:46] PROGRESS rows=51,599 kept=48,658 dropped=2,941 rows/sec=788.8
-Files:  17%|█▋        | 13/78 [01:05<06:03,  5.59s/it][2026-07-30 15:21:46] FILE 14/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000221.arrow
-Files:  18%|█▊        | 14/78 [01:10<05:40,  5.32s/it][2026-07-30 15:21:51] FILE 15/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000222.arrow
-Files:  19%|█▉        | 15/78 [01:14<05:24,  5.14s/it][2026-07-30 15:21:56] FILE 16/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000223.arrow
-Files:  21%|██        | 16/78 [01:19<05:14,  5.07s/it][2026-07-30 15:22:01] FILE 17/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000224.arrow
-Files:  22%|██▏       | 17/78 [01:24<05:12,  5.12s/it][2026-07-30 15:22:06] FILE 18/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000225.arrow
-Files:  23%|██▎       | 18/78 [01:30<05:13,  5.23s/it][2026-07-30 15:22:11] FILE 19/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000226.arrow
-Files:  24%|██▍       | 19/78 [01:36<05:20,  5.43s/it][2026-07-30 15:22:17] FILE 20/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000227.arrow
-Files:  26%|██▌       | 20/78 [01:40<04:56,  5.12s/it][2026-07-30 15:22:22] FILE 21/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000228.arrow
-Files:  27%|██▋       | 21/78 [01:46<04:57,  5.22s/it][2026-07-30 15:22:27] FILE 22/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000229.arrow
-Files:  28%|██▊       | 22/78 [01:53<05:19,  5.71s/it][2026-07-30 15:22:34] FILE 23/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000230.arrow
-Files:  29%|██▉       | 23/78 [02:00<05:45,  6.28s/it][2026-07-30 15:22:42] FILE 24/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000231.arrow
-Files:  31%|███       | 24/78 [02:06<05:27,  6.07s/it][2026-07-30 15:22:47] FILE 25/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000232.arrow
-Files:  32%|███▏      | 25/78 [02:11<05:07,  5.79s/it][2026-07-30 15:22:52] FILE 26/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000233.arrow
-Files:  33%|███▎      | 26/78 [02:16<04:50,  5.59s/it][2026-07-30 15:22:57] FILE 27/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000234.arrow
-[2026-07-30 15:23:03] PROGRESS rows=105,808 kept=99,598 dropped=6,210 rows/sec=745.1
-Files:  35%|███▍      | 27/78 [02:21<04:43,  5.55s/it][2026-07-30 15:23:03] FILE 28/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000235.arrow
-Files:  36%|███▌      | 28/78 [02:27<04:33,  5.48s/it][2026-07-30 15:23:08] FILE 29/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000236.arrow
-Files:  37%|███▋      | 29/78 [02:33<04:34,  5.60s/it][2026-07-30 15:23:14] FILE 30/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000237.arrow
-Files:  38%|███▊      | 30/78 [02:38<04:21,  5.45s/it][2026-07-30 15:23:19] FILE 31/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000238.arrow
-Files:  40%|███▉      | 31/78 [02:43<04:09,  5.31s/it][2026-07-30 15:23:24] FILE 32/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000239.arrow
-Files:  41%|████      | 32/78 [02:49<04:13,  5.52s/it][2026-07-30 15:23:30] FILE 33/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000240.arrow
-Files:  42%|████▏     | 33/78 [02:55<04:13,  5.62s/it][2026-07-30 15:23:36] FILE 34/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000241.arrow
-Files:  44%|████▎     | 34/78 [02:59<03:53,  5.31s/it][2026-07-30 15:23:41] FILE 35/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000242.arrow
-Files:  45%|████▍     | 35/78 [03:04<03:37,  5.07s/it][2026-07-30 15:23:45] FILE 36/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000243.arrow
-Files:  46%|████▌     | 36/78 [03:09<03:33,  5.09s/it][2026-07-30 15:23:50] FILE 37/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000244.arrow
-Files:  47%|████▋     | 37/78 [03:15<03:41,  5.41s/it][2026-07-30 15:23:56] FILE 38/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000245.arrow
-Files:  49%|████▊     | 38/78 [03:21<03:41,  5.53s/it][2026-07-30 15:24:02] FILE 39/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000246.arrow
-Files:  50%|█████     | 39/78 [03:27<03:38,  5.61s/it][2026-07-30 15:24:08] FILE 40/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000247.arrow
-Files:  51%|█████▏    | 40/78 [03:32<03:29,  5.50s/it][2026-07-30 15:24:13] FILE 41/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000248.arrow
-[2026-07-30 15:24:19] PROGRESS rows=159,148 kept=149,714 dropped=9,434 rows/sec=730.8
-Files:  53%|█████▎    | 41/78 [03:37<03:22,  5.47s/it][2026-07-30 15:24:19] FILE 42/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000249.arrow
-Files:  54%|█████▍    | 42/78 [03:44<03:26,  5.74s/it][2026-07-30 15:24:25] FILE 43/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000250.arrow
-Files:  55%|█████▌    | 43/78 [03:49<03:21,  5.76s/it][2026-07-30 15:24:31] FILE 44/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000251.arrow
-Files:  56%|█████▋    | 44/78 [03:55<03:10,  5.59s/it][2026-07-30 15:24:36] FILE 45/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000252.arrow
-Files:  58%|█████▊    | 45/78 [04:00<03:00,  5.46s/it][2026-07-30 15:24:41] FILE 46/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000253.arrow
-Files:  59%|█████▉    | 46/78 [04:06<02:59,  5.60s/it][2026-07-30 15:24:47] FILE 47/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000254.arrow
-Files:  60%|██████    | 47/78 [04:11<02:53,  5.58s/it][2026-07-30 15:24:53] FILE 48/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000255.arrow
-Files:  62%|██████▏   | 48/78 [04:18<02:56,  5.90s/it][2026-07-30 15:24:59] FILE 49/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000256.arrow
-Files:  63%|██████▎   | 49/78 [04:24<02:55,  6.04s/it][2026-07-30 15:25:06] FILE 50/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000257.arrow
-Files:  64%|██████▍   | 50/78 [04:30<02:46,  5.93s/it][2026-07-30 15:25:11] FILE 51/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000258.arrow
-Files:  65%|██████▌   | 51/78 [04:35<02:30,  5.59s/it][2026-07-30 15:25:16] FILE 52/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000259.arrow
-Files:  67%|██████▋   | 52/78 [04:41<02:27,  5.69s/it][2026-07-30 15:25:22] FILE 53/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000260.arrow
-Files:  68%|██████▊   | 53/78 [04:47<02:25,  5.84s/it][2026-07-30 15:25:28] FILE 54/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000261.arrow
-[2026-07-30 15:25:35] PROGRESS rows=210,209 kept=197,666 dropped=12,543 rows/sec=714.8
-Files:  69%|██████▉   | 54/78 [04:54<02:27,  6.15s/it][2026-07-30 15:25:35] FILE 55/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000262.arrow
-Files:  71%|███████   | 55/78 [05:00<02:23,  6.22s/it][2026-07-30 15:25:41] FILE 56/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000263.arrow
-Files:  72%|███████▏  | 56/78 [05:06<02:12,  6.03s/it][2026-07-30 15:25:47] FILE 57/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000270.arrow
-Files:  73%|███████▎  | 57/78 [05:11<02:00,  5.75s/it][2026-07-30 15:25:52] FILE 58/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000283.arrow
-Files:  74%|███████▍  | 58/78 [05:16<01:50,  5.54s/it][2026-07-30 15:25:57] FILE 59/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000284.arrow
-Files:  76%|███████▌  | 59/78 [05:20<01:39,  5.21s/it][2026-07-30 15:26:02] FILE 60/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000285.arrow
-Files:  77%|███████▋  | 60/78 [05:26<01:35,  5.29s/it][2026-07-30 15:26:07] FILE 61/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000286.arrow
-Files:  78%|███████▊  | 61/78 [05:31<01:31,  5.36s/it][2026-07-30 15:26:13] FILE 62/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000287.arrow
-Files:  79%|███████▉  | 62/78 [05:36<01:21,  5.11s/it][2026-07-30 15:26:17] FILE 63/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000288.arrow
-Files:  81%|████████  | 63/78 [05:41<01:15,  5.03s/it][2026-07-30 15:26:22] FILE 64/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000289.arrow
-Files:  82%|████████▏ | 64/78 [05:45<01:09,  4.96s/it][2026-07-30 15:26:27] FILE 65/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000290.arrow
-Files:  83%|████████▎ | 65/78 [05:51<01:05,  5.02s/it][2026-07-30 15:26:32] FILE 66/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000291.arrow
-Files:  85%|████████▍ | 66/78 [05:56<01:01,  5.14s/it][2026-07-30 15:26:37] FILE 67/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000292.arrow
-[2026-07-30 15:26:43] PROGRESS rows=261,829 kept=246,313 dropped=15,516 rows/sec=723.3
-Files:  86%|████████▌ | 67/78 [06:01<00:57,  5.23s/it][2026-07-30 15:26:43] FILE 68/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000293.arrow
-Files:  87%|████████▋ | 68/78 [06:06<00:50,  5.03s/it][2026-07-30 15:26:47] FILE 69/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000294.arrow
-Files:  88%|████████▊ | 69/78 [06:11<00:44,  4.96s/it][2026-07-30 15:26:52] FILE 70/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000295.arrow
-Files:  90%|████████▉ | 70/78 [06:16<00:40,  5.03s/it][2026-07-30 15:26:57] FILE 71/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000296.arrow
-Files:  91%|█████████ | 71/78 [06:21<00:35,  5.08s/it][2026-07-30 15:27:03] FILE 72/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000297.arrow
-Files:  92%|█████████▏| 72/78 [06:27<00:31,  5.24s/it][2026-07-30 15:27:08] FILE 73/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000298.arrow
-Files:  94%|█████████▎| 73/78 [06:32<00:26,  5.30s/it][2026-07-30 15:27:14] FILE 74/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000299.arrow
-Files:  95%|█████████▍| 74/78 [06:37<00:20,  5.07s/it][2026-07-30 15:27:18] FILE 75/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000300.arrow
-Files:  96%|█████████▌| 75/78 [06:41<00:14,  4.89s/it][2026-07-30 15:27:23] FILE 76/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000301.arrow
-Files:  97%|█████████▋| 76/78 [06:45<00:09,  4.65s/it][2026-07-30 15:27:27] FILE 77/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000302.arrow
-Files:  99%|█████████▊| 77/78 [06:50<00:04,  4.72s/it][2026-07-30 15:27:32] FILE 78/78: /workspace/asr/Palestinian-ASR/processed_qasr_segments_part2/train/shard_000303.arrow
-Files: 100%|██████████| 78/78 [06:54<00:00,  4.41s/it]Files: 100%|██████████| 78/78 [06:54<00:00,  5.31s/it]
-[2026-07-30 15:27:50] DONE rows=301,244 elapsed_min=7.15
-{'total': 301244, 'kept': 283562, 'contains_number': 14658, 'dropped_contains_number': 14526, 'contains_english': 1532, 'dropped_contains_english': 1532, 'audio_too_short': 1666, 'dropped_audio_too_short': 1624}
-Reports written to: /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_part2_v1/reports
-  dataset   total  ...  dropped_contains_number  pct_dropped_contains_number
-0    qasr  301244  ...                    14526                     4.822005
-
-[1 rows x 22 columns]
-Clean shards: 304
-
-Dropped folders:
-- audio_too_short: 303 shard(s)
-- contains_english: 302 shard(s)
-- contains_number: 304 shard(s)
-
-Report files:
-- /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_part2_v1/reports/cleaning_report.json
-- /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_part2_v1/reports/config.json
-- /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_part2_v1/reports/per_dataset_report.csv
-- /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_part2_v1/reports/run.log
-- /workspace/asr/Palestinian-ASR/data_cleaned_text_qasr_part2_v1/reports/run_manifest.json
-                                          transcript  ... flag_contains_bracket_token
-0                           السلام عليكم وأهلاً بكم،  ...                       False
-1  أكدت مصادر قبلية يمنية سقوط عشرات من القتلى في...  ...                       False
-2            ووصفت هذه المعارك بأنها الأعنف من نوعها  ...                       False
-3         في مناطق عدة من محافظة عمران شمالي البلاد،  ...                       False
-4  هذا وقد بدأت محاولة للتوسط من أجل وقف هذه المو...  ...                       False
-5              نتوقف مع هذا الخبر لنناقشه في محورين:  ...                       False
-6  ما مدى علاقة اتساع رقعة المعارك بين الحوثيين و...  ...                       False
-7         والتوجه إلى بناء دولة اتحادية يمنية جديدة؟  ...                       False
-8  ما هي الصيغ الممكنة لنزع عوامل الاضطراب في الي...  ...                       False
-9  بعد نحو أسبوعين من سريان وقف إطلاق النار بين ا...  ...                       False
-
-[10 rows x 5 columns]

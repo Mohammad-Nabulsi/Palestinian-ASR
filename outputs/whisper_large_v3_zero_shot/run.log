@@ -20,3 +20,47 @@
 2026-07-31 13:45:08,204 | INFO | [masc_c_only] progress: 616 new / 616 seen (+0 resumed) | 1.25 rows/s | elapsed=492s | gpu=3.10GB alloc / 15.44GB reserved
 2026-07-31 13:47:13,610 | INFO | [masc_c_only] progress: 752 new / 752 seen (+0 resumed) | 1.22 rows/s | elapsed=617s | gpu=3.10GB alloc / 15.44GB reserved
 2026-07-31 13:49:15,085 | INFO | [masc_c_only] progress: 904 new / 904 seen (+0 resumed) | 1.22 rows/s | elapsed=738s | gpu=3.10GB alloc / 15.44GB reserved
+2026-07-31 13:53:53,623 | INFO | [omnilingual_apc_full] resume: 0 rows already done
+2026-07-31 13:56:35,763 | INFO | [omnilingual_apc_full] progress: 16 new / 16 seen (+0 resumed) | 0.10 rows/s | elapsed=162s | gpu=3.10GB alloc / 15.28GB reserved
+2026-07-31 13:58:55,697 | INFO | [omnilingual_apc_full] progress: 32 new / 32 seen (+0 resumed) | 0.11 rows/s | elapsed=302s | gpu=3.10GB alloc / 15.28GB reserved
+2026-07-31 14:01:37,461 | INFO | [omnilingual_apc_full] progress: 56 new / 56 seen (+0 resumed) | 0.12 rows/s | elapsed=464s | gpu=3.10GB alloc / 15.28GB reserved
+2026-07-31 14:03:38,932 | INFO | [omnilingual_apc_full] progress: 72 new / 72 seen (+0 resumed) | 0.12 rows/s | elapsed=585s | gpu=3.10GB alloc / 15.28GB reserved
+2026-07-31 14:06:20,233 | INFO | [omnilingual_apc_full] progress: 96 new / 96 seen (+0 resumed) | 0.13 rows/s | elapsed=747s | gpu=3.10GB alloc / 15.28GB reserved
+2026-07-31 14:29:56,075 | INFO | [layla] resume: 0 rows already done
+2026-07-31 14:32:21,609 | INFO | [layla] progress: 8 new / 8 seen (+0 resumed) | 0.05 rows/s | elapsed=146s | gpu=3.10GB alloc / 15.75GB reserved
+2026-07-31 14:36:30,960 | INFO | [layla] progress: 24 new / 24 seen (+0 resumed) | 0.06 rows/s | elapsed=395s | gpu=3.10GB alloc / 15.75GB reserved
+2026-09-03 14:01:02,965 | INFO | [masc_qasr_custom_test] resume: 0 rows already done
+2026-09-03 14:03:03,189 | INFO | [masc_qasr_custom_test] progress: 366 new / 366 seen (+0 resumed) | 3.05 rows/s | elapsed=120s | gpu=3.10GB alloc / 11.17GB reserved
+2026-09-03 14:05:03,501 | INFO | [masc_qasr_custom_test] progress: 828 new / 828 seen (+0 resumed) | 3.44 rows/s | elapsed=241s | gpu=3.10GB alloc / 11.17GB reserved
+2026-09-03 14:07:03,593 | INFO | [masc_qasr_custom_test] progress: 1350 new / 1350 seen (+0 resumed) | 3.74 rows/s | elapsed=361s | gpu=3.10GB alloc / 11.17GB reserved
+2026-09-03 14:09:03,980 | INFO | [masc_qasr_custom_test] progress: 1746 new / 1746 seen (+0 resumed) | 3.63 rows/s | elapsed=481s | gpu=3.10GB alloc / 11.17GB reserved
+2026-09-03 14:11:04,817 | INFO | [masc_qasr_custom_test] progress: 2154 new / 2154 seen (+0 resumed) | 3.58 rows/s | elapsed=602s | gpu=3.10GB alloc / 11.28GB reserved
+2026-09-03 14:13:06,336 | INFO | [masc_qasr_custom_test] progress: 2580 new / 2580 seen (+0 resumed) | 3.57 rows/s | elapsed=723s | gpu=3.10GB alloc / 11.28GB reserved
+2026-09-03 14:15:06,815 | INFO | [masc_qasr_custom_test] progress: 2994 new / 2994 seen (+0 resumed) | 3.55 rows/s | elapsed=844s | gpu=3.10GB alloc / 11.28GB reserved
+2026-09-03 14:17:07,060 | INFO | [masc_qasr_custom_test] progress: 3408 new / 3408 seen (+0 resumed) | 3.54 rows/s | elapsed=964s | gpu=3.10GB alloc / 11.36GB reserved
+2026-09-03 14:19:07,570 | INFO | [masc_qasr_custom_test] progress: 3840 new / 3840 seen (+0 resumed) | 3.54 rows/s | elapsed=1085s | gpu=3.10GB alloc / 11.36GB reserved
+2026-09-03 14:21:07,620 | INFO | [masc_qasr_custom_test] progress: 4272 new / 4272 seen (+0 resumed) | 3.55 rows/s | elapsed=1205s | gpu=3.10GB alloc / 11.36GB reserved
+2026-09-03 14:23:08,167 | INFO | [masc_qasr_custom_test] progress: 4686 new / 4686 seen (+0 resumed) | 3.54 rows/s | elapsed=1325s | gpu=3.10GB alloc / 11.36GB reserved
+2026-09-03 14:25:09,804 | INFO | [masc_qasr_custom_test] progress: 5100 new / 5100 seen (+0 resumed) | 3.53 rows/s | elapsed=1447s | gpu=3.10GB alloc / 11.36GB reserved
+2026-09-03 14:27:10,783 | INFO | [masc_qasr_custom_test] progress: 5526 new / 5526 seen (+0 resumed) | 3.52 rows/s | elapsed=1568s | gpu=3.10GB alloc / 11.36GB reserved
+2026-09-03 14:28:11,909 | INFO | [masc_qasr_custom_test] prediction pass done: 5733 new rows written (5733 total incl. resumed) in 1629s
+2026-09-03 14:28:12,445 | INFO | [masc_qasr_custom_test] metrics: {'n_total': 5733, 'n_scored': 5733, 'n_dropped_empty_ref': 0, 'wer': 0.4467101411237407, 'cer': 0.26945785540760786}
+2026-09-03 14:28:12,452 | INFO | [casablanca_palestinian] resume: 0 rows already done
+2026-09-03 14:30:15,516 | INFO | [casablanca_palestinian] progress: 228 new / 228 seen (+0 resumed) | 1.85 rows/s | elapsed=123s | gpu=3.10GB alloc / 11.82GB reserved
+2026-09-03 14:32:19,067 | INFO | [casablanca_palestinian] progress: 474 new / 474 seen (+0 resumed) | 1.92 rows/s | elapsed=247s | gpu=3.10GB alloc / 11.82GB reserved
+2026-09-03 14:33:53,586 | INFO | [casablanca_palestinian] prediction pass done: 667 new rows written (667 total incl. resumed) in 341s
+2026-09-03 14:33:53,647 | INFO | [casablanca_palestinian] metrics: {'n_total': 667, 'n_scored': 667, 'n_dropped_empty_ref': 0, 'wer': 0.5057301713377964, 'cer': 0.18248591599515082}
+2026-09-03 14:33:53,662 | INFO | [casablanca_jordanian] resume: 0 rows already done
+2026-09-03 14:35:53,754 | INFO | [casablanca_jordanian] progress: 348 new / 348 seen (+0 resumed) | 2.90 rows/s | elapsed=120s | gpu=3.10GB alloc / 11.97GB reserved
+2026-09-03 14:37:56,543 | INFO | [casablanca_jordanian] progress: 672 new / 672 seen (+0 resumed) | 2.77 rows/s | elapsed=243s | gpu=3.10GB alloc / 11.97GB reserved
+2026-09-03 14:39:03,345 | INFO | [casablanca_jordanian] prediction pass done: 848 new rows written (848 total incl. resumed) in 310s
+2026-09-03 14:39:03,406 | INFO | [casablanca_jordanian] metrics: {'n_total': 848, 'n_scored': 848, 'n_dropped_empty_ref': 0, 'wer': 0.4030937215650591, 'cer': 0.13695239468435344}
+2026-09-03 14:39:03,419 | INFO | [layla] resume: 0 rows already done
+2026-09-03 14:41:05,469 | INFO | [layla] progress: 102 new / 102 seen (+0 resumed) | 0.84 rows/s | elapsed=122s | gpu=3.10GB alloc / 11.97GB reserved
+2026-09-03 14:42:12,013 | INFO | [layla] prediction pass done: 154 new rows written (154 total incl. resumed) in 189s
+2026-09-03 14:42:12,050 | INFO | [layla] metrics: {'n_total': 154, 'n_scored': 154, 'n_dropped_empty_ref': 0, 'wer': 0.35002729257641924, 'cer': 0.12273476112026359}
+2026-09-03 14:42:12,054 | INFO | [omnilingual_apc] resume: 0 rows already done
+2026-09-03 14:44:15,807 | INFO | [omnilingual_apc] progress: 114 new / 114 seen (+0 resumed) | 0.92 rows/s | elapsed=124s | gpu=3.10GB alloc / 12.24GB reserved
+2026-09-03 14:45:38,948 | INFO | [omnilingual_apc] prediction pass done: 198 new rows written (198 total incl. resumed) in 207s
+2026-09-03 14:45:38,992 | INFO | [omnilingual_apc] metrics: {'n_total': 198, 'n_scored': 198, 'n_dropped_empty_ref': 0, 'wer': 0.4942376473705127, 'cer': 0.16126335588703988}
+2026-09-03 14:45:38,998 | INFO | Summary written to /root/Palestinian-ASR/outputs/whisper_large_v3_zero_shot/summary.json: {'masc_qasr_custom_test': {'n_total': 5733, 'n_scored': 5733, 'n_dropped_empty_ref': 0, 'wer': 0.4467101411237407, 'cer': 0.26945785540760786}, 'casablanca_palestinian': {'n_total': 667, 'n_scored': 667, 'n_dropped_empty_ref': 0, 'wer': 0.5057301713377964, 'cer': 0.18248591599515082}, 'casablanca_jordanian': {'n_total': 848, 'n_scored': 848, 'n_dropped_empty_ref': 0, 'wer': 0.4030937215650591, 'cer': 0.13695239468435344}, 'layla': {'n_total': 154, 'n_scored': 154, 'n_dropped_empty_ref': 0, 'wer': 0.35002729257641924, 'cer': 0.12273476112026359}, 'omnilingual_apc': {'n_total': 198, 'n_scored': 198, 'n_dropped_empty_ref': 0, 'wer': 0.4942376473705127, 'cer': 0.16126335588703988}}

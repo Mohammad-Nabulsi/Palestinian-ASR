@@ -1,0 +1,37 @@
+{
+  "tag": "ep1_h150",
+  "run": "forward",
+  "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep1_h150/adapter",
+  "base_model": "openai/whisper-medium",
+  "elapsed_s": 515.0210299491882,
+  "datasets": {
+    "casablanca_palestinian": {
+      "n_total": 667,
+      "n_scored": 667,
+      "n_dropped_empty_ref": 0,
+      "wer": 0.5350051060932713,
+      "cer": 0.19370557892985332
+    },
+    "casablanca_jordanian": {
+      "n_total": 848,
+      "n_scored": 848,
+      "n_dropped_empty_ref": 0,
+      "wer": 0.42754777070063693,
+      "cer": 0.14485857784826858
+    },
+    "layla": {
+      "n_total": 154,
+      "n_scored": 154,
+      "n_dropped_empty_ref": 0,
+      "wer": 0.37486353711790393,
+      "cer": 0.128500823723229
+    },
+    "omnilingual_apc": {
+      "n_total": 198,
+      "n_scored": 198,
+      "n_dropped_empty_ref": 0,
+      "wer": 0.5476222016161081,
+      "cer": 0.1747955798218344
+    }
+  }
+}

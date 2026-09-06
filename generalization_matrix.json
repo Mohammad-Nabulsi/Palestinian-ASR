@@ -1,0 +1,546 @@
+[
+  {
+    "name": "run2_1ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run2_jor/openai__whisper-medium/stage1/epoch001"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run2_2ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run2_jor/openai__whisper-medium/stage1/epoch002"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run2_1ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run2_jor/openai__whisper-medium/stage1/epoch001"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run2_jor/openai__whisper-medium/stage2/best",
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run2_2ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run2_jor/openai__whisper-medium/stage1/epoch002"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run2_jor_stage1ep2/openai__whisper-medium/stage2/best",
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run3_1ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run3_omni/openai__whisper-medium/stage1/epoch001"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "layla_test",
+      "casa_jor_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run3_2ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run3_omni/openai__whisper-medium/stage1/epoch002"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "layla_test",
+      "casa_jor_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run3_1ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run3_omni/openai__whisper-medium/stage1/epoch001"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run3_omni/openai__whisper-medium/stage2/best",
+    "domains": [
+      "layla_test",
+      "casa_jor_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run3_2ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run3_omni/openai__whisper-medium/stage1/epoch002"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run3_omni_stage1ep2/openai__whisper-medium/stage2/best",
+    "domains": [
+      "layla_test",
+      "casa_jor_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run4_1ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run4_omni_jor/openai__whisper-medium/stage1/epoch001"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "layla_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run4_2ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run4_omni_jor/openai__whisper-medium/stage1/epoch002"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "layla_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run4_1ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run4_omni_jor/openai__whisper-medium/stage1/epoch001"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run4_omni_jor/openai__whisper-medium/stage2/best",
+    "domains": [
+      "layla_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run4_2ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run4_omni_jor/openai__whisper-medium/stage1/epoch002"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run4_omni_jor_stage1ep2/openai__whisper-medium/stage2/best",
+    "domains": [
+      "layla_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run5_1ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run5_layla_jor/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run5_2ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run5_layla_jor_s1ep2/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run5_1ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run5_layla_jor/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run5_layla_jor/openai__whisper-medium/stage2/best",
+    "domains": [
+      "omni_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run5_2ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run5_layla_jor_s1ep2/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run5_layla_jor_s1ep2_s2ep2/openai__whisper-medium/stage2/epoch002",
+    "domains": [
+      "omni_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run6_1ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run6_qasr_lev_10h/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run6_2ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run6_qasr_lev_10h_ep2/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run6_1ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run6_qasr_lev_10h/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run6_qasr_lev_10h/openai__whisper-medium/stage2/best",
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run6_2ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run6_qasr_lev_10h_ep2/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run6_qasr_lev_10h_ep2/openai__whisper-medium/stage2/best",
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run7_1ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run7_qasr_non_lev_50h/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run7_2ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run7_qasr_non_lev_50h_ep2/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run7_1ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run7_qasr_non_lev_50h/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run7_qasr_non_lev_50h/openai__whisper-medium/stage2/best",
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run7_2ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run7_qasr_non_lev_50h_ep2/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run7_qasr_non_lev_50h_ep2/openai__whisper-medium/stage2/best",
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run8_1ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run8_qasr_lev_masc_lev/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run8_1ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run8_qasr_lev_masc_lev/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run8_qasr_lev_masc_lev/openai__whisper-medium/stage2/best",
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run8_2ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run8_qasr_lev_masc_lev_ep2/openai__whisper-medium/stage1/epoch002"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run8_2ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run8_qasr_lev_masc_lev_ep2/openai__whisper-medium/stage1/epoch002"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run8_qasr_lev_masc_lev_ep2/openai__whisper-medium/stage2/best",
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run9_1ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run9_qasr_lev_masc_lev_nonlev50h/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run9_1ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run9_qasr_lev_masc_lev_nonlev50h/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run9_qasr_lev_masc_lev_nonlev50h/openai__whisper-medium/stage2/best",
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run9_2ep_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run9_qasr_lev_masc_lev_nonlev50h_ep2/openai__whisper-medium/stage1/epoch002"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run9_2ep_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run9_qasr_lev_masc_lev_nonlev50h_ep2/openai__whisper-medium/stage1/epoch002"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run9_qasr_lev_masc_lev_nonlev50h_ep2/openai__whisper-medium/stage2/best",
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run10_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run10_all_combined/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run10_stage2final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run10_all_combined/openai__whisper-medium/stage1/best"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run10_all_combined/openai__whisper-medium/stage2/best",
+    "domains": [
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run11_stage1_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run11_qasr_nonlev_then_masc_qasr_lev/stage1_merged_adapter"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "qasr_lev_2h",
+      "masc_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run11_stage2_alone",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run11_qasr_nonlev_then_masc_qasr_lev/stage1_merged_adapter",
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run11_qasr_nonlev_then_masc_qasr_lev/stage2_merged_adapter"
+    ],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "run11_stage3final",
+    "merge_adapters": [
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run11_qasr_nonlev_then_masc_qasr_lev/stage1_merged_adapter",
+      "/workspace/asr_env/checkpoints/whisper_medium_pal__run11_qasr_nonlev_then_masc_qasr_lev/stage2_merged_adapter"
+    ],
+    "final_adapter": "/workspace/asr_env/checkpoints/whisper_medium_pal__run11_qasr_nonlev_then_masc_qasr_lev/openai__whisper-medium/stage3/best",
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "masc_non_lev_2h"
+    ]
+  },
+  {
+    "name": "whisper_base_zeroshot_a",
+    "merge_adapters": [],
+    "final_adapter": null,
+    "domains": [
+      "omni_test",
+      "layla_test",
+      "casa_jor_test",
+      "qasr_lev_2h"
+    ]
+  },
+  {
+    "name": "whisper_base_zeroshot_b",
+    "merge_adapters": [],
+    "final_adapter": null,
+    "domains": [
+      "masc_lev_2h",
+      "qasr_non_lev_2h",
+      "masc_non_lev_2h"
+    ]
+  }
+]

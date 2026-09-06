@@ -6,6 +6,11 @@ QASR/
 .venv*/
 venv*/
 
+# Hugging Face datasets cache
+.cache_hf_datasets/
+
+# Logs
+*.log
 # Model directories (downloaded weights/checkpoints) - never track these, any depth/name
 models/
 **/models/
@@ -44,6 +49,9 @@ Runs/**/outputs/
 # to a directory - so these are listed WITHOUT a trailing slash to also catch the symlink itself.
 data
 data_*
+# ...except DVC pointer files, which are small metadata (not data) and must be git-tracked
+# for DVC versioning to work (e.g. data_finetune_mix_v1.dvc).
+!*.dvc
 processed_qasr_segments
 omnilingual_selected
 casablanca
@@ -90,3 +98,20 @@ __pycache__/
 .sample_data/
 .sample_run/
 .pipeline/
+
+# Scratch/working directory for this session's ad-hoc pipeline runs
+.logs/
+
+# Speaker-ranking per-speaker dumps (regenerate with scripts/speaker_dialect_ranking.py)
+outputs/speaker_*/speakers_by_*.jsonl
+
+# Experiment-pipeline runtime state: PID files and phase-done markers are
+# meaningful only on the box that's actually running the queue, not as repo
+# history -- resuming elsewhere is driven by all_results.json / summary.json
+# (which chunk/stage is done), not by these.
+outputs/experiment_pipeline/*.pid
+outputs/experiment_pipeline/*.done
+
+# In-flight resume state for a training run (adapter weights + optimizer/RNG) --
+# transient by definition, superseded by the next checkpoint under checkpoints/.
+**/resume_state/
