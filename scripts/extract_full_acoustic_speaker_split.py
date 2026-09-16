@@ -71,7 +71,7 @@ def to_wav_bytes(cell, sampling_rate=None):
         return None, None, "decode"
 
 def main():
- p=argparse.ArgumentParser();p.add_argument('--assignments',type=Path,required=True);p.add_argument('--out-dir',type=Path,required=True);p.add_argument('--work-dir',type=Path,required=True);p.add_argument('--remote',default='R2:backup/transfer/curated_corpus/train');p.add_argument('--audio-dir',type=Path,default=None,help='write WAVs here and store paths instead of embedding audio in the parquet');p.add_argument('--rclone',default='rclone');a=p.parse_args();a.out_dir.mkdir(parents=True,exist_ok=True);a.work_dir.mkdir(parents=True,exist_ok=True)
+ p=argparse.ArgumentParser();p.add_argument('--assignments',type=Path,required=True);p.add_argument('--out-dir',type=Path,required=True);p.add_argument('--work-dir',type=Path,required=True);p.add_argument('--remote',default='R2:backup/transfer/curated_corpus/train');p.add_argument('--audio-dir',type=Path,default=None,help='write WAVs here and store paths instead of embedding audio in the parquet');p.add_argument('--rclone',default='rclone');p.add_argument('--limit-shards',type=int,default=0,help='process at most N shards per source/leaf (smoke-testing the pipeline; 0=all)');a=p.parse_args();a.out_dir.mkdir(parents=True,exist_ok=True);a.work_dir.mkdir(parents=True,exist_ok=True)
  global RCLONE; RCLONE=a.rclone
  schema_out = PATH_SCHEMA if a.audio_dir else SCHEMA
  if a.audio_dir: a.audio_dir.mkdir(parents=True,exist_ok=True)
@@ -85,7 +85,9 @@ def main():
   outsource='masc_c' if source=='masc' else 'qasr'; ident='video_id' if source=='masc' else 'recording_id'
   for leaf in ('lev','non_lev'):
    remote=f'{a.remote}/{source}/{leaf}'
-   for name in sorted(x for x in rc(['lsf',remote]).splitlines() if x.endswith('.parquet.zst')):
+   names=sorted(x for x in rc(['lsf',remote]).splitlines() if x.endswith('.parquet.zst'))
+   if a.limit_shards: names=names[:a.limit_shards]
+   for name in names:
     z,pqfile=a.work_dir/'shard.parquet.zst',a.work_dir/'shard.parquet';rc(['copy',f'{remote}/{name}',str(a.work_dir)]);(a.work_dir/name).replace(z);subprocess.run(['unzstd','-f','-o',str(pqfile),str(z)],check=True);z.unlink()
     schema=pq.ParquetFile(pqfile).schema_arrow; text=next(x for x in ('text','normalized_transcript','transcript','manual_normalized_transcript') if x in schema.names); uid='uid' if 'uid' in schema.names else ident
     has_sr = 'sampling_rate' in schema.names
