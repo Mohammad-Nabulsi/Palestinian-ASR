@@ -25,12 +25,22 @@ def to_wav_bytes(cell, sampling_rate=None):
     raw = cell["bytes"] if isinstance(cell, dict) else bytes(cell)
     try:
         if sampling_rate is not None and raw[:4] not in (b"RIFF", b"fLaC", b"OggS"):
-            data = np.frombuffer(raw, dtype="<i2")
+            data = (np.frombuffer(raw, dtype="<i2").astype(np.float32) / 32768.0)
             sr = int(sampling_rate)
         else:
-            data, sr = sf.read(io.BytesIO(raw), dtype="int16", always_2d=False)
-            if data.ndim > 1: data = data.mean(axis=1).astype("int16")
+            # MASC's WAV is 32-bit IEEE float (audio_format=3, with a `fact`
+            # chunk) -- asking soundfile to decode straight to dtype="int16"
+            # on this layout silently returns near-all-zero samples instead
+            # of scaling floats into int16 range (confirmed empirically: the
+            # same bytes read at their native float32 dtype peak at ~0.93,
+            # i.e. real speech, but come back as all-0 when dtype="int16" is
+            # requested directly). Always decode at the file's native float
+            # dtype and scale to int16 ourselves, exactly like this repo's
+            # other working decoder (full_acoustic_scan.py's decode()).
+            data, sr = sf.read(io.BytesIO(raw), dtype="float32", always_2d=False)
+            if data.ndim > 1: data = data.mean(axis=1)
         if len(data) == 0: return None, None
+        data = np.clip(data * 32768.0, -32768, 32767).astype("int16")
         buf = io.BytesIO()
         sf.write(buf, data, sr, format="WAV", subtype="PCM_16")
         return buf.getvalue(), len(data) / sr
