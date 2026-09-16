@@ -37,6 +37,7 @@ import json
 import logging
 import random
 import sys
+import threading
 import time
 from pathlib import Path
 
@@ -72,17 +73,46 @@ def setup_logger(log_path: Path) -> logging.Logger:
     return logger
 
 
-def parse_sequence(spec: str) -> list[int]:
+def parse_sequence(spec: str, n_chunks: int = N_CHUNKS) -> list[int]:
     """"4,3,2,1" -> [3, 2, 1, 0]: user-facing chunk numbers to 0-based indices."""
     out = []
     for part in spec.split(","):
         n = int(part.strip())
-        if not 1 <= n <= N_CHUNKS:
-            raise ValueError(f"chunk number {n} out of range 1..{N_CHUNKS}")
+        if not 1 <= n <= n_chunks:
+            raise ValueError(f"chunk number {n} out of range 1..{n_chunks}")
         out.append(n - 1)
     if not out:
         raise ValueError("empty sequence")
     return out
+
+
+def start_heartbeat(logger: logging.Logger, state: dict, interval_s: float) -> threading.Thread:
+    """Log a liveness line every interval_s from a daemon thread.
+
+    The per-step log lines already show progress, but they stop appearing for
+    entirely different reasons -- finished a stage, mid-eval, wedged on a CUDA
+    call, or dead. A heartbeat on its own timer separates "no step logs because
+    it is busy elsewhere" from "no step logs because nothing is running": if the
+    heartbeat is still ticking the process is alive, and `since_last_step`
+    tells you whether the training loop itself has advanced recently.
+    """
+    def beat() -> None:
+        while not state.get("stop"):
+            time.sleep(interval_s)
+            if state.get("stop"):
+                break
+            now = time.time()
+            mem = ""
+            if torch.cuda.is_available():
+                mem = (f" gpu_alloc={torch.cuda.memory_allocated()/2**30:.1f}GiB"
+                       f" gpu_reserved={torch.cuda.memory_reserved()/2**30:.1f}GiB")
+            last = state.get("last_step_time")
+            since = f"{now - last:.0f}s" if last else "n/a"
+            logger.info("HEARTBEAT alive elapsed=%.0fs phase=%s since_last_step=%s%s",
+                        now - state["t0"], state.get("phase", "?"), since, mem)
+    t = threading.Thread(target=beat, name="heartbeat", daemon=True)
+    t.start()
+    return t
 
 
 def stage_tag(stage_pos: int, chunk_idx: int) -> str:
@@ -185,14 +215,35 @@ def main() -> None:
     ap.add_argument("--warmup-ratio", type=float, default=0.1)
     ap.add_argument("--save-every", type=int, default=250)
     ap.add_argument("--log-every", type=int, default=20)
+    ap.add_argument("--n-chunks", type=int, default=N_CHUNKS,
+                    help="how many chunks the train block is sliced into (200h/50h=4, 300h/50h=6)")
+    ap.add_argument("--chunk-hours", type=float, default=CHUNK_HOURS)
+    ap.add_argument("--test-eval", choices=("stage", "end"), default="stage",
+                    help="'stage' scores the test set after every stage; 'end' only after the last one")
+    ap.add_argument("--heartbeat-min", type=float, default=20.0,
+                    help="minutes between liveness lines in the log (0 disables)")
     args = ap.parse_args()
 
-    sequence = parse_sequence(args.sequence)
+    sequence = parse_sequence(args.sequence, args.n_chunks)
     out_dir = Path(args.out_dir)
     (out_dir / "checkpoints").mkdir(parents=True, exist_ok=True)
     logger = setup_logger(out_dir / "train.log")
     logger.info("run=%s sequence=%s (user-facing chunk numbers: %s) init_from=%s offset=%d",
                 args.run_name, sequence, args.sequence, args.init_from, args.init_stage_offset)
+    logger.info("n_chunks=%d chunk_hours=%.1f test_eval=%s", args.n_chunks, args.chunk_hours, args.test_eval)
+
+    hb_state = {"t0": time.time(), "phase": "startup", "last_step_time": time.time(), "stop": False}
+
+    class _StampLastActivity(logging.Handler):
+        """Records when the run last logged anything that wasn't a heartbeat, so
+        the heartbeat can report how long the real work has been silent."""
+        def emit(self, record: logging.LogRecord) -> None:
+            if not record.getMessage().startswith("HEARTBEAT"):
+                hb_state["last_step_time"] = time.time()
+
+    logger.addHandler(_StampLastActivity())
+    if args.heartbeat_min > 0:
+        start_heartbeat(logger, hb_state, args.heartbeat_min * 60.0)
 
     random.seed(SEED)
     np.random.seed(SEED)
@@ -205,7 +256,8 @@ def main() -> None:
     test_ds = ParquetAudioTextDataset(Path(args.test_parquet))
     logger.info("train=%d val=%d test=%d rows", len(train_ds), len(val_ds), len(test_ds))
 
-    chunk_indices = build_chunk_indices(train_ds, Path(args.rank_meta), logger)
+    chunk_indices = build_chunk_indices(train_ds, Path(args.rank_meta), logger,
+                                        n_chunks=args.n_chunks, chunk_hours=args.chunk_hours)
 
     model, processor = build_model(logger)
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -251,6 +303,7 @@ def main() -> None:
             continue
 
         this_resume_step = resume_step if stage_pos == start_stage else 0
+        hb_state["phase"] = f"train {tag} ({stage_pos + 1}/{len(sequence)})"
         logger.info("=== %s: stage %d/%d, chunk %d ===", tag, stage_pos + 1, len(sequence), chunk_idx + 1)
         # train_one_chunk's (epoch, chunk_idx) pair only feeds its shuffle seed and
         # log labels; stage_pos stands in for epoch so each stage of this sequence
@@ -268,25 +321,42 @@ def main() -> None:
         save_state(model, optimizer, scheduler, stage_pos, 0, stage_done=True, state_dir=state_dir)
         logger.info("%s adapter + state saved", tag)
 
+        # The test set is the one number this study is finally judged on, so by
+        # default it is scored at every stage. --test-eval end scores it only after
+        # the final stage: with a 6-chunk x 2-epoch sequence that is 12 full
+        # autoregressive decodes of the test set saved, hours of GPU time, and it
+        # keeps the test set from being watched (and implicitly selected on)
+        # throughout the run.
+        is_last_stage = stage_pos == len(sequence) - 1
+        score_test = args.test_eval == "stage" or is_last_stage
+
+        hb_state["phase"] = f"eval {tag}"
         val_metrics = run_eval(model, processor, val_ds, args.eval_batch_size, logger, f"{tag}/val")
-        test_metrics = run_eval(model, processor, test_ds, args.eval_batch_size, logger, f"{tag}/test")
+        test_metrics = (run_eval(model, processor, test_ds, args.eval_batch_size, logger, f"{tag}/test")
+                        if score_test else None)
         # Held-out likelihood alongside WER/CER: a teacher-forced pass is ~2 min
         # against the ~11 min autoregressive decode, and it is the only signal that
         # distinguishes a WER plateau from actual overfitting. The forward run has
         # no such number natively -- scripts/eval_val_loss.py backfills it there.
         val_loss = compute_loss(model, processor, val_ds, args.eval_batch_size, logger, f"{tag}/val")
-        test_loss = compute_loss(model, processor, test_ds, args.eval_batch_size, logger, f"{tag}/test")
-        logger.info("[loss:%s] val=%.4f (ppl %.2f) test=%.4f (ppl %.2f)", tag,
-                    val_loss["loss"], val_loss["perplexity"],
-                    test_loss["loss"], test_loss["perplexity"])
+        test_loss = (compute_loss(model, processor, test_ds, args.eval_batch_size, logger, f"{tag}/test")
+                     if score_test else None)
+        if score_test:
+            logger.info("[loss:%s] val=%.4f (ppl %.2f) test=%.4f (ppl %.2f)", tag,
+                        val_loss["loss"], val_loss["perplexity"],
+                        test_loss["loss"], test_loss["perplexity"])
+        else:
+            logger.info("[loss:%s] val=%.4f (ppl %.2f) test=skipped (--test-eval end)", tag,
+                        val_loss["loss"], val_loss["perplexity"])
 
         summary = {
             "run": args.run_name, "tag": tag, "stage": stage_pos + 1,
             "chunk": chunk_idx + 1, "sequence": args.sequence,
-            "cumulative_hours_trained": CHUNK_HOURS * (stage_pos + 1),
+            "cumulative_hours_trained": args.chunk_hours * (stage_pos + 1),
             "elapsed_total_s": time.time() - run_t0,
             "val": {k: v for k, v in val_metrics.items() if k != "per_utterance"},
-            "test": {k: v for k, v in test_metrics.items() if k != "per_utterance"},
+            "test": ({k: v for k, v in test_metrics.items() if k != "per_utterance"}
+                     if test_metrics is not None else None),
             "val_loss": val_loss,
             "test_loss": test_loss,
             "train_loss": {
@@ -301,6 +371,8 @@ def main() -> None:
         results_path.write_text(json.dumps(all_results, indent=2, ensure_ascii=False))
         logger.info("SUMMARY %s: %s", tag, json.dumps(summary, ensure_ascii=False))
 
+    hb_state["phase"] = "done"
+    hb_state["stop"] = True
     logger.info("ALL DONE in %.0fs", time.time() - run_t0)
 
 

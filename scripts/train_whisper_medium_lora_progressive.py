@@ -131,20 +131,24 @@ def make_collate_fn(processor):
     return collate
 
 
-def build_chunk_indices(train_ds: ParquetAudioTextDataset, rank_meta_path: Path, logger: logging.Logger) -> list[list[int]]:
-    """Row indices for each of the 4 confidence-ordered ~50h chunks.
+def build_chunk_indices(train_ds: ParquetAudioTextDataset, rank_meta_path: Path, logger: logging.Logger,
+                        n_chunks: int = N_CHUNKS, chunk_hours: float = CHUNK_HOURS) -> list[list[int]]:
+    """Row indices for each confidence-ordered ~chunk_hours chunk.
 
     rank_meta (written by the extraction script) gives every train speaker's
     cumulative hours in score order; a row belongs to chunk k if its speaker's
-    cumulative-hours mark falls in ((k)*CHUNK_HOURS, (k+1)*CHUNK_HOURS].
+    cumulative-hours mark falls in ((k)*chunk_hours, (k+1)*chunk_hours]. Whether
+    "score order" runs most-confident-first or least-confident-first is decided
+    when rank_meta is written (build_full_acoustic_speaker_split.py --train-order),
+    so chunk 0 is simply "the first chunk_hours of the curriculum".
     """
     rank_meta = json.loads(rank_meta_path.read_text())
     boundary_of_speaker: dict[tuple[str, str], int] = {}
     for entry in rank_meta:
-        chunk = min(N_CHUNKS - 1, int(entry["cum_hours"] // CHUNK_HOURS))
+        chunk = min(n_chunks - 1, int(entry["cum_hours"] // chunk_hours))
         boundary_of_speaker[(entry["source"], entry["speaker_key"])] = chunk
 
-    chunks: list[list[int]] = [[] for _ in range(N_CHUNKS)]
+    chunks: list[list[int]] = [[] for _ in range(n_chunks)]
     unresolved = 0
     for i in range(len(train_ds)):
         key = (train_ds.source[i], train_ds.speaker_key[i])
@@ -155,9 +159,14 @@ def build_chunk_indices(train_ds: ParquetAudioTextDataset, rank_meta_path: Path,
         chunks[chunk].append(i)
 
     for k, idxs in enumerate(chunks):
-        logger.info("chunk %d (target <=%.0fh): %d rows", k, (k + 1) * CHUNK_HOURS, len(idxs))
+        logger.info("chunk %d (target <=%.0fh): %d rows", k, (k + 1) * chunk_hours, len(idxs))
     if unresolved:
         logger.warning("%d rows had no speaker-rank match and were excluded", unresolved)
+    empty = [k for k, idxs in enumerate(chunks) if not idxs]
+    if empty:
+        raise SystemExit(f"chunks {empty} are empty -- rank meta covers "
+                         f"{max((e['cum_hours'] for e in rank_meta), default=0):.1f}h but "
+                         f"{n_chunks} x {chunk_hours}h were requested")
     return chunks
 
 

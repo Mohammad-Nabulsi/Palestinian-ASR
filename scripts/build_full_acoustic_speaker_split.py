@@ -50,7 +50,16 @@ def lev(r, label):
     return 0.
 
 def main():
-    p=argparse.ArgumentParser(); p.add_argument("--text-scan", type=Path, nargs="+", required=True); p.add_argument("--audio-root", type=Path, required=True); p.add_argument("--out-dir", type=Path, required=True); a=p.parse_args()
+    p=argparse.ArgumentParser(); p.add_argument("--text-scan", type=Path, nargs="+", required=True); p.add_argument("--audio-root", type=Path, required=True); p.add_argument("--out-dir", type=Path, required=True)
+    p.add_argument("--test-hours", type=float, default=8.); p.add_argument("--val-hours", type=float, default=8.); p.add_argument("--train-hours", type=float, default=200.)
+    # Selection always fills from the top of the ranking (test gets the most
+    # confidently Levantine speakers, then val, then train). --train-order only
+    # controls the order train speakers are RECORDED in train_full_rank.json,
+    # which is what slices the train block into the trainer's 50h chunks:
+    #   desc = most confident 50h first (v1/v2 "forward" curriculum)
+    #   asc  = least confident 50h first, most confident last
+    p.add_argument("--train-order", choices=("desc","asc"), default="desc")
+    a=p.parse_args()
     text=defaultdict(lambda:[0.,0]); audio=defaultdict(lambda:[0.,0,0.])
     for r in rows(a.text_scan):
         k=key(r)
@@ -78,16 +87,21 @@ def main():
         if not au[1] or not au[2]: continue
         speakers.append({"source":k[0],"speaker_key":k[1],"text_mean":t[0]/t[1] if t[1] else 0.,"audio_mean":au[0]/au[1],"hours":au[2],"score":.3*(t[0]/t[1] if t[1] else 0.)+.7*au[0]/au[1]})
     speakers.sort(key=lambda s:(-s["score"],-s["hours"],s["source"],s["speaker_key"]))
-    limits=(("test",8.),("val",8.),("train",200.)); chosen=[]; start=0
+    limits=(("test",a.test_hours),("val",a.val_hours),("train",a.train_hours)); chosen=[]; start=0
     for split, limit in limits:
         hours=0.
         while start<len(speakers) and hours<limit:
             s=speakers[start]; start+=1; hours+=s["hours"]; chosen.append({**s,"split":split})
     a.out_dir.mkdir(parents=True,exist_ok=True)
-    (a.out_dir/"speaker_assignments.json").write_text(json.dumps({"meta":{"text_weight":.3,"audio_weight":.7,"block_order":[x[0] for x in limits],"all_samples":True},"assignments":chosen},indent=2,ensure_ascii=False)+"\n")
+    (a.out_dir/"speaker_assignments.json").write_text(json.dumps({"meta":{"text_weight":.3,"audio_weight":.7,"block_order":[x[0] for x in limits],"block_hours":{x:h for x,h in limits},"train_order":a.train_order,"all_samples":True},"assignments":chosen},indent=2,ensure_ascii=False)+"\n")
+    # Ties on score are broken by hours so the curriculum is deterministic; the
+    # per-ROW length ordering the trainer may apply inside a chunk is separate.
+    train=[s for s in chosen if s["split"]=="train"]
+    train.sort(key=lambda s:(s["score"],s["hours"],s["source"],s["speaker_key"]) if a.train_order=="asc"
+                           else (-s["score"],-s["hours"],s["source"],s["speaker_key"]))
     cumulative=0.; rank=[]
-    for s in chosen:
-        if s["split"]=="train": cumulative+=s["hours"]; rank.append({"source":s["source"],"speaker_key":s["speaker_key"],"cum_hours":cumulative})
+    for s in train:
+        cumulative+=s["hours"]; rank.append({"source":s["source"],"speaker_key":s["speaker_key"],"score":s["score"],"hours":s["hours"],"cum_hours":cumulative})
     (a.out_dir/"train_full_rank.json").write_text(json.dumps(rank,indent=2,ensure_ascii=False)+"\n")
     print(json.dumps({x:round(sum(s['hours'] for s in chosen if s['split']==x),3) for x,_ in limits},indent=2))
 if __name__ == "__main__": main()
