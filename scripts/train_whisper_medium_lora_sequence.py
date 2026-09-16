@@ -222,6 +222,8 @@ def main() -> None:
                     help="'stage' scores the test set after every stage; 'end' only after the last one")
     ap.add_argument("--heartbeat-min", type=float, default=20.0,
                     help="minutes between liveness lines in the log (0 disables)")
+    ap.add_argument("--audio-dir", default=None,
+                    help="root for audio_path columns when the parquets store paths, not bytes")
     args = ap.parse_args()
 
     sequence = parse_sequence(args.sequence, args.n_chunks)
@@ -251,9 +253,10 @@ def main() -> None:
     torch.cuda.manual_seed_all(SEED)
 
     logger.info("loading datasets")
-    train_ds = ParquetAudioTextDataset(Path(args.train_parquet))
-    val_ds = ParquetAudioTextDataset(Path(args.val_parquet))
-    test_ds = ParquetAudioTextDataset(Path(args.test_parquet))
+    adir = Path(args.audio_dir) if args.audio_dir else None
+    train_ds = ParquetAudioTextDataset(Path(args.train_parquet), audio_dir=adir)
+    val_ds = ParquetAudioTextDataset(Path(args.val_parquet), audio_dir=adir)
+    test_ds = ParquetAudioTextDataset(Path(args.test_parquet), audio_dir=adir)
     logger.info("train=%d val=%d test=%d rows", len(train_ds), len(val_ds), len(test_ds))
 
     chunk_indices = build_chunk_indices(train_ds, Path(args.rank_meta), logger,

@@ -13,16 +13,25 @@ row (observed empirically in curated_corpus) rather than writing garbage into
 the training set.
 """
 from __future__ import annotations
-import argparse,io,json,subprocess
+import argparse,io,json,re,subprocess
 from collections import Counter
 from pathlib import Path
 import numpy as np, pyarrow as pa, pyarrow.parquet as pq, soundfile as sf
 
 SCHEMA=pa.schema([("uid",pa.string()),("audio",pa.binary()),("text",pa.string()),("source",pa.string()),("speaker_key",pa.string()),("duration",pa.float64())])
+# --audio-dir writes one WAV per row to disk and keeps only its relative path in
+# the parquet. Embedded audio is fine at 200h on a big box, but the training
+# Dataset reads the whole table into Arrow memory, and 300h of PCM is ~35GB --
+# more RAM than the 5090 box has (45GB total), and a 200h embedded run already
+# got SIGKILLed once elsewhere for exactly this. On disk the trainer holds
+# essentially no audio in RAM and the page cache absorbs re-reads.
+PATH_SCHEMA=pa.schema([("uid",pa.string()),("audio_path",pa.string()),("text",pa.string()),("source",pa.string()),("speaker_key",pa.string()),("duration",pa.float64())])
+SAFE=re.compile(r"[^A-Za-z0-9._-]")
 # int16 peak at or below this counts as silence, not quiet speech. Real clips in
 # this corpus peak in the thousands; the broken ones peaked at 0 or 1.
 SILENCE_PEAK=2
-def rc(args): return subprocess.run(["rclone",*args],check=True,text=True,capture_output=True).stdout
+RCLONE="rclone"
+def rc(args): return subprocess.run([RCLONE,*args],check=True,text=True,capture_output=True).stdout
 
 def to_wav_bytes(cell, sampling_rate=None):
     """Return (wav_bytes, decoded_seconds, None), or (None, None, reason) if unusable."""
@@ -62,11 +71,15 @@ def to_wav_bytes(cell, sampling_rate=None):
         return None, None, "decode"
 
 def main():
- p=argparse.ArgumentParser();p.add_argument('--assignments',type=Path,required=True);p.add_argument('--out-dir',type=Path,required=True);p.add_argument('--work-dir',type=Path,required=True);p.add_argument('--remote',default='R2:backup/transfer/curated_corpus/train');a=p.parse_args();a.out_dir.mkdir(parents=True,exist_ok=True);a.work_dir.mkdir(parents=True,exist_ok=True)
+ p=argparse.ArgumentParser();p.add_argument('--assignments',type=Path,required=True);p.add_argument('--out-dir',type=Path,required=True);p.add_argument('--work-dir',type=Path,required=True);p.add_argument('--remote',default='R2:backup/transfer/curated_corpus/train');p.add_argument('--audio-dir',type=Path,default=None,help='write WAVs here and store paths instead of embedding audio in the parquet');p.add_argument('--rclone',default='rclone');a=p.parse_args();a.out_dir.mkdir(parents=True,exist_ok=True);a.work_dir.mkdir(parents=True,exist_ok=True)
+ global RCLONE; RCLONE=a.rclone
+ schema_out = PATH_SCHEMA if a.audio_dir else SCHEMA
+ if a.audio_dir: a.audio_dir.mkdir(parents=True,exist_ok=True)
  assignments=json.loads(a.assignments.read_text())["assignments"]; route={(x['source'],str(x['speaker_key'])):x['split'] for x in assignments}; writers={}
  def writer(split):
-  if split not in writers: writers[split]=pq.ParquetWriter(a.out_dir/f'{split}.parquet',SCHEMA)
+  if split not in writers: writers[split]=pq.ParquetWriter(a.out_dir/f'{split}.parquet',schema_out)
   return writers[split]
+ seq=Counter()
  dropped=Counter(); kept_per_source=Counter()
  for source in ('masc','qasr'):
   outsource='masc_c' if source=='masc' else 'qasr'; ident='video_id' if source=='masc' else 'recording_id'
@@ -85,10 +98,18 @@ def main():
      if wav_bytes is None:
       dropped[f'{outsource}:{why}'] += 1; continue
      kept_per_source[outsource] += 1
-     buckets.setdefault(split,{n:[] for n in SCHEMA.names}); b=buckets[split]
-     b['uid'].append(str(d[uid][i])); b['audio'].append(wav_bytes); b['text'].append(d[text][i] or '')
+     buckets.setdefault(split,{n:[] for n in schema_out.names}); b=buckets[split]
+     if a.audio_dir:
+      # One dir per speaker keeps any single directory small; the sequence number
+      # makes the name unique without trusting uid to be filesystem-safe.
+      spk=SAFE.sub('_',str(k)); rel=f'{split}/{outsource}/{spk}/{seq[(split,outsource,spk)]:06d}.wav'; seq[(split,outsource,spk)]+=1
+      dest=a.audio_dir/rel; dest.parent.mkdir(parents=True,exist_ok=True); dest.write_bytes(wav_bytes)
+      b['audio_path'].append(rel)
+     else:
+      b['audio'].append(wav_bytes)
+     b['uid'].append(str(d[uid][i])); b['text'].append(d[text][i] or '')
      b['source'].append(outsource); b['speaker_key'].append(str(k)); b['duration'].append(float(d['duration'][i] or decoded_sec or 0))
-    for split,b in buckets.items(): writer(split).write_table(pa.table(b,schema=SCHEMA))
+    for split,b in buckets.items(): writer(split).write_table(pa.table(b,schema=schema_out))
     pqfile.unlink();print(f'{source}/{leaf}/{name} kept={dict(kept_per_source)} dropped={dict(dropped)}',flush=True)
  for w in writers.values():w.close()
  print(f'DONE. kept={dict(kept_per_source)} dropped={dict(dropped)}', flush=True)

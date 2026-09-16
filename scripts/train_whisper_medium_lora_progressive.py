@@ -86,13 +86,23 @@ class ParquetAudioTextDataset(Dataset):
     columns -- negligible next to the audio column.
     """
 
-    def __init__(self, path: Path, ref_column_candidates=("text", "transcription", "manual_normalized_transcript")):
+    def __init__(self, path: Path, ref_column_candidates=("text", "transcription", "manual_normalized_transcript"),
+                 audio_dir: Path | None = None):
         self.table = pq.read_table(path)
         cols = self.table.column_names
         self.ref_col = next((c for c in ref_column_candidates if c in cols), None)
         if self.ref_col is None:
             raise ValueError(f"{path}: no ref column found, have {cols}")
         self.has_uid = "uid" in cols
+        # An "audio_path" column means the audio is one WAV per row on disk
+        # (extract --audio-dir) rather than embedded bytes. A 300h embedded table
+        # is tens of GB of Arrow memory; paths are a few MB and each sample is
+        # read on demand, which is what makes 300h fit on a 45GB box at all.
+        self.path_mode = "audio_path" in cols
+        if self.path_mode:
+            self.audio_dir = Path(audio_dir) if audio_dir else path.parent / "audio"
+            if not self.audio_dir.is_dir():
+                raise ValueError(f"{path} stores audio paths but {self.audio_dir} does not exist")
         meta_cols = [c for c in ("speaker_key", "source") if c in cols]
         meta = self.table.select(meta_cols).to_pydict() if meta_cols else {}
         self.speaker_key = meta.get("speaker_key")
@@ -102,9 +112,13 @@ class ParquetAudioTextDataset(Dataset):
         return self.table.num_rows
 
     def __getitem__(self, idx):
-        audio_cell = self.table.column("audio")[idx].as_py()
         text = self.table.column(self.ref_col)[idx].as_py()
         uid = self.table.column("uid")[idx].as_py() if self.has_uid else str(idx)
+        if self.path_mode:
+            rel = self.table.column("audio_path")[idx].as_py()
+            audio_cell = (self.audio_dir / rel).read_bytes()
+        else:
+            audio_cell = self.table.column("audio")[idx].as_py()
         return {
             "audio": decode_audio_cell(audio_cell),
             "text": text or "",
