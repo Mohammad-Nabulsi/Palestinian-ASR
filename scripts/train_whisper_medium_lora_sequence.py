@@ -187,12 +187,21 @@ def load_init_from(model, optimizer, init_dir: Path, logger: logging.Logger) -> 
     if st.exists():
         state = torch.load(st, map_location="cpu", weights_only=False)
         try:
-            optimizer.load_state_dict(state["optimizer"])
-            logger.info("adopted optimizer moments from %s", st)
-        except ValueError as exc:  # different param grouping -- fall back to fresh moments
+            # Adopt ONLY the moments. optimizer.load_state_dict() replaces param_groups
+            # wholesale, and OneCycleLR keeps max_lr/initial_lr THERE, not on itself --
+            # so loading the groups silently reinstates the donor run's LR cycle and
+            # this run's --lr is ignored. That shipped once: a continuation asked for
+            # 2e-5 re-warmed to 9.8e-5 and degraded the checkpoint it started from.
+            merged = optimizer.state_dict()
+            merged["state"] = state["optimizer"]["state"]
+            optimizer.load_state_dict(merged)
+            logger.info("adopted optimizer moments from %s (kept this run's LR schedule)", st)
+        except (ValueError, KeyError) as exc:  # different param grouping -- fresh moments
             logger.warning("could not adopt optimizer state (%s); starting with fresh moments", exc)
     else:
         logger.warning("%s has no train_state.pt; starting with fresh optimizer moments", st)
+    logger.info("LR bounds after init: %s",
+                [(g.get("initial_lr"), g.get("max_lr")) for g in optimizer.param_groups])
 
 
 def main() -> None:
