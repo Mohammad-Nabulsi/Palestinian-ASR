@@ -1,7 +1,0 @@
-`torch_dtype` is deprecated! Use `dtype` instead!
-Device set to use cuda:0
-Using `chunk_length_s` is very experimental with seq2seq models. The results will not necessarily be entirely accurate and will have caveats. More information: https://github.com/huggingface/transformers/pull/20104. Ignore this warning with pipeline(..., ignore_warning=True). To use Whisper for long-form transcription, use rather the model's `generate` method directly as the model relies on it's own chunking mechanism (cf. Whisper original paper, section 3.8. Long-form Transcription).
-2026-07-31 13:05:45,789 | INFO | [casablanca_jordanian] resume: 0 rows already done
-2026-07-31 13:06:39,663 | INFO | [casablanca_jordanian] prediction pass done: 6 new rows written (6 total incl. resumed) in 54s
-2026-07-31 13:06:39,696 | INFO | [casablanca_jordanian] metrics: {'n_total': 6, 'n_scored': 6, 'n_dropped_empty_ref': 0, 'wer': 1.1643835616438356, 'cer': 1.0994318181818181}
-2026-07-31 13:06:39,697 | INFO | Summary written to /root/Palestinian-ASR/outputs/whisper_large_v3_zero_shot_smoketest/summary.json: {'casablanca_jordanian': {'n_total': 6, 'n_scored': 6, 'n_dropped_empty_ref': 0, 'wer': 1.1643835616438356, 'cer': 1.0994318181818181}}

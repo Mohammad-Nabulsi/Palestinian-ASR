@@ -1,0 +1,130 @@
+{
+  "ep1_h50": {
+    "run": "adhoc",
+    "adapter_dir": "outputs/whisper_medium_lora_progressive/checkpoints/ep1_h50/adapter",
+    "val": {
+      "loss": 0.7426501219702694,
+      "perplexity": 2.101497365786605,
+      "n_tokens": 172045,
+      "n_rows": 5844
+    },
+    "test": {
+      "loss": 0.6015183268190901,
+      "perplexity": 1.8248874735761969,
+      "n_tokens": 170140,
+      "n_rows": 5733
+    }
+  },
+  "ep1_h100": {
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep1_h100/adapter",
+    "val": {
+      "loss": 0.7258894952083758,
+      "perplexity": 2.0665684854381325,
+      "n_tokens": 172045,
+      "n_rows": 5844
+    },
+    "test": {
+      "loss": 0.569760375416936,
+      "perplexity": 1.7678433819416295,
+      "n_tokens": 170140,
+      "n_rows": 5733
+    }
+  },
+  "ep1_h150": {
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep1_h150/adapter",
+    "val": {
+      "loss": 0.7106476276192275,
+      "perplexity": 2.0353089542050804,
+      "n_tokens": 172045,
+      "n_rows": 5844
+    },
+    "test": {
+      "loss": 0.5607782618817592,
+      "perplexity": 1.7520355122918687,
+      "n_tokens": 170140,
+      "n_rows": 5733
+    }
+  },
+  "ep1_h200": {
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep1_h200/adapter",
+    "val": {
+      "loss": 0.6978508983841437,
+      "perplexity": 2.009429595340456,
+      "n_tokens": 172045,
+      "n_rows": 5844
+    },
+    "test": {
+      "loss": 0.5517783895339867,
+      "perplexity": 1.7363381593726965,
+      "n_tokens": 170140,
+      "n_rows": 5733
+    }
+  },
+  "ep2_h100": {
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep2_h100/adapter",
+    "val": {
+      "loss": 0.5960113655765933,
+      "perplexity": 1.814865509598574,
+      "n_tokens": 172045,
+      "n_rows": 5844
+    },
+    "test": {
+      "loss": 0.47254162702406843,
+      "perplexity": 1.6040659539538362,
+      "n_tokens": 170140,
+      "n_rows": 5733
+    }
+  },
+  "ep2_h150": {
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep2_h150/adapter",
+    "val": {
+      "loss": 0.5893752928921212,
+      "perplexity": 1.802861802950268,
+      "n_tokens": 172045,
+      "n_rows": 5844
+    },
+    "test": {
+      "loss": 0.4696628224825879,
+      "perplexity": 1.5994548020878085,
+      "n_tokens": 170140,
+      "n_rows": 5733
+    }
+  },
+  "ep2_h200": {
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep2_h200/adapter",
+    "val": {
+      "loss": 0.5933182565789473,
+      "perplexity": 1.8099844545219532,
+      "n_tokens": 172045,
+      "n_rows": 5844
+    },
+    "test": {
+      "loss": 0.47348589764311744,
+      "perplexity": 1.6055813416606164,
+      "n_tokens": 170140,
+      "n_rows": 5733
+    }
+  },
+  "ep2_h50": {
+    "run": "forward",
+    "adapter_dir": "/root/Palestinian-ASR/outputs/whisper_medium_lora_progressive/checkpoints/ep2_h50/adapter",
+    "val": {
+      "loss": 0.5516077904309192,
+      "perplexity": 1.7360419669058889,
+      "n_tokens": 172045,
+      "n_rows": 5844
+    },
+    "test": {
+      "loss": 0.45194723026808803,
+      "perplexity": 1.5713690256675392,
+      "n_tokens": 170140,
+      "n_rows": 5733
+    }
+  }
+}

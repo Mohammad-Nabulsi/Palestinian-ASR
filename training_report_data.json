@@ -1,0 +1,421 @@
+[
+  {
+    "id": "run1",
+    "label": "No pretrain (baseline)",
+    "corpus": null,
+    "variants": [
+      {
+        "tag": "run1_pal_only_1ep_earlystop",
+        "ep": "1ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "tuned": {
+            "val_wer": 0.36867636867636866,
+            "test_wer": 0.3671358317788706
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "run2",
+    "label": "Jordanian (1.98h)",
+    "corpus": "casa_jor_test",
+    "variants": [
+      {
+        "tag": "run2_jor_earlystop",
+        "ep": "1ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.5145530145530145,
+            "test_wer": 0.4800746142106156
+          },
+          "stage2": {
+            "val_wer": 0.3548163548163548,
+            "test_wer": 0.3628963879938952
+          }
+        }
+      },
+      {
+        "tag": "run2_jor_stage1ep2_earlystop",
+        "ep": "2ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.465003465003465,
+            "test_wer": 0.4620993725623198
+          },
+          "stage2": {
+            "val_wer": 0.3496188496188496,
+            "test_wer": 0.35102594539596405
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "run3",
+    "label": "Omni",
+    "corpus": "omni_test",
+    "variants": [
+      {
+        "tag": "run3_omni_earlystop",
+        "ep": "1ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.5956340956340956,
+            "test_wer": 0.5892826861115822
+          },
+          "stage2": {
+            "val_wer": 0.36001386001386,
+            "test_wer": 0.36544005426488047
+          }
+        }
+      },
+      {
+        "tag": "run3_omni_stage1ep2_earlystop",
+        "ep": "2ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.5942480942480942,
+            "test_wer": 0.5897914193657792
+          },
+          "stage2": {
+            "val_wer": 0.3607068607068607,
+            "test_wer": 0.3578090554519247
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "run4",
+    "label": "Omni + Jordanian",
+    "corpus": "omni_test,casa_jor_test",
+    "variants": [
+      {
+        "tag": "run4_omni_jor_earlystop",
+        "ep": "1ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.5121275121275122,
+            "test_wer": 0.5011022553840936
+          },
+          "stage2": {
+            "val_wer": 0.3523908523908524,
+            "test_wer": 0.35475665592674244
+          }
+        }
+      },
+      {
+        "tag": "run4_omni_jor_stage1ep2_earlystop",
+        "ep": "2ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.49965349965349964,
+            "test_wer": 0.48685772426657625
+          },
+          "stage2": {
+            "val_wer": 0.3548163548163548,
+            "test_wer": 0.35407834492114637
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "run5",
+    "label": "Layla + Jordanian",
+    "corpus": "layla_test,casa_jor_test",
+    "variants": [
+      {
+        "tag": "run5_layla_jor_earlystop",
+        "ep": "1ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.4954954954954955,
+            "test_wer": 0.49533661183652705
+          },
+          "stage2": {
+            "val_wer": 0.35828135828135826,
+            "test_wer": 0.3534000339155503
+          }
+        }
+      },
+      {
+        "tag": "run5_layla_jor_s1ep2_s2ep2_s2ep2",
+        "ep": "2ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.46673596673596673,
+            "test_wer": 0.46447346108190607
+          },
+          "stage2": {
+            "val_wer": 0.3624393624393624,
+            "test_wer": 0.36577920976767847
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "run6",
+    "label": "QASR-Levantine 10h",
+    "corpus": "qasr_lev_2h",
+    "variants": [
+      {
+        "tag": "run6_qasr_lev_10h_earlystop",
+        "ep": "1ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.6053361053361054,
+            "test_wer": 0.55689333559437
+          },
+          "stage2": {
+            "val_wer": 0.3568953568953569,
+            "test_wer": 0.37714091911141256
+          }
+        }
+      },
+      {
+        "tag": "run6_qasr_lev_10h_ep2_s1ep2_earlystop",
+        "ep": "2ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.5457380457380457,
+            "test_wer": 0.5377310496862812
+          },
+          "stage2": {
+            "val_wer": 0.3575883575883576,
+            "test_wer": 0.35509581142954044
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "run7",
+    "label": "QASR-nonLevantine 50h",
+    "corpus": "qasr_non_lev_2h",
+    "variants": [
+      {
+        "tag": "run7_qasr_non_lev_50h_earlystop",
+        "ep": "1ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.6008316008316008,
+            "test_wer": 0.5589282686111582
+          },
+          "stage2": {
+            "val_wer": 0.34407484407484407,
+            "test_wer": 0.3454298795997965
+          }
+        }
+      },
+      {
+        "tag": "run7_qasr_non_lev_50h_ep2_s1ep2_earlystop",
+        "ep": "2ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.5997920997920998,
+            "test_wer": 0.5531626250635917
+          },
+          "stage2": {
+            "val_wer": 0.34788634788634787,
+            "test_wer": 0.34407325758860435
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "run8",
+    "label": "QASR-Lev + MASC-Lev",
+    "corpus": "qasr_lev_2h,masc_lev_2h",
+    "variants": [
+      {
+        "tag": "run8_qasr_lev_masc_lev_earlystop",
+        "ep": "1ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.5426195426195426,
+            "test_wer": 0.5136510089876208
+          },
+          "stage2": {
+            "val_wer": 0.3447678447678448,
+            "test_wer": 0.3494997456333729
+          }
+        }
+      },
+      {
+        "tag": "run8_qasr_lev_masc_lev_ep2_s1ep2_earlystop",
+        "ep": "2ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.5197505197505198,
+            "test_wer": 0.506189587926064
+          },
+          "stage2": {
+            "val_wer": 0.3322938322938323,
+            "test_wer": 0.3310157707308801
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "run9",
+    "label": "QASR-Lev + MASC-Lev + QASR-nonLev 50h",
+    "corpus": "qasr_lev_2h,masc_lev_2h,qasr_non_lev_2h",
+    "variants": [
+      {
+        "tag": "run9_qasr_lev_masc_lev_nonlev50h_earlystop",
+        "ep": "1ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.5162855162855163,
+            "test_wer": 0.5102594539596405
+          },
+          "stage2": {
+            "val_wer": 0.340956340956341,
+            "test_wer": 0.3423774800746142
+          }
+        }
+      },
+      {
+        "tag": "run9_qasr_lev_masc_lev_nonlev50h_ep2_s1ep2_earlystop",
+        "ep": "2ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.5672210672210672,
+            "test_wer": 0.5102594539596405
+          },
+          "stage2": {
+            "val_wer": 0.33264033264033266,
+            "test_wer": 0.33033745972528405
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "run10",
+    "label": "All 6 sources combined (1ep only)",
+    "corpus": "all except masc_non_lev",
+    "variants": [
+      {
+        "tag": "run10_all_combined_earlystop",
+        "ep": "1ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.5235620235620235,
+            "test_wer": 0.4870273020179752
+          },
+          "stage2": {
+            "val_wer": 0.3374913374913375,
+            "test_wer": 0.3316940817364762
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "run11",
+    "label": "Staged: QASR-nonLev -> merge -> MASC+QASR-Lev -> merge -> pal",
+    "corpus": "staged",
+    "variants": [
+      {
+        "tag": "run11_qasr_nonlev_then_masc_qasr_lev",
+        "ep": "1ep",
+        "stages": {
+          "base": {
+            "val_wer": 0.6909216909216909,
+            "test_wer": 0.5711378667118874
+          },
+          "stage1_merged": {
+            "val_wer": 0.5959805959805959,
+            "test_wer": 0.5611327793793455
+          },
+          "stage2_merged": {
+            "val_wer": 0.5176715176715176,
+            "test_wer": 0.5261997625911481
+          },
+          "stage3": {
+            "val_wer": 0.33783783783783783,
+            "test_wer": 0.33966423605222995
+          }
+        }
+      }
+    ]
+  }
+]

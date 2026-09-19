@@ -683,7 +683,7 @@ Important note:
 
 **Superseded 2026-07-31** — the original four-JSON, direct-into-`data/` flow described
 below never actually ran end-to-end on this box: the raw `Layla/` source was lost and
-re-sourced (see `HANDOFF_DATA_PIPELINE.md` Gap 1), and the normalization pass grew to
+had to be re-sourced, and the normalization pass grew to
 six batches, closing a 42-row gap the first four left uncovered. Re-run instructions:
 
 **Raw source, as it actually exists on network storage:**
@@ -784,6 +784,14 @@ Moved shard files from `data/clean/` into `data/`:
 - `...`
 
 ## Binary Levantine Split Curation
+
+> **Superseded for train/val/test assignment (2026-09-03).** Everything below about the
+> *lev / non_lev* labelling still stands, but the `0.70 / 0.15 / 0.15` partition in step 4
+> is assigned per row and is **not speaker-disjoint**: ~100% of val's and ~99% of test's
+> QASR recordings also have rows in train, and ~99% of both's MASC videos do. The pipeline
+> now assigns whole speakers instead, via the `speaker_select` stage — see
+> [SPEAKER_DISJOINT_SELECTION.md](SPEAKER_DISJOINT_SELECTION.md). Re-generated trees should
+> come from that path; `data_curated_levant_binary_v1` predates it.
 
 To prepare the binary Levantine-vs-non-Levantine training layout, dialect identification was applied in two stages on the cleaned `masc_c` and `qasr` shards:
 
@@ -1035,11 +1043,153 @@ sub-segments have new `{video_id}__segNN` IDs that were never dialect-scored), s
 - The 30 new segment rows have no dialect-ID score at all.
 
 This is a **15-row / 373,464-row (~0.004%) gap** in a stage (14, the Levant binary
-split) that had not started as of this writing — see `HANDOFF_DATA_PIPELINE.md`. `layla`
+split) that had not started as of this writing. `layla`
 and `omnilingual_apc` were never part of the dialect-ID scan (only `masc_c` and `qasr`
 are), so they're unaffected. If step 14 is built before this gap is closed, either
 re-score just these 30 new rows or accept the negligible loss — do not assume the
 existing `row_probabilities.jsonl` files already cover them.
+
+**Update 2026-07-31, later same day:** step 14 was built (see "QASR and MASC-C Dialect
+Scans, Fresh Full Runs" below) without closing this gap — the 30 new segment rows scored
+`non_lev` by default (no score present, so they fail the `>= 0.80` thresholds). Accepted
+as the documented negligible loss, not re-scored.
+
+## QASR and MASC-C Dialect Scans, Fresh Full Runs — 2026-07-31
+
+Both the "Temporary QASR note" and "Current limitation" text above (under "Binary
+Levantine Split Curation" and "QASR Audio Classification Repair") describe a partial,
+resource-constrained state that no longer applies. What actually happened, same day as
+the segmentation work above:
+
+- **The PCM-aware decode fix is not a "repair mode"** — it's the permanent, unconditional
+  behavior of `dialect_identifiaction/arabic_dialect_scan_badrex_mms300m.py` (see
+  `_decode_pcm16le_bytes` / the `sampling_rate` + `_looks_like_encoded_audio` branch in
+  `predict_one`). Every invocation of that script gets it; there is no separate "fixed"
+  vs "unfixed" mode to choose between anymore.
+- **`scripts/repair_qasr_audio_and_rebuild_levant_binary.py` was never run and is now
+  moot.** It was always a thin subprocess wrapper with no logic of its own (reruns the
+  same audio-dialect script, then the same `create_levant_non_levant_splits.py`) — calling
+  the two underlying scripts directly, as done below, is equivalent and is what actually
+  happened. Its named output paths
+  (`Runs/dialect_scan_badrex_mms300m_lev08_text_candidates_masc_c_qasr_qasrfix/`,
+  `data_curated_levant_binary_v2_qasr_audio_fix/`) were never created and don't exist.
+- **QASR**, full 1,508,531-row set, scanned end to end:
+  - Text: `Runs/text_dialect_scan_marbertv2_written_clean_qasr_only/row_probabilities.jsonl`
+    — 122,348 rows with text `LEV >= 0.80`.
+  - Audio (PCM-aware decode, 0 errors, 108,453/122,348 successfully decoded — the
+    remainder were <2s clips, skipped by design): `Runs/dialect_scan_badrex_mms300m_lev08_text_candidates_qasr_only/row_probabilities.jsonl`.
+  - Final split: `data_curated_levant_binary_qasr_only_v1/` —
+    `qasr/lev` 31,178 rows (21,824/4,676/4,678), `qasr/non_lev` 1,477,353 rows
+    (1,034,147/221,602/221,604).
+- **MASC-C**, full 373,464-row cleaned set (the earlier 2026-07-30 attempt only covered
+  85.2% of rows before stopping — treat that one as superseded, not resumed from):
+  - Text: `Runs/text_dialect_scan_marbertv2_written_clean_masc_c_only/row_probabilities.jsonl`
+    — 48,455 rows with text `LEV >= 0.80`.
+  - Audio: `Runs/dialect_scan_badrex_mms300m_lev08_text_candidates_masc_c_only/row_probabilities.jsonl`
+    — 45,099/48,455 successfully decoded, 0 errors.
+  - Final split: `data_curated_levant_binary_masc_c_only_v1/` —
+    `masc/lev` 8,214 rows (5,749/1,232/1,233), `masc/non_lev` 365,265 rows
+    (255,685/54,789/54,791). Total 373,479 (373,464 pre-segmentation + 15 removed − 15
+    + 30 added by the Long-Audio Segmentation splice above; the 30 new rows carry no
+    dialect score and default to `non_lev` — see the ordering-gap note above).
+
+**Superseded the same day — see "Final Combined Build" below.** At the time this was
+written, the above was two separate scoped outputs, not the single combined tree the
+"Binary Levantine Split Curation" section describes. Both `_qasr_only_v1` and
+`_masc_c_only_v1` were deleted after the combined build below was verified — they added
+nothing not already reflected there.
+
+## Final Combined Build, With Native Test-Split Preservation — 2026-07-31
+
+The two scoped runs above were merged into the single `data_curated_levant_binary_v1/`
+this document was always meant to describe, with one deliberate change to the splitting
+rule for three leaves: **`masc`, `casa/pal`, and `casa/jor` now keep each source
+dataset's own native `test-NNNNN-of-NNNNN.parquet` shard(s) as the final `test` split
+verbatim**, instead of resampling test membership randomly. Every other row for those
+three leaves (originally `train-*`/`validation-*` shards) is pooled and re-split 80/20
+into train/val. `qasr`, `omni`, and `layla` are untouched — same global random
+train/val/test ratio split (0.70/0.15/0.15) as before, no native-test carving (QASR's
+own shards carry no test/train split to begin with; omni/layla were never shipped with
+one either).
+
+Native test/remainder shard counts, confirmed by matching the `test-NNNNN-of-NNNNN.parquet`
+filename segment:
+
+| leaf | native test shards | remainder shards (re-split 80/20) |
+|---|---|---|
+| `masc` | 9 (of 417) | 408 (398 `train-*` + 10 `validation-*`) |
+| `casa/pal` | 2 (of 4) | 2 (`validation-*`) |
+| `casa/jor` | 1 (of 2) | 1 (`validation-*`) |
+
+Script: [scripts/rebuild_levant_binary_parallel_resumable.py](/root/Palestinian-ASR/scripts/rebuild_levant_binary_parallel_resumable.py)
+(a from-scratch rewrite of `create_levant_non_levant_splits.py`'s logic, not an edit to
+that file — it stays as documentation of the original combined-random-split design).
+Combined data-root: `.logs/full_combined_data_root/` (847 symlinks spanning all six
+sources). Combined dialect-probability inputs: `.logs/combined_row_probs/{text,audio}_row_probabilities.jsonl`
+(the QASR-only and MASC-C-only scan outputs from the section above, concatenated —
+1,881,995 text rows, 170,803 audio rows, both counts matching sums exactly).
+
+**Parallel + resumable design.** Six independent worker processes (`--worker
+{qasr,masc,omni,layla,casa_pal,casa_jor}`), one per leaf, each touching only its own
+exclusive output subdirectories — no two workers ever write into the same directory, so
+there is no repeat of the concurrent-write corruption risk documented elsewhere in this
+file. Each worker checkpoints how many of its fixed-order source files it has fully
+committed (closing all its parquet shard writers at each checkpoint, every 20 files or
+at the end), so a crash only ever costs re-processing files since the last checkpoint,
+never a full restart. `ShardWriter` self-heals on startup: it scans its output directory
+for the highest existing shard index, validates the last shard's footer, and deletes it
+if truncated (crash mid-write) before continuing.
+
+**A real bug was caught and fixed during this run**, worth recording: the first version
+reused the 3-way `split_counts()` helper (which always carves a `test` bucket from
+flooring leftover, e.g. `floor(847*0.8) + floor(847*0.2) = 846`, leaving `1` row assigned
+to `test`) to implement the 80/20 remainder split — but the remainder path explicitly
+discards anything routed to `test`. Result: exactly 1 row silently vanished from each of
+`casa_pal`'s and `casa_jor`'s remainder pools before the fix (caught by summing
+train+val+test against the known input total and finding a 1-row gap in both). Fixed
+with a dedicated `make_two_way_position_set()` that computes `val_count =
+round(total * val_ratio)`, `train_count = total - val_count` — every row lands in
+exactly one bucket, nothing is ever discarded. `masc`'s remainder phase was killed and
+restarted with the fix before it had checkpointed (so no data loss there); `casa_pal`/
+`casa_jor` were deleted and re-run from scratch (cheap — under 1,700 rows each).
+
+**A second bug, in reporting only (not the data), was caught and fixed the same way:**
+`masc`'s native-test phase (9 shards) completed and checkpointed in the *first* run,
+before the fix required killing and restarting the whole `masc` worker. On restart, the
+checkpoint correctly made it skip re-processing those 9 already-committed files — but
+the fresh process's in-memory row counters start at zero, so its self-reported summary
+undercounted `masc/lev`/`masc/non_lev` by exactly the amount the first (now-exited)
+process had already safely written. The parquet files on disk were correct the whole
+time; only `reports/worker_summaries/masc.json`'s self-reported counts were wrong.
+Fixed by [.logs/finalize_ground_truth_summary.py](/root/Palestinian-ASR/.logs/finalize_ground_truth_summary.py),
+which builds the final `reports/summary.json` by scanning row counts directly from the
+output parquet files rather than trusting any worker's in-process counters — the only
+approach that stays correct regardless of how many resume cycles a leaf went through.
+
+**Verified final result** (every row from the 1,887,366-row combined input accounted for
+exactly once, train+val+test summing to each leaf's known-correct total):
+
+| leaf | train | val | test | total |
+|---|---|---|---|---|
+| `masc/lev` | 6,383 | 1,596 | 235 | 8,214 |
+| `masc/non_lev` | 285,502 | 71,375 | 8,388 | 365,265 |
+| `qasr/lev` | 21,824 | 4,676 | 4,678 | 31,178 |
+| `qasr/non_lev` | 1,034,147 | 221,602 | 221,604 | 1,477,353 |
+| `omni` | 917 | 196 | 198 | 1,311 |
+| `layla` | 715 | 153 | 154 | 1,022 |
+| `casa/pal` | 531 | 133 | 664 | 1,328 |
+| `casa/jor` | 678 | 169 | 848 | 1,695 |
+| **total** | | | | **1,887,366** |
+
+Note `masc`'s and `qasr`'s `lev`/`non_lev` totals are unchanged from the scoped runs
+above (8,214/365,265 and 31,178/1,477,353) — only *which* rows landed in `test` changed
+(native shard membership instead of random sampling), not the underlying dialect
+classification. Output: `/workspace/asr/Palestinian-ASR/data_curated_levant_binary_v1/`,
+`reports/summary.json`. The two superseded scoped outputs
+(`data_curated_levant_binary_qasr_only_v1/`, 191GB; `data_curated_levant_binary_masc_c_only_v1/`,
+78GB) were deleted after this was verified, freeing 269GB against this project's
+~800GB quota (see the quota gotcha earlier in this file) at a moment it was needed —
+usage had reached 782GB/~800GB with this build still writing.
 
 ## Note: Same Script Reused Across Multiple Steps
 
@@ -1080,4 +1230,66 @@ via direct subprocess orchestration:
 - [scripts/compute_data_duration_stats.py](/home/MohammadNabulsi/whisper/scripts/compute_data_duration_stats.py): computes duration stats for staged datasets
 - [outputs/compute_data_duration_stats.py](/home/MohammadNabulsi/whisper/outputs/compute_data_duration_stats.py): copied next to `outputs/data_duration_stats.json`
 - [preprocess/unify.py](/home/MohammadNabulsi/whisper/preprocess/unify.py): older/alternate raw unification pipeline, different output layout from current `data/`
+
+## Final Dataset Statistics — 2026-07-31
+
+`scripts/compute_data_duration_stats.py` (above) predates the current parquet-shard
+layout and doesn't run against it as-is (it expects raw file layouts, e.g. reading
+Layla's `.wav` files directly off disk). The actual stats for
+`data_curated_levant_binary_v1/` were generated by
+[scripts/compute_final_dataset_stats.py](/root/Palestinian-ASR/scripts/compute_final_dataset_stats.py),
+written specifically for this build. It reads only the `duration` column from every
+shard (no audio decode) and reports bottom-up, from the smallest directory on disk up
+to the grand total:
+
+1. leaf within split (e.g. `train/masc/lev`) — the smallest unit, one row per actual
+   output directory
+2. leaf across all splits (e.g. `masc/lev` = train+val+test)
+3. source across all splits, sub-labels merged (e.g. `masc` = lev+non_lev combined,
+   `casa` = pal+jor combined)
+4. split across all sources (e.g. `train` = every leaf combined)
+5. grand total
+
+Run: `python scripts/compute_final_dataset_stats.py`. Output:
+`data_curated_levant_binary_v1/reports/duration_stats.json` (full breakdown of all 24
+leaf-within-split cells plus every aggregation level above).
+
+**Level 5 — grand total:** 1,887,366 rows, **2,209.91 hours**, 224 shards.
+
+**Level 4 — per split:**
+
+| split | rows | hours |
+|---|---|---|
+| train | 1,350,697 | 1,578.05 |
+| val | 299,900 | 350.27 |
+| test | 236,769 | 281.60 |
+
+**Level 3 — per source (lev/non_lev and pal/jor merged):**
+
+| source | rows | hours |
+|---|---|---|
+| qasr | 1,508,531 | 1,778.97 |
+| masc | 373,479 | 412.39 |
+| casa | 3,023 | 3.95 |
+| omni | 1,311 | 7.91 |
+| layla | 1,022 | 6.70 |
+
+**Level 2 — per leaf, across all splits:**
+
+| leaf | rows | hours |
+|---|---|---|
+| `qasr/non_lev` | 1,477,353 | 1,741.14 |
+| `masc/non_lev` | 365,265 | 401.88 |
+| `qasr/lev` | 31,178 | 37.83 |
+| `masc/lev` | 8,214 | 10.51 |
+| `omni` | 1,311 | 7.91 |
+| `layla` | 1,022 | 6.70 |
+| `casa/jor` | 1,695 | 1.98 |
+| `casa/pal` | 1,328 | 1.97 |
+
+Sanity check: Layla's 6.70h here matches the "Long-Audio Segmentation" section's
+`hours kept` figure for Layla exactly (218 recordings → 1,022 segments, no duration
+lost). Omni's 7.91h is slightly higher than that section's "7.70 hours kept" because
+this leaf also includes the rows that were always ≤30s and never went through
+segmentation at all, not just the 375 that were flagged and re-cut.
 

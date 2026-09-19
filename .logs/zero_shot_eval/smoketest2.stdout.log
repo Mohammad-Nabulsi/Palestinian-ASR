@@ -1,5 +1,0 @@
-Device set to use cuda:0
-2026-07-31 13:09:19,077 | INFO | [casablanca_jordanian] resume: 0 rows already done
-2026-07-31 13:09:48,571 | INFO | [casablanca_jordanian] prediction pass done: 6 new rows written (6 total incl. resumed) in 29s
-2026-07-31 13:09:48,630 | INFO | [casablanca_jordanian] metrics: {'n_total': 6, 'n_scored': 6, 'n_dropped_empty_ref': 0, 'wer': 0.4383561643835616, 'cer': 0.14772727272727273}
-2026-07-31 13:09:48,631 | INFO | Summary written to /root/Palestinian-ASR/outputs/whisper_large_v3_zero_shot_smoketest/summary.json: {'casablanca_jordanian': {'n_total': 6, 'n_scored': 6, 'n_dropped_empty_ref': 0, 'wer': 0.4383561643835616, 'cer': 0.14772727272727273}}

@@ -1,0 +1,494 @@
+{
+  "inputs": {
+    "audio_scans": [
+      "/tmp/claude-0/-root-Palestinian-ASR/5924ec67-02ee-4a70-b380-095c7eb00002/scratchpad/dialect_id_scans/dialect_scan_badrex_mms300m_lev08_text_candidates_masc_c_only/row_probabilities.jsonl",
+      "/tmp/claude-0/-root-Palestinian-ASR/5924ec67-02ee-4a70-b380-095c7eb00002/scratchpad/dialect_id_scans/dialect_scan_badrex_mms300m_lev08_text_candidates_qasr_only/row_probabilities.jsonl",
+      "/tmp/claude-0/-root-Palestinian-ASR/5924ec67-02ee-4a70-b380-095c7eb00002/scratchpad/dialect_id_scans/dialect_scan_badrex_mms300m_lev50_text_weak_band_tier2_masc_c_qasr/row_probabilities.jsonl",
+      "/tmp/claude-0/-root-Palestinian-ASR/5924ec67-02ee-4a70-b380-095c7eb00002/scratchpad/dialect_id_scans/dialect_scan_badrex_mms300m_lev65_text_weak_band_masc_c_qasr/row_probabilities.jsonl"
+    ],
+    "text_scans": [
+      "/tmp/claude-0/-root-Palestinian-ASR/5924ec67-02ee-4a70-b380-095c7eb00002/scratchpad/dialect_id_scans/text_dialect_scan_marbertv2_written_clean_masc_c_only/row_probabilities.jsonl",
+      "/tmp/claude-0/-root-Palestinian-ASR/5924ec67-02ee-4a70-b380-095c7eb00002/scratchpad/dialect_id_scans/text_dialect_scan_marbertv2_written_clean_qasr_only/row_probabilities.jsonl"
+    ]
+  },
+  "row_stats": {
+    "audio": {
+      "rows_read": 250731,
+      "rows_ok": 224386,
+      "rows_skipped_status": 26345,
+      "rows_duplicate": 0,
+      "rows_unresolved_group_key": 0,
+      "text_argmax_lev_rows": 224386,
+      "per_file": {
+        "/tmp/claude-0/-root-Palestinian-ASR/5924ec67-02ee-4a70-b380-095c7eb00002/scratchpad/dialect_id_scans/dialect_scan_badrex_mms300m_lev08_text_candidates_masc_c_only/row_probabilities.jsonl": {
+          "rows": 48455,
+          "ok": 45099,
+          "duplicate": 0,
+          "unresolved": 0
+        },
+        "/tmp/claude-0/-root-Palestinian-ASR/5924ec67-02ee-4a70-b380-095c7eb00002/scratchpad/dialect_id_scans/dialect_scan_badrex_mms300m_lev08_text_candidates_qasr_only/row_probabilities.jsonl": {
+          "rows": 122348,
+          "ok": 108453,
+          "duplicate": 0,
+          "unresolved": 0
+        },
+        "/tmp/claude-0/-root-Palestinian-ASR/5924ec67-02ee-4a70-b380-095c7eb00002/scratchpad/dialect_id_scans/dialect_scan_badrex_mms300m_lev50_text_weak_band_tier2_masc_c_qasr/row_probabilities.jsonl": {
+          "rows": 39198,
+          "ok": 34802,
+          "duplicate": 0,
+          "unresolved": 0
+        },
+        "/tmp/claude-0/-root-Palestinian-ASR/5924ec67-02ee-4a70-b380-095c7eb00002/scratchpad/dialect_id_scans/dialect_scan_badrex_mms300m_lev65_text_weak_band_masc_c_qasr/row_probabilities.jsonl": {
+          "rows": 40730,
+          "ok": 36032,
+          "duplicate": 0,
+          "unresolved": 0
+        }
+      }
+    },
+    "text": {
+      "rows_read": 1881995,
+      "rows_ok": 1881995,
+      "rows_duplicate": 0,
+      "rows_unresolved_group_key": 0,
+      "per_file": {
+        "/tmp/claude-0/-root-Palestinian-ASR/5924ec67-02ee-4a70-b380-095c7eb00002/scratchpad/dialect_id_scans/text_dialect_scan_marbertv2_written_clean_masc_c_only/row_probabilities.jsonl": {
+          "rows": 373464,
+          "ok": 373464
+        },
+        "/tmp/claude-0/-root-Palestinian-ASR/5924ec67-02ee-4a70-b380-095c7eb00002/scratchpad/dialect_id_scans/text_dialect_scan_marbertv2_written_clean_qasr_only/row_probabilities.jsonl": {
+          "rows": 1508531,
+          "ok": 1508531
+        }
+      }
+    }
+  },
+  "settings": {
+    "soft_threshold": 0.8,
+    "hard_vote": "per-row argmax label (top_label)",
+    "hours_field": "hours",
+    "rank_by": "combined_prob",
+    "min_rows_per_speaker": 1,
+    "min_hours_per_speaker": 0.0
+  },
+  "pool": {
+    "speakers": 8068,
+    "rows_dual_scored": 224386,
+    "total_hours": 276.64,
+    "total_hours_audio_lev": 81.07,
+    "per_source": {
+      "masc_c": {
+        "speakers": 4523,
+        "hours": 84.75,
+        "rows": 63812
+      },
+      "qasr": {
+        "speakers": 3545,
+        "hours": 191.89,
+        "rows": 160574
+      }
+    }
+  },
+  "soft_vs_hard_alignment": {
+    "text_on_dual_scored_pool": {
+      "speakers": 8068,
+      "agreement_rate": 0.7985870104115023,
+      "confusion_speakers": {
+        "soft_lev_hard_lev": 6443,
+        "soft_lev_hard_non": 0,
+        "soft_non_hard_lev": 1625,
+        "soft_non_hard_non": 0
+      },
+      "confusion_hours": {
+        "soft_lev_hard_lev": 245.21,
+        "soft_lev_hard_non": 0.0,
+        "soft_non_hard_lev": 31.43,
+        "soft_non_hard_non": 0.0
+      },
+      "rank_correlation_soft_vs_hard": null
+    },
+    "audio": {
+      "speakers": 8068,
+      "agreement_rate": 0.8937778879524045,
+      "confusion_speakers": {
+        "soft_lev_hard_lev": 158,
+        "soft_lev_hard_non": 0,
+        "soft_non_hard_lev": 857,
+        "soft_non_hard_non": 7053
+      },
+      "confusion_hours": {
+        "soft_lev_hard_lev": 5.01,
+        "soft_lev_hard_non": 0.0,
+        "soft_non_hard_lev": 58.6,
+        "soft_non_hard_non": 213.03
+      },
+      "rank_correlation_soft_vs_hard": 0.9554232888120989
+    },
+    "text_on_full_text_scan": {
+      "speakers": 8068,
+      "agreement_rate": 0.9464551313832424,
+      "confusion_speakers": {
+        "soft_lev_hard_lev": 58,
+        "soft_lev_hard_non": 0,
+        "soft_non_hard_lev": 432,
+        "soft_non_hard_non": 7578
+      },
+      "confusion_hours": {
+        "soft_lev_hard_lev": 1.2,
+        "soft_lev_hard_non": 0.0,
+        "soft_non_hard_lev": 18.52,
+        "soft_non_hard_non": 256.92
+      },
+      "rank_correlation_soft_vs_hard": 0.9860135223740731
+    }
+  },
+  "ranking_agreement": {
+    "text_vs_audio_hard": {
+      "speakers": 8068,
+      "rho": 0.054740037759624334
+    },
+    "combined_vs_text_hard": {
+      "speakers": 8068,
+      "rho": 0.026271651634362715
+    },
+    "combined_vs_audio_hard": {
+      "speakers": 8068,
+      "rho": 0.9548156827386604
+    },
+    "combined_pool_vs_full_text": {
+      "speakers": 8068,
+      "rho": 0.9617495298394201
+    }
+  },
+  "blocks": [
+    {
+      "name": "train",
+      "target_hours": 8.0,
+      "speakers": 195,
+      "hours": 8.058,
+      "rows": 6767,
+      "min_score": 0.6854718534790436,
+      "max_score": 0.9884469111913745,
+      "filled": true
+    },
+    {
+      "name": "val",
+      "target_hours": 8.0,
+      "speakers": 125,
+      "hours": 8.097,
+      "rows": 6599,
+      "min_score": 0.6218185729207742,
+      "max_score": 0.6844600628924661,
+      "filled": true
+    }
+  ],
+  "cumulative_hours_curve": [
+    {
+      "target_hours": 1,
+      "speakers_needed": 82,
+      "hours_reached": 1.055,
+      "rows": 988,
+      "score_at_cut": 0.808359952988705
+    },
+    {
+      "target_hours": 2,
+      "speakers_needed": 101,
+      "hours_reached": 2.131,
+      "rows": 1872,
+      "score_at_cut": 0.7899519592120564
+    },
+    {
+      "target_hours": 4,
+      "speakers_needed": 139,
+      "hours_reached": 4.055,
+      "rows": 3385,
+      "score_at_cut": 0.737742698313118
+    },
+    {
+      "target_hours": 8,
+      "speakers_needed": 195,
+      "hours_reached": 8.058,
+      "rows": 6767,
+      "score_at_cut": 0.6854718534790436
+    },
+    {
+      "target_hours": 16,
+      "speakers_needed": 319,
+      "hours_reached": 16.028,
+      "rows": 13252,
+      "score_at_cut": 0.6218990583146382
+    },
+    {
+      "target_hours": 24,
+      "speakers_needed": 440,
+      "hours_reached": 24.206,
+      "rows": 20145,
+      "score_at_cut": 0.5666208723829282
+    },
+    {
+      "target_hours": 32,
+      "speakers_needed": 514,
+      "hours_reached": 32.246,
+      "rows": 26559,
+      "score_at_cut": 0.5423727053822885
+    },
+    {
+      "target_hours": 50,
+      "speakers_needed": 738,
+      "hours_reached": 50.025,
+      "rows": 41357,
+      "score_at_cut": 0.4748204878991147
+    },
+    {
+      "target_hours": 100,
+      "speakers_needed": 1525,
+      "hours_reached": 100.047,
+      "rows": 82865,
+      "score_at_cut": 0.3031706457787219
+    },
+    {
+      "target_hours": 200,
+      "speakers_needed": 4023,
+      "hours_reached": 200.03,
+      "rows": 164976,
+      "score_at_cut": 0.09266673223091318
+    }
+  ],
+  "top_15_by_rank_field": [
+    {
+      "source": "masc_c",
+      "speaker_key": "ZVYIVueNXzY",
+      "rows_dual_scored": 1,
+      "rows_text_total": 10,
+      "hours": 0.0006611111111111111,
+      "text_mean_prob": 0.9920624494552612,
+      "text_full_vote_frac": 0.2,
+      "text_full_vote_lb": 0.05668094798069328,
+      "audio_mean_prob": 0.9963555335998535,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.20654329147389294,
+      "combined_prob": 0.9884469111913745,
+      "combined_vote_lb": 0.011707069559792895
+    },
+    {
+      "source": "masc_c",
+      "speaker_key": "64lrhPPGhRE",
+      "rows_dual_scored": 1,
+      "rows_text_total": 22,
+      "hours": 0.0006833333333333333,
+      "text_mean_prob": 0.9872844219207764,
+      "text_full_vote_frac": 0.045454545454545456,
+      "text_full_vote_lb": 0.008069219301147859,
+      "audio_mean_prob": 0.9953669309616089,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.20654329147389294,
+      "combined_prob": 0.9827102650334893,
+      "combined_vote_lb": 0.001666643114083745
+    },
+    {
+      "source": "masc_c",
+      "speaker_key": "c8hjmdMp5ZE",
+      "rows_dual_scored": 2,
+      "rows_text_total": 8,
+      "hours": 0.0018777777777777777,
+      "text_mean_prob": 0.9858273863792419,
+      "text_full_vote_frac": 0.5,
+      "text_full_vote_lb": 0.2152125268244419,
+      "audio_mean_prob": 0.9967760443687439,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.3423719528896193,
+      "combined_prob": 0.9826491226254781,
+      "combined_vote_lb": 0.07368273309519376
+    },
+    {
+      "source": "masc_c",
+      "speaker_key": "z2KmNtjMfIo",
+      "rows_dual_scored": 9,
+      "rows_text_total": 14,
+      "hours": 0.011271944444444442,
+      "text_mean_prob": 0.9849538736873202,
+      "text_full_vote_frac": 0.7142857142857143,
+      "text_full_vote_lb": 0.4535045882751561,
+      "audio_mean_prob": 0.9970877766609192,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.7008472464490406,
+      "combined_prob": 0.98208546802845,
+      "combined_vote_lb": 0.317837441944649
+    },
+    {
+      "source": "masc_c",
+      "speaker_key": "pswqn-Y19C0",
+      "rows_dual_scored": 2,
+      "rows_text_total": 13,
+      "hours": 0.0016333333333333334,
+      "text_mean_prob": 0.9804585874080658,
+      "text_full_vote_frac": 0.3076923076923077,
+      "text_full_vote_lb": 0.1268049716161809,
+      "audio_mean_prob": 0.9966546297073364,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.3423719528896193,
+      "combined_prob": 0.977178590376564,
+      "combined_vote_lb": 0.0434144657683446
+    },
+    {
+      "source": "masc_c",
+      "speaker_key": "JTvyQQhN1j4",
+      "rows_dual_scored": 1,
+      "rows_text_total": 22,
+      "hours": 0.0007611111111111112,
+      "text_mean_prob": 0.9872844219207764,
+      "text_full_vote_frac": 0.18181818181818182,
+      "text_full_vote_lb": 0.0730676602410512,
+      "audio_mean_prob": 0.9792520403862,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.20654329147389294,
+      "combined_prob": 0.9668002846074302,
+      "combined_vote_lb": 0.015091635046482817
+    },
+    {
+      "source": "masc_c",
+      "speaker_key": "_sBrMLIaeNo",
+      "rows_dual_scored": 2,
+      "rows_text_total": 7,
+      "hours": 0.004055583333333333,
+      "text_mean_prob": 0.9782518744468689,
+      "text_full_vote_frac": 0.2857142857142857,
+      "text_full_vote_lb": 0.08221716570901552,
+      "audio_mean_prob": 0.976610541343689,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.3423719528896193,
+      "combined_prob": 0.9553710926740351,
+      "combined_vote_lb": 0.028148851584845085
+    },
+    {
+      "source": "masc_c",
+      "speaker_key": "RXcTGHfhyYM",
+      "rows_dual_scored": 2,
+      "rows_text_total": 8,
+      "hours": 0.0021333333333333334,
+      "text_mean_prob": 0.9645927548408508,
+      "text_full_vote_frac": 0.375,
+      "text_full_vote_lb": 0.13684175946152105,
+      "audio_mean_prob": 0.9897368848323822,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.3423719528896193,
+      "combined_prob": 0.9546930283080695,
+      "combined_vote_lb": 0.0468507804236925
+    },
+    {
+      "source": "masc_c",
+      "speaker_key": "WJ_44fLU5iI",
+      "rows_dual_scored": 1,
+      "rows_text_total": 7,
+      "hours": 0.001388888888888889,
+      "text_mean_prob": 0.9686622023582458,
+      "text_full_vote_frac": 0.14285714285714285,
+      "text_full_vote_lb": 0.02567895594897479,
+      "audio_mean_prob": 0.9827846884727478,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.20654329147389294,
+      "combined_prob": 0.9519863807799744,
+      "combined_vote_lb": 0.005303816083314357
+    },
+    {
+      "source": "masc_c",
+      "speaker_key": "K6zLr-7hbxQ",
+      "rows_dual_scored": 13,
+      "rows_text_total": 23,
+      "hours": 0.011127777777777778,
+      "text_mean_prob": 0.9603904990049509,
+      "text_full_vote_frac": 0.6086956521739131,
+      "text_full_vote_lb": 0.40785179603745997,
+      "audio_mean_prob": 0.9906583107434787,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.7718981569447084,
+      "combined_prob": 0.9514188293983311,
+      "combined_vote_lb": 0.3148200496679045
+    },
+    {
+      "source": "masc_c",
+      "speaker_key": "MMAkUyiaWSQ",
+      "rows_dual_scored": 12,
+      "rows_text_total": 26,
+      "hours": 0.010616833333333332,
+      "text_mean_prob": 0.9466817875703176,
+      "text_full_vote_frac": 0.6153846153846154,
+      "text_full_vote_lb": 0.4253452003942009,
+      "audio_mean_prob": 0.9935483435789744,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.7574992425007574,
+      "combined_prob": 0.9405741219368715,
+      "combined_vote_lb": 0.32219866709994
+    },
+    {
+      "source": "masc_c",
+      "speaker_key": "-7Sym-JtoLQ",
+      "rows_dual_scored": 8,
+      "rows_text_total": 15,
+      "hours": 0.007655555555555555,
+      "text_mean_prob": 0.9423636719584465,
+      "text_full_vote_frac": 0.5333333333333333,
+      "text_full_vote_lb": 0.3011663015105079,
+      "audio_mean_prob": 0.9955852255225182,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.6755843804891231,
+      "combined_prob": 0.9382033488709782,
+      "combined_vote_lb": 0.20346324923017692
+    },
+    {
+      "source": "masc_c",
+      "speaker_key": "zZtR8YkiIkk",
+      "rows_dual_scored": 30,
+      "rows_text_total": 41,
+      "hours": 0.03689997222222223,
+      "text_mean_prob": 0.959475330511729,
+      "text_full_vote_frac": 0.8292682926829268,
+      "text_full_vote_lb": 0.6873709004537023,
+      "audio_mean_prob": 0.9778180340925853,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.886482908609522,
+      "combined_prob": 0.9381922814413123,
+      "combined_vote_lb": 0.6093425551277442
+    },
+    {
+      "source": "masc_c",
+      "speaker_key": "XGvRC7Xr0TQ",
+      "rows_dual_scored": 4,
+      "rows_text_total": 25,
+      "hours": 0.003072222222222222,
+      "text_mean_prob": 0.9425349533557892,
+      "text_full_vote_frac": 0.32,
+      "text_full_vote_lb": 0.1720498751689115,
+      "audio_mean_prob": 0.985570639371872,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.5100999795960008,
+      "combined_prob": 0.9289347766092027,
+      "combined_vote_lb": 0.08776263781315624
+    },
+    {
+      "source": "masc_c",
+      "speaker_key": "azCvVchVF7Q",
+      "rows_dual_scored": 1,
+      "rows_text_total": 22,
+      "hours": 0.0007055555555555555,
+      "text_mean_prob": 0.9872844219207764,
+      "text_full_vote_frac": 0.09090909090909091,
+      "text_full_vote_lb": 0.025294896282837778,
+      "audio_mean_prob": 0.9367701411247253,
+      "audio_vote_frac": 1.0,
+      "audio_vote_lb": 0.20654329147389294,
+      "combined_prob": 0.9248585672529686,
+      "combined_vote_lb": 0.005224491135748055
+    }
+  ],
+  "rows_per_speaker_in_blocks": {
+    "train": [
+      1,
+      34.7
+    ],
+    "val": [
+      1,
+      52.8
+    ]
+  }
+}

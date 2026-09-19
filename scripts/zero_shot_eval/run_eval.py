@@ -33,7 +33,14 @@ from whisper_predict import WhisperPredictConfig, WhisperPredictor  # noqa: E402
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_OUT_DIR = REPO_ROOT / "outputs" / "whisper_large_v3_zero_shot"
 PROGRESS_LOG_INTERVAL_S = 120  # log progress every 2 minutes, per instructions
-REF_COLUMN = "manual_normalized_transcript"
+REF_COLUMN_CANDIDATES = ("manual_normalized_transcript", "transcription", "text", "raw_text")
+
+
+def resolve_ref_column(columns) -> str:
+    for c in REF_COLUMN_CANDIDATES:
+        if c in columns:
+            return c
+    raise ValueError(f"no ground-truth column found; tried {REF_COLUMN_CANDIDATES}, have {list(columns)}")
 
 
 def setup_logger(log_path: Path) -> logging.Logger:
@@ -70,9 +77,10 @@ def load_done_uids(predictions_path: Path) -> set[str]:
 def iter_rows(shard_paths: list[Path]):
     for shard in shard_paths:
         df = pd.read_parquet(shard)
+        ref_column = resolve_ref_column(df.columns)
         for row_idx, row in df.iterrows():
             uid = f"{shard.name}::{row_idx}"
-            yield uid, shard.name, row
+            yield uid, shard.name, row, ref_column
         del df
         gc.collect()
 
@@ -128,7 +136,7 @@ def run_dataset(
             batch_ref.clear()
             batch_meta.clear()
 
-        for uid, shard_name, row in iter_rows(shard_paths):
+        for uid, shard_name, row, ref_column in iter_rows(shard_paths):
             if limit is not None and total_seen >= limit:
                 break
             total_seen += 1
@@ -140,7 +148,7 @@ def run_dataset(
                 logger.exception("[%s] failed to decode audio for %s; skipping", dataset_key, uid)
                 continue
 
-            ref = row.get(REF_COLUMN, "") if hasattr(row, "get") else row[REF_COLUMN]
+            ref = row.get(ref_column, "")
             batch_uid.append(uid)
             batch_audio.append(audio)
             batch_ref.append("" if ref is None else str(ref))

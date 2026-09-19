@@ -1,3 +1,0 @@
-mode: clean
-total rows: 218
-kept rows: 218

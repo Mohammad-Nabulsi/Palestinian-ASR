@@ -11,11 +11,19 @@ stage scored it ``>= threshold`` for the text label AND the audio stage scored i
 ``>= threshold`` for the audio label; everything else goes to ``non_lev``. Leaves not
 listed as binary are written whole.
 
-Split assignment differs from the original in one deliberate way: instead of
-precomputing per-leaf position sets (which required a full counting pass and made
-partial reruns non-reproducible), each row is assigned by hashing
-``(seed, leaf, source_file, row_idx)``. That is stable per row, needs no counting
-pass, and gives the same ratios in expectation.
+Split assignment: when ``speaker_assignments`` is configured (the
+``speaker_select`` stage's output), a row goes to the split its *speaker* was
+assigned -- so every utterance of a qasr recording or a masc_c video lands in one
+split and the sets are speaker-disjoint. This is the intended path; the older
+behaviour, hashing ``(seed, leaf, source_file, row_idx)`` into fixed ratios, is
+what let the same recording appear in train and test at once, and it survives
+only for leaves with no speaker key at all (omni, layla, casa/*).
+
+Rows whose speaker was never assigned -- ranked below the last block -- follow
+``unassigned_split``: a split name to send them to, or ``drop`` (the default) to
+leave them out, or ``hash`` for the legacy ratio assignment. Dropping is the
+default because a speaker the selection did not choose should not silently
+appear in a set.
 """
 from __future__ import annotations
 
@@ -86,6 +94,24 @@ def load_accepted_rows(
     return dict(accepted), summary
 
 
+def load_speaker_assignments(path: Path) -> tuple[dict[tuple[str, str], str], dict[str, Any]]:
+    """(source, speaker_key) -> split, from speaker_select's output."""
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    mapping = {
+        (row["source"], str(row["speaker_key"])): row["split"]
+        for row in payload.get("assignments", [])
+    }
+    per_split: dict[str, int] = defaultdict(int)
+    for split in mapping.values():
+        per_split[split] += 1
+    return mapping, {
+        "path": str(path),
+        "speakers": len(mapping),
+        "speakers_per_split": dict(per_split),
+        "meta": payload.get("meta", {}),
+    }
+
+
 def assign_split(seed: int, leaf: str, source_file: str, row_idx: int, ratios: dict[str, float]) -> str:
     key = f"{seed}|{leaf}|{source_file}|{row_idx}".encode("utf-8")
     draw = int.from_bytes(hashlib.blake2b(key, digest_size=8).digest(), "big") / 2**64
@@ -107,6 +133,7 @@ def run(ctx: RunContext, spec: StageSpec) -> StageResult:
     compression = spec.get("compression", "snappy")
     text_label = spec.get("text_label", "LEV")
     audio_label = spec.get("audio_label", "Levantine")
+    unassigned_split = spec.get("unassigned_split", "drop")
 
     ratios = {
         "train": float(spec.get("train_ratio", 0.70)),
@@ -119,6 +146,23 @@ def run(ctx: RunContext, spec: StageSpec) -> StageResult:
 
     if not data_root.exists():
         raise FileNotFoundError(f"split: input_root does not exist: {data_root}")
+
+    speakers: dict[tuple[str, str], str] = {}
+    speaker_summary: dict[str, Any] = {"path": None}
+    assignments_path = spec.path("speaker_assignments")
+    if assignments_path is not None:
+        if not assignments_path.exists():
+            raise FileNotFoundError(f"split: speaker_assignments not found: {assignments_path}")
+        speakers, speaker_summary = load_speaker_assignments(assignments_path)
+        ctx.log(
+            f"speaker routing: {speaker_summary['speakers']:,} speaker(s) -> "
+            f"{speaker_summary['speakers_per_split']}"
+        )
+        if unassigned_split not in {"drop", "hash"} and unassigned_split not in SPLITS:
+            raise SystemExit(
+                f"split: unassigned_split must be a split name, 'drop' or 'hash'; "
+                f"got {unassigned_split!r}"
+            )
 
     accepted: dict[str, set[int]] = {}
     routing_summary: dict[str, Any] = {"source": None}
@@ -173,12 +217,30 @@ def run(ctx: RunContext, spec: StageSpec) -> StageResult:
                     f"(include={leaf.get('include')})"
                 )
 
-            ctx.log(f"leaf {name}: {len(matched)} shard(s), binary={binary}")
+            # A leaf routed by speaker names the source its keys were recorded
+            # under and the column holding the key. Without both, the leaf keeps
+            # the legacy hash assignment.
+            speaker_source = leaf.get("speaker_source")
+            key_column = leaf.get("speaker_key_column")
+            by_speaker = bool(speakers) and speaker_source is not None and key_column is not None
+
+            ctx.log(
+                f"leaf {name}: {len(matched)} shard(s), binary={binary}, "
+                f"routing={'speaker' if by_speaker else 'hash'}"
+            )
             for path in matched:
                 resolved = canonical(path)
                 lev_rows = accepted.get(resolved, set())
                 row_idx = -1
                 for table in iter_table_batches(path, batch_size=8192):
+                    if by_speaker and key_column not in table.column_names:
+                        raise SystemExit(
+                            f"split: leaf {name!r} is routed by speaker but column "
+                            f"{key_column!r} is missing from {path} "
+                            f"(has {table.column_names})"
+                        )
+                    key_values = table[key_column].to_pylist() if by_speaker else None
+
                     # Bucket the batch's rows by (split, leaf_path) then write once.
                     buckets: dict[tuple[str, str], list[int]] = defaultdict(list)
                     for i in range(table.num_rows):
@@ -187,7 +249,23 @@ def run(ctx: RunContext, spec: StageSpec) -> StageResult:
                             leaf_path = f"{name}/lev" if row_idx in lev_rows else f"{name}/non_lev"
                         else:
                             leaf_path = name
-                        split = assign_split(seed, leaf_path, resolved, row_idx, ratios)
+
+                        if by_speaker:
+                            key = key_values[i]
+                            split = speakers.get((speaker_source, str(key))) if key is not None else None
+                            if split is None:
+                                counts[leaf_path]["unassigned"] += 1
+                                if unassigned_split == "drop":
+                                    counts[leaf_path]["dropped"] += 1
+                                    continue
+                                split = (
+                                    assign_split(seed, leaf_path, resolved, row_idx, ratios)
+                                    if unassigned_split == "hash"
+                                    else unassigned_split
+                                )
+                        else:
+                            split = assign_split(seed, leaf_path, resolved, row_idx, ratios)
+
                         buckets[(split, leaf_path)].append(i)
 
                     for (split, leaf_path), indices in buckets.items():
@@ -208,6 +286,8 @@ def run(ctx: RunContext, spec: StageSpec) -> StageResult:
         "text_label": text_label,
         "audio_label": audio_label,
         "routing": routing_summary,
+        "speaker_routing": speaker_summary,
+        "unassigned_split": unassigned_split,
         "per_leaf": {k: dict(v) for k, v in counts.items()},
         "totals": {
             split: sum(v.get(split, 0) for v in counts.values()) for split in SPLITS

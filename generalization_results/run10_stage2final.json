@@ -1,0 +1,10 @@
+{
+  "checkpoint": "run10_stage2final",
+  "results": {
+    "masc_non_lev_2h": {
+      "wer": 0.2477923264311815,
+      "cer": 0.05789887346083312,
+      "n": 1674
+    }
+  }
+}

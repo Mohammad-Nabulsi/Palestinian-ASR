@@ -1,0 +1,29 @@
+2026-07-31 18:31:55,641 | INFO | [casablanca_jordanian] resume: 0 rows already done
+2026-07-31 18:31:55,641 | INFO | [casablanca_jordanian] loading 1 shard(s) into memory
+2026-07-31 18:31:59,798 | INFO | [casablanca_jordanian] 848 total rows, 0 already done, 848 pending (limit=None)
+2026-07-31 18:31:59,798 | INFO | [casablanca_jordanian] length-grouped into 14 batches (max_rows=64, max_batch_audio_s=900)
+2026-07-31 18:34:26,143 | INFO | [casablanca_jordanian] resume: 0 rows already done
+2026-07-31 18:34:26,143 | INFO | [casablanca_jordanian] loading 1 shard(s) into memory
+2026-07-31 18:34:30,104 | INFO | [casablanca_jordanian] 848 total rows, 0 already done, 848 pending (limit=None)
+2026-07-31 18:34:30,104 | INFO | [casablanca_jordanian] length-grouped into 14 batches (max_rows=64, max_batch_audio_s=900)
+2026-07-31 18:35:16,648 | INFO | [casablanca_jordanian] progress: batch 14/14 | 848 new / 848 pending (+0 resumed) | 18.22 rows/s | elapsed=47s | gpu=1.58GB alloc / 22.40GB reserved
+2026-07-31 18:35:16,648 | INFO | [casablanca_jordanian] prediction pass done: 848 new rows written (848 total incl. resumed) in 47s
+2026-07-31 18:35:16,809 | INFO | [casablanca_jordanian] metrics: {'n_total': 848, 'n_scored': 848, 'n_dropped_empty_ref': 0, 'wer': 0.5275250227479527, 'cer': 0.18621584600966043}
+2026-07-31 18:35:16,841 | INFO | Summary written to /root/Palestinian-ASR/outputs/qwen3_asr_0_6b_zero_shot/summary.json: {'casablanca_jordanian': {'n_total': 848, 'n_scored': 848, 'n_dropped_empty_ref': 0, 'wer': 0.5275250227479527, 'cer': 0.18621584600966043}}
+2026-07-31 18:37:36,450 | INFO | [casablanca_palestinian] resume: 0 rows already done
+2026-07-31 18:37:36,450 | INFO | [casablanca_palestinian] loading 2 shard(s) into memory
+2026-07-31 18:37:42,361 | INFO | [casablanca_palestinian] 664 total rows, 0 already done, 664 pending (limit=None)
+2026-07-31 18:37:42,361 | INFO | [casablanca_palestinian] length-grouped into 11 batches (max_rows=64, max_batch_audio_s=900)
+2026-07-31 18:38:30,304 | INFO | [casablanca_palestinian] progress: batch 11/11 | 664 new / 664 pending (+0 resumed) | 13.85 rows/s | elapsed=48s | gpu=1.58GB alloc / 10.94GB reserved
+2026-07-31 18:38:30,304 | INFO | [casablanca_palestinian] prediction pass done: 664 new rows written (664 total incl. resumed) in 48s
+2026-07-31 18:38:30,492 | INFO | [casablanca_palestinian] metrics: {'n_total': 664, 'n_scored': 664, 'n_dropped_empty_ref': 0, 'wer': 0.6208584766025276, 'cer': 0.23680194572941007}
+2026-07-31 18:38:30,513 | INFO | Summary written to /root/Palestinian-ASR/outputs/qwen3_asr_0_6b_zero_shot/summary.json: {'casablanca_palestinian': {'n_total': 664, 'n_scored': 664, 'n_dropped_empty_ref': 0, 'wer': 0.6208584766025276, 'cer': 0.23680194572941007}}
+2026-07-31 18:40:46,814 | INFO | [masc_c_only] resume: 0 rows already done
+2026-07-31 18:40:46,814 | INFO | [masc_c_only] loading 9 shard(s) into memory
+2026-07-31 18:41:06,181 | INFO | [masc_c_only] 8623 total rows, 0 already done, 8623 pending (limit=None)
+2026-07-31 18:41:06,184 | INFO | [masc_c_only] length-grouped into 136 batches (max_rows=64, max_batch_audio_s=900)
+2026-07-31 18:43:06,663 | INFO | [masc_c_only] progress: batch 98/136 | 6272 new / 8623 pending (+0 resumed) | 52.06 rows/s | elapsed=120s | gpu=1.58GB alloc / 12.75GB reserved
+2026-07-31 18:44:57,491 | INFO | [masc_c_only] progress: batch 136/136 | 8623 new / 8623 pending (+0 resumed) | 37.28 rows/s | elapsed=231s | gpu=1.58GB alloc / 19.40GB reserved
+2026-07-31 18:44:57,491 | INFO | [masc_c_only] prediction pass done: 8623 new rows written (8623 total incl. resumed) in 231s
+2026-07-31 18:44:58,856 | INFO | [masc_c_only] metrics: {'n_total': 8623, 'n_scored': 8623, 'n_dropped_empty_ref': 0, 'wer': 0.3124044662483805, 'cer': 0.08136137769158419}
+2026-07-31 18:44:58,965 | INFO | Summary written to /root/Palestinian-ASR/outputs/qwen3_asr_0_6b_zero_shot/summary.json: {'masc_c_only': {'n_total': 8623, 'n_scored': 8623, 'n_dropped_empty_ref': 0, 'wer': 0.3124044662483805, 'cer': 0.08136137769158419}}
