@@ -45,6 +45,7 @@ import numpy as np
 import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from scripts import train_whisper_medium_lora_progressive as _prog  # noqa: E402
 from scripts.train_whisper_medium_lora_progressive import (  # noqa: E402
     CHUNK_HOURS,
     N_CHUNKS,
@@ -233,7 +234,26 @@ def main() -> None:
                     help="minutes between liveness lines in the log (0 disables)")
     ap.add_argument("--audio-dir", default=None,
                     help="root for audio_path columns when the parquets store paths, not bytes")
+    ap.add_argument("--within-chunk-order", choices=("shuffle","file"), default="shuffle",
+                    help="'file' keeps parquet row order (for a score-ordered curriculum)")
+    ap.add_argument("--sample-weights", type=Path, default=None,
+                    help="JSON map uid->score; per-sample loss is weighted by it")
+    ap.add_argument("--weight-gamma", type=float, default=1.0,
+                    help="w = floor + (1-floor) * score**gamma; >1 sharpens toward high scores")
+    ap.add_argument("--weight-floor", type=float, default=0.25,
+                    help="weight a score-0 sample still gets, so weak rows are damped not deleted")
+    ap.add_argument("--weight-norm", choices=("dataset","batch"), default="batch",
+                    help="'batch' fixes step's mean weight at 1 (no step-size drift); "
+                         "'dataset' fixes it only on average")
     args = ap.parse_args()
+    _prog.SHUFFLE_WITHIN_CHUNK = (args.within_chunk_order == "shuffle")
+    if args.sample_weights:
+        raw = json.loads(args.sample_weights.read_text())
+        f, gm = args.weight_floor, args.weight_gamma
+        wmap = {u: f + (1.0 - f) * (max(0.0, min(1.0, float(sc))) ** gm) for u, sc in raw.items()}
+        _prog.SAMPLE_WEIGHTS = wmap
+        _prog.SAMPLE_WEIGHT_MEAN = sum(wmap.values()) / max(len(wmap), 1)
+        _prog.WEIGHT_NORM = args.weight_norm
 
     sequence = parse_sequence(args.sequence, args.n_chunks)
     out_dir = Path(args.out_dir)
@@ -241,7 +261,16 @@ def main() -> None:
     logger = setup_logger(out_dir / "train.log")
     logger.info("run=%s sequence=%s (user-facing chunk numbers: %s) init_from=%s offset=%d",
                 args.run_name, sequence, args.sequence, args.init_from, args.init_stage_offset)
-    logger.info("n_chunks=%d chunk_hours=%.1f test_eval=%s", args.n_chunks, args.chunk_hours, args.test_eval)
+    logger.info("n_chunks=%d chunk_hours=%.1f test_eval=%s within_chunk_order=%s (shuffle=%s)",
+                args.n_chunks, args.chunk_hours, args.test_eval, args.within_chunk_order,
+                _prog.SHUFFLE_WITHIN_CHUNK)
+    if _prog.SAMPLE_WEIGHTS:
+        ws = sorted(_prog.SAMPLE_WEIGHTS.values())
+        logger.info("sample weighting ON [norm=%s]: %d uids, gamma=%.2f floor=%.2f, weight mean=%.3f "
+                    "min=%.3f p50=%.3f max=%.3f", args.weight_norm, len(ws), args.weight_gamma, args.weight_floor,
+                    _prog.SAMPLE_WEIGHT_MEAN, ws[0], ws[len(ws)//2], ws[-1])
+    else:
+        logger.info("sample weighting OFF (uniform)")
 
     hb_state = {"t0": time.time(), "phase": "startup", "last_step_time": time.time(), "stop": False}
 

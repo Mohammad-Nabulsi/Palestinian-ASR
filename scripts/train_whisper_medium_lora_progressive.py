@@ -45,6 +45,21 @@ from scripts.zero_shot_eval.audio_io import decode_audio_cell  # noqa: E402
 from scripts.zero_shot_eval.evaluate import evaluate  # noqa: E402
 
 SEED = 42
+# A curriculum that orders rows by score is destroyed if the loader reshuffles
+# them, so the sequence runner can turn this off to train in parquet order.
+SHUFFLE_WITHIN_CHUNK = True
+# Per-sample loss weighting. Banding throws away the ordering inside a band and
+# treats a 0.31 clip and a 0.99 clip identically once they land together; a
+# weight keeps the score continuous. Populated by the sequence runner from a
+# uid->score map; None means every sample counts the same (the old behaviour).
+SAMPLE_WEIGHTS: dict[str, float] | None = None
+SAMPLE_WEIGHT_MEAN: float = 1.0
+# "dataset": divide by the corpus-wide mean weight -- E[w]=1 over an epoch, but a
+# batch that happens to be full of high-score rows takes a bigger step than one
+# that is not. "batch": divide by each batch's own mean, so every step has mean
+# weight exactly 1 and the step size is identical to an unweighted run; only the
+# split of that step between the rows changes.
+WEIGHT_NORM: str = "dataset"
 BASE_MODEL = "openai/whisper-medium"
 LANGUAGE = "arabic"
 TASK = "transcribe"
@@ -330,7 +345,7 @@ def train_one_chunk(model, processor, optimizer, scheduler, train_ds, chunk_indi
     # access, which is what risks tipping over the ceiling a second time.
     # Per-sample WAV decode is cheap (no resample needed, already 16kHz), so
     # GPU compute stays the bottleneck even single-process.
-    loader = DataLoader(subset, batch_size=batch_size, shuffle=True, generator=g,
+    loader = DataLoader(subset, batch_size=batch_size, shuffle=SHUFFLE_WITHIN_CHUNK, generator=g,
                         collate_fn=collate, num_workers=0, drop_last=False)
     total_steps = len(loader)
     hours_tag = int((chunk_idx + 1) * CHUNK_HOURS)
@@ -348,7 +363,39 @@ def train_one_chunk(model, processor, optimizer, scheduler, train_ds, chunk_indi
         feats = batch["input_features"].to(device=device, dtype=model.dtype)
         labels = batch["labels"].to(device)
         out = model(input_features=feats, labels=labels)
-        loss = out.loss
+        if SAMPLE_WEIGHTS is None:
+            loss = out.loss
+        else:
+            # Whisper builds decoder_input_ids by shifting labels itself, so its
+            # logits already line up with labels -- no extra shift here. Recover
+            # a per-sample loss (token-mean, matching HF's reduction), then take
+            # a weighted mean across the batch. Weights are divided by the
+            # dataset-wide mean so the gradient scale, and therefore the LR
+            # schedule, stays comparable to an unweighted run.
+            logits = out.logits
+            ce = torch.nn.functional.cross_entropy(
+                logits.reshape(-1, logits.size(-1)).float(), labels.reshape(-1),
+                reduction="none", ignore_index=-100).view(labels.shape)
+            ntok = (labels != -100).sum(1).clamp(min=1)
+            per_sample = ce.sum(1) / ntok
+            # MASC rows carry a video-level uid, so a per-utterance score has to be
+            # keyed by (uid, text); QASR uids are already per utterance. Try the
+            # specific key first, then the uid, then the dataset mean.
+            def _w(u, t):
+                v = SAMPLE_WEIGHTS.get(u + "	" + t)
+                if v is None: v = SAMPLE_WEIGHTS.get(u, SAMPLE_WEIGHT_MEAN)
+                return v
+            w = torch.tensor([_w(u, t) for u, t in zip(batch["uids"], batch["texts"])],
+                             device=per_sample.device, dtype=per_sample.dtype)
+            w = w / (w.mean() if WEIGHT_NORM == "batch" else SAMPLE_WEIGHT_MEAN)
+            loss = (per_sample * w).mean()
+            if step == resume_step:
+                # HF weights tokens, not samples, so the two agree only when every
+                # row has the same length; log both rather than assert.
+                logger.info("weighted loss check [norm=%s]: hf=%.5f token-mean=%.5f weighted=%.5f "
+                            "batch weight mean=%.3f min=%.3f max=%.3f", WEIGHT_NORM,
+                            out.loss.item(), per_sample.mean().item(), loss.item(),
+                            w.mean().item(), w.min().item(), w.max().item())
         loss.backward()
         torch.nn.utils.clip_grad_norm_(trainable, 1.0)
         optimizer.step()
