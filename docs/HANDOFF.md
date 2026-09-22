@@ -26,6 +26,12 @@ Ordered by how well established each one is.
 On our in-domain test set, folded WER **45.45 → 26.01**. Every fine-tune beats base
 Whisper-medium on every set except Layla, where a randomly-selected corpus does nothing.
 
+### 2.1b Selection by DID score helps at 300 h
+Curated 300 h beats a random 300 h matched on units, hours, source mix and per-unit size by
+**3.87 test WER** (30.85 vs 34.72), ahead at all 12 stages. At 50 h the same idea showed
+nothing in-domain, so the effect appears to need scale — or the two experiments differ
+because one selected by DID score and the other by embedding similarity.
+
 ### 2.2 Data **selection** helps out-of-domain; **ordering** does not
 The cleanest experiment in the project. Three runs, identical 50 h budget, identical config,
 same shared test set:
@@ -121,8 +127,10 @@ for and may explain much of the OOD gap. **This is the most valuable untested hy
 
 ## 6. Current state
 
-### RUNNING NOW — random-matched 300 h ablation
-Started 2026-09-21 15:11, expected to finish ~02:10. Run dir `~/runs/rnd300_matched`,
+### DONE — random-matched 300 h ablation (finished 2026-09-22 02:03, 9.7 h)
+**Result: the curated corpus wins by 3.87 test WER points (30.85 vs 34.72) and is ahead at
+all 12 of 12 stages.** First clear evidence the DID score is worth something at scale.
+See RESULTS.md 2b, including why the v3 test set biases this in curation's favour. Run dir `~/runs/rnd300_matched`,
 log `~/runs/rnd300_matched/train.log`.
 
 Trains the size-matched **random** 300 h corpus through the **exact** loop that produced the
@@ -130,9 +138,7 @@ curated 300 h run — same script, same 6 x 50 h ascending banding, same 2 epoch
 `--lr 1e-4`, same v3 val and v3 test. Only the speaker selection differs
 (composite 0.221 vs 0.384).
 
-First comparable point, stage 1 (50 h): **random 40.73** vs **curated 39.27** val WER
-(+1.46). Watch whether the gap widens through the higher bands — this corpus's best band
-tops out at 0.826 mean score where the curated one runs far higher.
+Final: random val **32.70** / test **34.72** vs curated **29.90** / **30.85**.
 
 Two incidents on this run, both handled, both worth knowing:
 * It crashed at 15:58 with `FileNotFoundError` on a val WAV. `--audio-dir` applies to
@@ -153,7 +159,7 @@ Everything below is built, verified and backed up to R2 under
 | **Sample-weighted 50 h** | ~2 h | Whether a continuous score beats banding. Mechanism implemented and verified; recommend weighting by *similarity*, not DID score. |
 | **Length ablation** | ~1 h | Concatenate short QASR clips to ~24 s and re-score. Needs no aligner and no new data. **Highest value per hour.** |
 
-### Recommended order once the running job lands
+### Recommended order
 1. OOD sweep on the new adapter (casa_pal, casa_jor, layla_told, omni_all) — ~30 min. The v3
    test set is itself score-selected, so it is biased toward the curated arm; the OOD sets are not.
 2. Length ablation — cheapest remaining, and it may reframe every OOD number in this report.

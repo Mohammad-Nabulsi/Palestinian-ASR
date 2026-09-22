@@ -100,7 +100,7 @@ model than shuffling, per §1.
 
 ---
 
-## 2b. Random-matched 300 h ablation — IN PROGRESS
+## 2b. Random-matched 300 h ablation — COMPLETE
 
 Started 2026-09-21 15:11. **Identical to the curated 300 h run except the training data.**
 
@@ -114,13 +114,40 @@ Started 2026-09-21 15:11. **Identical to the curated 300 h run except the traini
 | config | `--sequence 1,2,3,4,5,6,1,2,3,4,5,6 --n-chunks 6 --chunk-hours 50 --batch-size 8 --lr 1e-4 --warmup-ratio 0.1 --test-eval end` |
 | difference vs curated | composite score 0.221 vs 0.384; ≥0.8 fraction 17.3% vs 34.3% |
 
-| stage | cum h | random val WER | curated val WER | delta |
+| stage | cum h | random | curated | delta |
 |---|---|---|---|---|
-| s1_c1 | 50 | **40.73** (CER 18.34) | 39.27 | +1.46 |
-| s2..s12 | | *pending* | | |
+| s1_c1 | 50 | 40.73 | 39.27 | +1.46 |
+| s2_c2 | 100 | 41.99 | 37.25 | +4.74 |
+| s3_c3 | 150 | 41.01 | 35.34 | +5.67 |
+| s4_c4 | 200 | 37.51 | 34.64 | +2.87 |
+| s5_c5 | 250 | 35.02 | 33.72 | +1.30 |
+| s6_c6 | 300 | 33.63 | 30.61 | +3.02 |
+| s7_c1 | 350 | 34.38 | 32.53 | +1.85 |
+| s8_c2 | 400 | 34.68 | 31.15 | +3.53 |
+| s9_c3 | 450 | 34.83 | 30.93 | +3.90 |
+| s10_c4 | 500 | 33.90 | 30.62 | +3.28 |
+| s11_c5 | 550 | 33.07 | 30.43 | +2.64 |
+| **s12_c6** | **600** | **32.70** | **29.90** | **+2.80** |
+| **final test** | | **34.72** | **30.85** | **+3.87** |
 
-s1_c1 was scored separately with `eval/eval_model.py` because a resume skipped its in-loop
-validation (see HANDOFF §6). Same val parquet, same adapter, so it is directly comparable.
+Ran 34,984 s (9.7 h). The curated corpus is better at **all 12 of 12 stages** — the
+consistency matters more than any single number. s1_c1 was scored separately because a
+resume skipped its in-loop validation.
+
+**This is the first clear positive result for the DID score.** At 300 h, selecting speakers by
+0.3*text + 0.7*acoustic Levantine score is worth **3.87 WER points on test** and 2.80 on val
+against a corpus matched on units (1,468), hours (301), source mix and per-unit size — with
+only the score differing (composite 0.384 vs 0.221).
+
+It also contradicts the 50 h experiment, where selection showed nothing in-domain. Two
+readings, and we cannot yet separate them: the effect may need scale to appear, or the 50 h
+sets were selected by *embedding similarity* while these were selected by *DID score* — two
+different criteria measured on two different benchmarks.
+
+Caveat that limits the claim: the v3 test set is itself score-selected (composite 0.733 vs
+the pool's 0.190), so it favours score-selected training data by construction. The honest
+statement is "picking high-DID-score data helps on a high-DID-score benchmark". The OOD sweep
+on this adapter is the unbiased test and has not been run yet.
 
 ---
 
